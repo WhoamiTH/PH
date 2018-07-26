@@ -1,4 +1,7 @@
 import numpy as np
+import matplotlib
+matplotlib.use('agg')
+from matplotlib import pyplot as plt
 import random
 import csv
 
@@ -32,6 +35,7 @@ def class_general(value, threshold):
 
 
 def transform_element(element, threshold):
+    print(threshold)
     if threshold[1] == 0:
         return class_zero(element)
     elif threshold[1] == -1:
@@ -42,19 +46,11 @@ def transform_element(element, threshold):
         return class_general(element, threshold)
 
 
-def transform_row(row_data, threshold):
-    new_row = []
-    for element_pos in range(len(row_data)):
-        new_element = transform_element(row_data[element_pos], threshold[element_pos])
-        new_row.append(new_element)
-    return new_row
-
-
 def transform_data(data, threshold):
     new_data = []
-    for row in data:
-        new_row = transform_row(row, threshold)
-        new_data.append(new_row)
+    for element_pos in range(len(data)):
+        new_element = transform_element(data[element_pos],threshold[element_pos])
+        new_data.append(new_element)
     return new_data
 
 
@@ -143,8 +139,19 @@ def init_feature_name(filename):
     feature_name = dict()
     for i in range(tem_data.shape[0]):
         feature_name[i] = tem_data[i]
+    item = dict()
+    for element in feature_name:
+        item[feature_name[element]] = element
+    for element in item:
+        feature_name[element] = item[element]
     return feature_name
 
+def group(data):
+    group_data = []
+    for i in range(100):
+        h = (i+1)*100
+        group_data.append(data[i*100:h,:])
+    return group_data
 
 
 
@@ -194,7 +201,7 @@ def vector_or(vector_1, vector_2):
             vector_1[i] = 1
     return vector_1
 
-def person_state_suggestion(person_data, ikt, psyper, constraints, motivation, ikt_label, psyper_label, constraints_label, motivation_label):
+def person_current_state_suggestion(person_data, ikt, psyper, constraints, motivation, ikt_label, psyper_label, constraints_label, motivation_label):
     ikt_vector = [0 for i in range(feature_number)]
     psyper_vector = [0 for i in range(feature_number)]
     constraints_vector = [0 for i in range(feature_number)]
@@ -221,16 +228,56 @@ def person_state_suggestion(person_data, ikt, psyper, constraints, motivation, i
     print_vector(result_vector, feature_name)
 
 
-data_name = "data.csv"
+
+
+def draw_curve(feature_value, lower, upper,name):
+    plt.clf()
+    x = [i for i in range(100)]
+    plt.plot(x, feature_value, label='data')
+    if upper == 0:
+        plt.hlines(0, 0, 100, colors='red', label='upper')
+    elif upper == -1:
+        plt.hlines(lower,0,100,colors='green', label='lower')
+    elif upper == 1:
+        plt.hlines(upper, 0, 100, colors='red', label='upper')
+        plt.hlines(lower, 0, 100, colors='green', label='lower')
+    else:
+        plt.hlines(upper, 0, 100, colors='red', label='upper')
+        plt.hlines(lower, 0, 100, colors='green', label='lower')
+
+
+    plt.xlabel('time')
+    plt.ylabel('value')
+    plt.title(name)
+    plt.legend(loc='upper left')
+    plt.savefig(name + '.pdf')
+
+
+
+
+
+data_name = "data_time.csv"
 threshold_name = "threshold.csv"
 feature_number = 74
 data = loadData(data_name)
 threshold = loadData(threshold_name)
-new_data = transform_data(data, threshold)
+
 feature_name = init_feature_name(threshold_name)
 ikt, psyper, constraints, motivation = init_feature_list()
 ikt_label, psyper_label, constraints_label, motivation_label = init_label()
+new_data = group(data)
 for person_data in new_data:
-    person_state_suggestion(person_data, ikt, psyper, constraints, motivation, ikt_label, psyper_label, constraints_label, motivation_label)
+
+    print(person_data[0])
+    data = transform_data(person_data[0], threshold)
+    person_current_state_suggestion(data, ikt, psyper, constraints, motivation, ikt_label, psyper_label, constraints_label, motivation_label)
+    print('--------------------------------------------------------------------------------------------------------------------------------------')
+    feature_value = person_data[:,3]
+    name = feature_name[3]
+    lower = threshold[3][0]
+    upper = threshold[3][1]
+    draw_curve(feature_value, lower, upper, name)
+
+
 
 
