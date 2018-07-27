@@ -201,6 +201,7 @@ def vector_or(vector_1, vector_2):
             vector_1[i] = 1
     return vector_1
 
+
 def person_current_state_suggestion(person_data, ikt, psyper, constraints, motivation, ikt_label, psyper_label, constraints_label, motivation_label):
     ikt_vector = [0 for i in range(feature_number)]
     psyper_vector = [0 for i in range(feature_number)]
