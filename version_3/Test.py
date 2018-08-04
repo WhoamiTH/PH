@@ -1,6 +1,15 @@
 def test():
     return [i for i in range(10,20)]
 
+import datetime
+
+import datetime
+
+def dateRange(start, end, step=1, format="%Y-%m-%d"):
+    strptime, strftime = datetime.datetime.strptime, datetime.datetime.strftime
+    days = (strptime(end, format) - strptime(start, format)).days
+    return [strftime(strptime(start, format) + datetime.timedelta(i), format) for i in range(0, days, step)]
+
 def listTodic():
     l = []
     data = [i for i in range(10)]
@@ -18,3 +27,5 @@ def listTodic():
 
 if __name__ == '__main__':
     listTodic()
+    print(dateRange("2017-01-01", "2017-1-13"))
+    # ["2017-01-01", "2017-01-02"]
