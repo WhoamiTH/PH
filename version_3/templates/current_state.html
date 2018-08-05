@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello world</title>
+</head>
+<body>
+    <center>
+        <p> Personal data </p>
+        {% for item in pos %}
+        <a href="/chart/?uid={{uid}}&item={{item}}"> {{ feature[item] }} </a> &#58 {{ data[item] }} <br/>
+        <!-- <a href="/chart/{{uid}},{{item}}"> {{ feature[item] }} </a> &#58 {{ data[item] }} <br/> -->
+        {% endfor %}
+
+
+    </center>
+</body>
+</html>
+
+
+
+ 
+       
+<!-- 
+            <form action="{{ url_for('index') }}" method="POST">
+ 
+                姓名: <input type="text" name="name"><br>
+ 
+                年龄: <input type="text" name="age"><br>
+ 
+                <button>提交</button>
+            </form>
+ -->
