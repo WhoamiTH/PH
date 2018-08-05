@@ -146,6 +146,14 @@ def init_feature_name(filename):
         feature_name[element] = item[element]
     return feature_name
 
+def init_feature_name_m(filename):
+    tem = np.loadtxt(filename, dtype=np.str, delimiter=',', skiprows=1)
+    tem_data = tem[:, 0]
+    feature_name = dict()
+    for i in range(tem_data.shape[0]):
+        feature_name[tem_data[i]] = i
+    return feature_name
+
 def group(data):
     group_data = []
     for i in range(100):
@@ -257,13 +265,22 @@ def draw_curve(feature_value, lower, upper,name):
 
 
 
-data_name = "data_time.csv"
+data_name = "data.csv"
 threshold_name = "threshold.csv"
 feature_number = 74
 data = loadData(data_name)
 threshold = loadData(threshold_name)
 
 feature_name = init_feature_name(threshold_name)
+
+feature_name_2 = init_feature_name_m(threshold_name)
+
+print(feature_name)
+print(feature_name_2)
+import sys
+sys.exit(0)
+
+
 ikt, psyper, constraints, motivation = init_feature_list()
 ikt_label, psyper_label, constraints_label, motivation_label = init_label()
 new_data = group(data)
