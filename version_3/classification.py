@@ -330,7 +330,7 @@ def generate_feature_list(section_label, section_list, result):
             print(section_label[element])
             result.append(section_label[element])
             if element*10 in section_label:
-                section_feature(section_label[element*10], section_list[element-1], result)
+                generate_feature_list(section_label[element*10], section_list[element-1], result)
             else:
                 add_index(section_list[element-1], result)
 
@@ -340,6 +340,8 @@ def section_feature(section_name):
     ikt_label, psyper_label, constraints_label, motivation_label = init_label()
     section_label_dic = {'integrated knowledge about threat':ikt_label, 'psychological perspective':psyper_label, 'constraints':constraints_label, 'motivation':motivation_label}
     section_list_dic = {'integrated knowledge about threat':ikt, 'psychological perspective':psyper, 'constraints':constraints, 'motivation':motivation}
+    print(section_name)
+
     generate_feature_list(section_label_dic[section_name], section_list_dic[section_name], result)
     return result
 
@@ -352,7 +354,7 @@ def init_section():
 
 
 if __name__ == "__main__":
-    section_feature(motivation_label, motivation, result)
+    result = section_feature('psychological perspective')
     print("-----------------------------------------------------------------")
     print(result)
     for i in result:

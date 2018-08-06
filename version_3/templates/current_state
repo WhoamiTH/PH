@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello world</title>
+</head>
+<body>
+    <center>
+        <p> hello world </p>
+        {% for item in name %}
+        <!-- <a href="/test?param={{item}}"> {{ item }} </a> <br/> -->
+        <a href="/data/{{item}}"> {{ item }} </a> <br/>
+        {% endfor %}
+
+    </center>
+</body>
+</html>
