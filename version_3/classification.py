@@ -274,19 +274,33 @@ def feature_name(offset):
     feature_number = 74
     data = loadData(data_name)
     threshold = loadData(threshold_name)
+    threshold = threshold[:, 1:]
+	threshold = threshold.astype(np.float)
     data = data[:,2:]
     data = data.astype(np.float)
     new_data = group(data)
     Person_data = new_data[offset-1][0]
     Pos_list = [i for i in range(feature_number)]
     Feature_name = init_feature_name(threshold_name)
-    return Pos_list, Feature_name, Person_data
+	state = transform_data(Person_data, threshold)
+    return Pos_list, Feature_name, Person_data state
 
 
 def time_list(data):
     time = data[:,1]
     tiem = time.tolist()
     return tiem
+
+
+def listTodic(date, value):
+    target = []
+    for item in range(len(data)):
+        dic = {}
+        dic["date"] = data[item]
+        dic["value"] = value[item]
+        target.append(dic)
+    return target
+
 
 
 def specific_data(offset, feature_number):
@@ -297,12 +311,12 @@ def specific_data(offset, feature_number):
     data = data.astype(np.float)
     Time = time_list(new_data[0])
     Person_data = new_data[offset][:,feature_number]
-
-    return Person_data, Time
+	Specific_data = listTodic(TIme, Person_data)
+	return Specific_data
 
 
 if __name__ == "__main__":
-    specific_data(0,0)
+    listTodic()
 
 
 # data_name = "data.csv"

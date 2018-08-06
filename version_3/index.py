@@ -34,8 +34,8 @@ def data_url(uid):
 def chart_url():
     uid = request.args.get('uid')
     item = request.args.get('item')
-    person_data, time = classification.specific_data(uid, item)
-    return render_template('chart.html', data = person_data)
+    data = classification.specific_data(uid, item)
+    return render_template('chart.html', data = data)
 
 
 
