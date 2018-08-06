@@ -324,25 +324,30 @@ def add_index(index_list, result):
 		result.append(index)
 
 
-def section_feature(section_label, section_list, result):
-	for element in section_label:
-		if isinstance(section_label[element], str):
-			print(section_label[element])
-			result.append(section_label[element])
-			if element*10 in section_label:
-				section_feature(section_label[element*10], section_list[element-1], result)
-			else:
-				add_index(section_list[element-1], result)
+def generate_feature_list(section_label, section_list, result):
+    for element in section_label:
+        if isinstance(section_label[element], str):
+	    print(section_label[element])
+	    result.append(section_label[element])
+	    if element*10 in section_label:
+	        section_feature(section_label[element*10], section_list[element-1], result)
+	    else:
+                add_index(section_list[element-1], result)
 
-
+def section_feature(section_name):
+    result = []
+    ikt, psyper, constraints, motivation = init_feature_list()
+    ikt_label, psyper_label, constraints_label, motivation_label = init_label()
+    generate_feature_lis()
+    return result
 
 
 if __name__ == "__main__":
-	ikt, psyper, constraints, motivation = init_feature_list()
- 	ikt_label, psyper_label, constraints_label, motivation_label = init_label()
-	result = []
     section_feature(motivation_label, motivation, result)
-	print(result)
+    print("-----------------------------------------------------------------")
+    print(result)
+    for i in result:
+        print(i)
 
 
 # data_name = "data.csv"
