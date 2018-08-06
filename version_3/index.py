@@ -22,11 +22,11 @@ def index():
 @app.route('/data/<uid>')
 def data_url(uid):
     print(uid)
-    pos_list, feature_name, person_data = classification.feature_name(int(uid))
+    pos_list, feature_name, person_data, current_state = classification.feature_name(int(uid))
     # arg = request.args.get("param")
     # return "Oh! " + arg
     print(pos_list)
-    return render_template('current_state.html', uid = uid, pos = pos_list, feature = feature_name, data = person_data)
+    return render_template('current_state.html', uid = uid, pos = pos_list, feature = feature_name, data = person_data, state = current_state)
 
 
 
