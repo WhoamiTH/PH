@@ -34,7 +34,9 @@ def data_url(uid):
 def chart_url():
     uid = request.args.get('uid')
     item = request.args.get('item')
-    data = classification.specific_data(uid, item)
+    print(uid,item)
+    data = classification.specific_data(int(uid),int(item))
+    # print(data)
     return render_template('chart.html', data = data)
 
 

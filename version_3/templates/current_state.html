@@ -8,8 +8,17 @@
     <center>
         <p> Personal data </p>
         {% for item in pos %}
-        <a href="/chart/?uid={{uid}}&item={{item}}"> {{ feature[item] }} </a> &#58 {{ data[item] }} <br/>
+
+		{% if state[item] == 0  %}
+
+		<a style="color:red"  href="/chart/?uid={{uid}}&item={{item}}"> {{ feature[item] }}  &#58 {{ data[item] }} </a> <br/>
         <!-- <a href="/chart/{{uid}},{{item}}"> {{ feature[item] }} </a> &#58 {{ data[item] }} <br/> -->
+
+		{% else  %}
+
+		<a style="color:green"  href="/chart/?uid={{uid}}&item={{item}}"> {{ feature[item] }}  &#58 {{ data[item] }} </a> <br/>
+
+		{% endif %}
         {% endfor %}
 
 
