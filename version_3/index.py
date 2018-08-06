@@ -21,13 +21,16 @@ def index():
 
 @app.route('/data/<uid>')
 def data_url(uid):
-    print(uid)
+    # print(uid)
     pos_list, feature_name, person_data, current_state = classification.feature_name(int(uid))
-    # arg = request.args.get("param")
-    # return "Oh! " + arg
-    print(pos_list)
-    return render_template('current_state.html', uid = uid, pos = pos_list, feature = feature_name, data = person_data, state = current_state)
+    section_name = classification.init_section()
+    # print(pos_list)
+    return render_template('current_state.html', uid = uid, pos = pos_list, feature = feature_name, data = person_data, state = current_state, section = section_name)
 
+@app.route('data/section/')
+def data_section_url():
+    uid = request.args.get('uid')
+    feature_name = request.args.get('feature_name')
 
 
 @app.route('/chart/', methods = ['GET'])

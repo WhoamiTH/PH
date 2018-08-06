@@ -338,8 +338,17 @@ def section_feature(section_name):
     result = []
     ikt, psyper, constraints, motivation = init_feature_list()
     ikt_label, psyper_label, constraints_label, motivation_label = init_label()
-    generate_feature_lis()
+	section_label_dic = {'integrated knowledge about threat':ikt_label, 'psychological perspective':psyper_label, 'constraints':constraints_label, 'motivation':motivation_label}
+	section_list_dic = {'integrated knowledge about threat':ikt, 'psychological perspective':psyper, 'constraints':constraints, 'motivation':motivation}
+    generate_feature_lis(section_label_dic[section_name], section_list_dic[section_name], result)
     return result
+
+
+def init_section():
+	section = ['integrated knowledge about threat', 'psychological perspective', 'constraints', 'motivation']
+	return section
+
+
 
 
 if __name__ == "__main__":
