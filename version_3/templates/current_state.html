@@ -9,7 +9,7 @@
         <p> Personal data </p>
         {% for item in section %}
 
-        {{ item }}
+        <a href="/data/section/?uid={{uid}}&feature_name={{item}}" >  {{ item }} &nbsp  </a>
 
 
         {% endfor %}

@@ -27,10 +27,13 @@ def data_url(uid):
     # print(pos_list)
     return render_template('current_state.html', uid = uid, pos = pos_list, feature = feature_name, data = person_data, state = current_state, section = section_name)
 
-@app.route('data/section/')
+@app.route('/data/section/', methods=['GET'])
 def data_section_url():
     uid = request.args.get('uid')
     feature_name = request.args.get('feature_name')
+    pos_list, feature_name, person_data, current_state = classification.feature_name(int(uid))
+    output_list = classification.section_feature(feature_name)
+    return render_template('section.html', uid = uid, pos = pos_list, feature = feature_name, data = person_data, state = current_state, feature_name = feature_name, output_list = output_list)
 
 
 @app.route('/chart/', methods = ['GET'])
