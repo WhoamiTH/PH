@@ -1,13 +1,104 @@
 import numpy as np
 import random
 import csv
+import pymysql
 
-def loadData(file_name):
-	# tem = np.loadtxt(file_name, dtype=np.str, delimiter=',', skiprows=1)
-	# tem_data = tem[:, 1:]
-	# data = tem_data.astype(np.float)
-	data = np.loadtxt(file_name, dtype=np.str, delimiter=',', skiprows=1)
-	return data
+# def loadData(file_name):
+# 	# tem = np.loadtxt(file_name, dtype=np.str, delimiter=',', skiprows=1)
+# 	# tem_data = tem[:, 1:]
+# 	# data = tem_data.astype(np.float)
+# 	data = np.loadtxt(file_name, dtype=np.str, delimiter=',', skiprows=1)
+# 	return data
+
+
+
+def select_from_database(sql):
+	db = pymysql.connect("localhost", "root", "123456", "precision_health")
+	cursor = db.cursor()
+	cursor.execute(sql)
+	results = cursor.fetchall()
+	db.close()
+	return results
+
+
+
+
+
+def loadData():
+	sql_food = "SELECT * FROM food_content_and_nutrition"
+	sql_unhealthy = "SELECT * FROM unhealthy_habits"
+	sql_sensory = "SELECT * FROM sensory_appeal"
+	sql_social = "SELECT * FROM social_factors"
+	sql_diet_psychological_features = "SELECT * FROM diet_psychological_features"
+	sql_diseases = "SELECT * FROM related_diseases"
+	sql_symptoms = "SELECT * FROM related_symptoms"
+	sql_service = "SELECT * FROM medical_service"
+	sql_body = "SELECT * FROM body_factors"
+	sql_exercise = "SELECT * FROM physical_exercise"
+	sql_psychological_features = "SELECT * FROM psychological_features"
+
+
+	results_food = select_from_database(sql_food)
+	results_unhealthy = select_from_database(sql_unhealthy)
+	results_sensory = select_from_database(sql_sensory)
+	results_social = select_from_database(sql_social)
+	results_diet_psychological_features  = select_from_database(sql_diet_psychological_features)
+	results_diseases = select_from_database(sql_diseases)
+	results_symptoms = select_from_database(sql_symptoms)
+	results_service = select_from_database(sql_service)
+	results_body = select_from_database(sql_body)
+	results_exercise = select_from_database(sql_exercise)
+	results_psychological_features = select_from_database(sql_psychological_features)
+
+
+	results_food = np.array(results_food)
+	results_unhealthy  = np.array(results_unhealthy)
+	results_sensory = np.array(results_sensory)
+	results_social = np.array(results_social)
+	results_diet_psychological_features = np.array(results_diet_psychological_features)
+	results_diseases = np.array(results_diseases)
+	results_symptoms = np.array(results_symptoms)
+	results_service = np.array(results_service )
+	results_body = np.array(results_body)
+	results_exercise = np.array(results_exercise)
+	results_psychological_features = np.array(results_psychological_features)
+
+	result = results_food[:,1:3]
+
+	results_food = results_food[:,3:]
+	results_unhealthy  = 	results_unhealthy [:,3:]
+	results_sensory = 	results_sensory[:,3:]
+	results_social = 	results_social[:,3:]
+	results_diet_psychological_features = 	results_diet_psychological_features[:,3:]
+	results_diseases = 	results_diseases[:,3:]
+	results_symptoms = 	results_symptoms[:,3:]
+	results_service = 	results_service[:,3:]
+	results_body = 	results_body[:,3:]
+	results_exercise = 	results_exercise[:,3:]
+	results_psychological_features = 	results_psychological_features[:,3:]
+
+	result = np.hstack((result, results_food))
+	result = np.hstack((result, results_unhealthy))
+	result = np.hstack((result, results_sensory))
+	result = np.hstack((result, results_social))
+	result = np.hstack((result, results_diet_psychological_features))
+	result = np.hstack((result, results_diseases))
+	result = np.hstack((result, results_symptoms))
+	result = np.hstack((result, results_service))
+	result = np.hstack((result, results_body))
+	result = np.hstack((result, results_exercise))
+	result = np.hstack((result, results_psychological_features))
+
+	return result
+
+
+def loadthresold():
+	sql = "SELECT * FROM threshold"
+	results = select_from_database(sql)
+	threshold = np.array(results)
+	threshold = threshold[:,1:]
+	return threshold
+
 
 
 def class_zero(value):
@@ -131,8 +222,21 @@ def init_label():
 	return ikt, psyper, constraints, motivation
 
 
-def init_feature_name(filename):
-	tem = np.loadtxt(filename, dtype=np.str, delimiter=',', skiprows=1)
+# def init_feature_name(filename):
+# 	tem = np.loadtxt(filename, dtype=np.str, delimiter=',', skiprows=1)
+# 	tem_data = tem[:, 0]
+# 	feature_name = dict()
+# 	for i in range(tem_data.shape[0]):
+# 		feature_name[i] = tem_data[i]
+# 	item = dict()
+# 	for element in feature_name:
+# 		item[feature_name[element]] = element
+# 	for element in item:
+# 		feature_name[element] = item[element]
+# 	return feature_name
+
+def init_feature_name():
+	tem = loadthresold()
 	tem_data = tem[:, 0]
 	feature_name = dict()
 	for i in range(tem_data.shape[0]):
@@ -255,8 +359,9 @@ def draw_curve(feature_value, lower, upper,name):
 
 
 def id_list():
-    data_name = "data.csv"
-    data = loadData(data_name)
+    # data_name = "data.csv"
+    # data = loadData(data_name)
+    data = loadData()
     data = data[:,0]
     data = data.astype(np.int)
     ID_list = list(set(data))
@@ -266,11 +371,13 @@ def id_list():
     return ID_list
 
 def feature_name(offset):
-    data_name = "data.csv"
-    threshold_name = "threshold.csv"
+    # data_name = "data.csv"
+    # threshold_name = "threshold.csv"
     feature_number = 74
-    data = loadData(data_name)
-    threshold = loadData(threshold_name)
+    # data = loadData(data_name)
+    # threshold = loadData(threshold_name)
+    data = loadData()
+    threshold = loadthresold()
     threshold = threshold[:, 1:]
     threshold = threshold.astype(np.float)
     data = data[:,2:]
@@ -278,7 +385,8 @@ def feature_name(offset):
     new_data = group(data)
     Person_data = new_data[offset-1][0]
     Pos_list = [i for i in range(feature_number)]
-    Feature_name = init_feature_name(threshold_name)
+    # Feature_name = init_feature_name(threshold_name)
+    Feature_name = init_feature_name()
     state = transform_data(Person_data, threshold)
     return Pos_list, Feature_name, Person_data, state
 
@@ -301,8 +409,9 @@ def listTodic(date, value):
 
 
 def specific_data(offset, feature_number):
-    data_name = "data.csv"
-    data = loadData(data_name)
+    # data_name = "data.csv"
+    # data = loadData(data_name)
+    data = loadData()
     new_data = group(data)
     # print(new_data)
     data = new_data[offset-1]

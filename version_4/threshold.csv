@@ -1,75 +1,75 @@
-,lower_bond,higher_bond,harm
-cholesterol,0,5.17,1
-salt,0,5,1
-sugar,0,40,1
-calories,1900,2150,1
-non-fresh,0,200,1
-caffeine,0,300,1
-oily,0,25,1
-snacks,0,0,1
-nutrient-rich food,10,-1,0
-fiber,30,40,0
-vegetales,300,500,0
-water,1200,2500,0
-fluid balance,1,-1,0
-alcoholic beverages,0,3,1
-tobacco,0,0,1
-drug,0,0,1
-visual appearance,0,1,0
-in-mouth taste,0,1,0
-flavour,0,1,0
-oder,0,1,0
-availability/converience,0,1,0
-affordability(price/time),0,1,0
-label,0,1,0
-brand,0,1,0
-peer group influence,0,1,1
-social class,5,10,0
-knowledge,5,10,1
-attitude & belief,5,10,1
-risk & expectation,5,10,1
-need & urgency,5,10,1
-habitual(addiction),5,10,1
-sociao-cultural/ethical values,5,10,1
-familiarity,5,10,1
-inntention/motivation,5,10,1
-diabetes,0,1,1
-hypertension,0,1,1
-obesity,0,1,1
-breathlessness,0,1,1
-shortness of breath,0,1,1
-middle of night short of breath,0,1,1
-irregular/rapid Heartbeat,0,1,1
-persistent cough,0,1,1
-coughing up Pick foam mucus,0,1,1
-chest pain,0,1,1
-fatigue & weakness,0,1,1
-oedema,0,1,1
-ascites,0,1,1
-increased need to urinate at night,0,1,1
-difficulties in concentrating,0,1,1
-lack of appetite & nausea,0,1,1
-sudden loss/gain weight,0,1,1
-availability/converience,0,1,0
-affordability(price/time),0,1,0
-trust/authority,0,1,0
-BMI,18.5,25,1
-gender,0,1,0
-ethnicity,0,1,1
-family history,0,1,1
-physical/disease checkup,0,1,1
-body wellness signs,0,1,1
-availability/converience,0,1,0
-affordability(price/time),0,1,0
-mood,0,1,1
-peer group pressure,5,10,1
-social class,5,10,0
-motivation,5,10,1
-attitude & belief,5,10,1
-risk & expectation,5,10,1
-need & urgency,5,10,1
-anxiety & depression,5,10,1
-stress,5,10,1
-social isolation,5,10,1
-poverty / financial,5,10,1
-peer group influence,5,10,1
+,,lower_bond,higher_bond,harm
+0,cholesterol,0,5.17,1
+1,salt,0,5,1
+2,sugar,0,40,1
+3,calories,1900,2150,1
+4,non-fresh,0,200,1
+5,caffeine,0,300,1
+6,oily,0,25,1
+7,snacks,0,0,1
+8,nutrient-rich food,10,-1,0
+9,fiber,30,40,0
+10,vegetales,300,500,0
+11,water,1200,2500,0
+12,fluid balance,1,-1,0
+13,alcoholic beverages,0,3,1
+14,tobacco,0,0,1
+15,drug,0,0,1
+16,visual appearance,0,1,0
+17,in-mouth taste,0,1,0
+18,flavour,0,1,0
+19,oder,0,1,0
+20,availability/converience,0,1,0
+21,affordability(price/time),0,1,0
+22,label,0,1,0
+23,brand,0,1,0
+24,peer group influence,0,1,1
+25,social class,5,10,0
+26,knowledge,5,10,1
+27,attitude & belief,5,10,1
+28,risk & expectation,5,10,1
+29,need & urgency,5,10,1
+30,habitual(addiction),5,10,1
+31,sociao-cultural/ethical values,5,10,1
+32,familiarity,5,10,1
+33,inntention/motivation,5,10,1
+34,diabetes,0,1,1
+35,hypertension,0,1,1
+36,obesity,0,1,1
+37,breathlessness,0,1,1
+38,shortness of breath,0,1,1
+39,middle of night short of breath,0,1,1
+40,irregular/rapid Heartbeat,0,1,1
+41,persistent cough,0,1,1
+42,coughing up Pick foam mucus,0,1,1
+43,chest pain,0,1,1
+44,fatigue & weakness,0,1,1
+45,oedema,0,1,1
+46,ascites,0,1,1
+47,increased need to urinate at night,0,1,1
+48,difficulties in concentrating,0,1,1
+49,lack of appetite & nausea,0,1,1
+50,sudden loss/gain weight,0,1,1
+51,availability/converience,0,1,0
+52,affordability(price/time),0,1,0
+53,trust/authority,0,1,0
+54,BMI,18.5,25,1
+55,gender,0,1,0
+56,ethnicity,0,1,1
+57,family history,0,1,1
+58,physical/disease checkup,0,1,1
+59,body wellness signs,0,1,1
+60,availability/converience,0,1,0
+61,affordability(price/time),0,1,0
+62,mood,0,1,1
+63,peer group pressure,5,10,1
+64,social class,5,10,0
+65,motivation,5,10,1
+66,attitude & belief,5,10,1
+67,risk & expectation,5,10,1
+68,need & urgency,5,10,1
+69,anxiety & depression,5,10,1
+70,stress,5,10,1
+71,social isolation,5,10,1
+72,poverty / financial,5,10,1
+73,peer group influence,5,10,1
