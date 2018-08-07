@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello world</title>
+</head>
+<body>
+    <center>
+        <p> Personal data </p>
+        {% for item in section %}
+
+        <a href="/data/section/?uid={{uid}}&section_name={{item}}" >  {{ item }} &nbsp  </a>
+
+
+        {% endfor %}
+
+        {% for item in pos %}
+
+		{% if state[item] == 1  %}
+
+		<li> <a style="color:red"  href="/chart/?uid={{uid}}&item={{item}}"> {{ feature[item] }}  &#58 {{ data[item] }} </a> </li>   <br/> 
+        <!-- <a href="/chart/{{uid}},{{item}}"> {{ feature[item] }} </a> &#58 {{ data[item] }} <br/> -->
+
+		{% else  %}
+
+	   <li>	<a style="color:green"  href="/chart/?uid={{uid}}&item={{item}}"> {{ feature[item] }}  &#58 {{ data[item] }} </a> </li> <br/>
+
+		{% endif %}
+        {% endfor %}
+
+
+    </center>
+</body>
+</html>
+
+
+
+ 
+       
+<!-- 
+            <form action="{{ url_for('index') }}" method="POST">
+ 
+                姓名: <input type="text" name="name"><br>
+ 
+                年龄: <input type="text" name="age"><br>
+ 
+                <button>提交</button>
+            </form>
+ -->
