@@ -13,7 +13,7 @@ import pymysql
 
 
 def select_from_database(sql):
-	db = pymysql.connect("localhost", "root", "123456", "precision_health")
+	db = pymysql.connect("localhost", "ph", "123456", "precision_health")
 	cursor = db.cursor()
 	cursor.execute(sql)
 	results = cursor.fetchall()
