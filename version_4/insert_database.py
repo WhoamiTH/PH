@@ -61,14 +61,16 @@ exercise_list = exercise_list.astype(np.float)
 exercise_list = exercise_list.tolist()
 
 psychological_list = data[:,69:77]
-print(psychological_list.shape)
 psychological_list = psychological_list.astype(np.float)
 psychological_list = psychological_list.tolist()
-print(psychological_list)
+
 
 length = len(code_list)
 
+print('start food')
 for i in range(length):
+	if i % 100 == 0:
+		print(i)
 	code = code_list[i]
 	person_id = person_id_list[i]
 	time_id = time_id_list[i]
@@ -94,9 +96,12 @@ for i in range(length):
 	nutrient_rich_food,fiber,vegetales,water,fluid_balance)
 	cursor.execute(sql_food_insert)
 	db.commit()
+print('complete food')
 
-
+print('start unhealthy')
 for i in range(length):
+	if i % 100 == 0:
+		print(i)
 	code = code_list[i]
 	person_id = person_id_list[i]
 	time_id = time_id_list[i]
@@ -110,9 +115,12 @@ for i in range(length):
 	alcoholic_beverages,tobacco,drug)
 	cursor.execute(sql_unhealthy_insert)
 	db.commit()
+print('complete unhealthy')
 
-
+print('start sensory')
 for i in range(length):
+	if i % 100 == 0:
+		print(i)
 	code = code_list[i]
 	person_id = person_id_list[i]
 	time_id = time_id_list[i]
@@ -127,11 +135,13 @@ for i in range(length):
 	visual_appearance,in_mouth_taste,flavour,oder)
 	cursor.execute(sql_sensory_insert)
 	db.commit()
+print('complete')
 
 
-
-
+print('start social')
 for i in range(length):
+	if i % 100 == 0:
+		print(i)
 	code = code_list[i]
 	person_id = person_id_list[i]
 	time_id = time_id_list[i]
@@ -151,10 +161,12 @@ for i in range(length):
 	brand,peer_group_influence,social_class,knowledge)
 	cursor.execute(sql_social_insert)
 	db.commit()
+print('complete')
 
-
-
+print('start diet_psychological_features')
 for i in range(length):
+	if i % 100 == 0:
+		print(i)
 	code = code_list[i]
 	person_id = person_id_list[i]
 	time_id = time_id_list[i]
@@ -174,8 +186,13 @@ for i in range(length):
 	sociao_cultural_ethical_values,familiarity,inntention_motivation)
 	cursor.execute(sql_diet_psychological_features_insert)
 	db.commit()
+print('complete')
 
+
+print('start disease')
 for i in range(length):
+	if i % 100 == 0:
+		print(i)
 	code = code_list[i]
 	person_id = person_id_list[i]
 	time_id = time_id_list[i]
@@ -189,9 +206,13 @@ for i in range(length):
 	diabetes,hypertension,obesity)
 	cursor.execute(sql_diseases_insert)
 	db.commit()
+print('complete')
 
 
+print('start symptoms')
 for i in range(length):
+	if i % 100 == 0:
+		print(i)
 	code = code_list[i]
 	person_id = person_id_list[i]
 	time_id = time_id_list[i]
@@ -222,9 +243,13 @@ for i in range(length):
 	difficulties_concentrating,lack_of_appetite_nausea,sudden_loss_gain_weight)
 	cursor.execute(sql_symptoms_insert)
 	db.commit()
+print('complete')
 
 
+print('start service')
 for i in range(length):
+	if i % 100 == 0:
+		print(i)
 	code = code_list[i]
 	person_id = person_id_list[i]
 	time_id = time_id_list[i]
@@ -238,12 +263,14 @@ for i in range(length):
 	availability_converience,affordability_price_time,trust_authority)
 	cursor.execute(sql_service_insert)
 	db.commit()
+print('complete')
 
 
 
-
-
+print('start body')
 for i in range(length):
+	if i % 100 == 0:
+		print(i)
 	code = code_list[i]
 	person_id = person_id_list[i]
 	time_id = time_id_list[i]
@@ -260,10 +287,12 @@ for i in range(length):
 	BMI,gender,ethnicity,family_history,physical_disease_checkup,body_wellness_signs)
 	cursor.execute(sql_body_insert)
 	db.commit()
+print('complete')
 
-
-
+print('start exercise')
 for i in range(length):
+	if i % 100 == 0:
+		print(i)
 	code = code_list[i]
 	person_id = person_id_list[i]
 	time_id = time_id_list[i]
@@ -282,11 +311,13 @@ for i in range(length):
 	social_class,motivation)
 	cursor.execute(sql_exercise_insert)
 	db.commit()
+print('complete')
 
 
-
-
+print('start psychological')
 for i in range(length):
+	if i % 100 == 0:
+		print(i)
 	code = code_list[i]
 	person_id = person_id_list[i]
 	time_id = time_id_list[i]
@@ -307,7 +338,7 @@ for i in range(length):
 	social_isolation,poverty_financial,peer_group_influence)
 	cursor.execute(sql_psychological_features_insert)
 	db.commit()
-
+print('complete')
 
 threshold = np.loadtxt('threshold.csv', dtype=np.str, delimiter=',', skiprows=1)
 num = threshold.shape[0]
@@ -331,7 +362,7 @@ High = High.tolist()
 Harm = threshold[:,4]
 Harm = Harm.astype(np.float)
 Harm = Harm.tolist()
-
+print('start threshold')
 for i in range(num):
 	code = Code[i]
 	name = Name[i]
@@ -343,7 +374,7 @@ for i in range(num):
 	(code,name,low,high,harm)
 	cursor.execute(sql_threshold_insert)
 	db.commit()
-
+print('complete')
 
 db.close()
 
