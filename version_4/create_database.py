@@ -1,7 +1,7 @@
 import pymysql
 import numpy as np
 
-db = pymysql.connect("localhost", "root", "123456", "precision_health")
+db = pymysql.connect("localhost", "ph", "123456", "precision_health")
 
 cursor = db.cursor()
 
