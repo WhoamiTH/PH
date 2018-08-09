@@ -95,7 +95,7 @@ for i in range(length):
 	cholesterol,salt,sugar,calories,no_fresh,caffeine,oily,snacks,\
 	nutrient_rich_food,fiber,vegetales,water,fluid_balance)
 	cursor.execute(sql_food_insert)
-	db.commit()
+        db.commit()
 print('complete food')
 
 # print('start unhealthy')
