@@ -18,12 +18,12 @@
 
 		{% if state[item] == 1  %}
 
-		<li> <a style="color:red"  href="/chart/?uid={{uid}}&item={{item}}"> {{ feature[item] }}  &#58 {{ data[item] }} </a> </li>   <br/> 
+		<li> {{ state[item]  }}   <a style="color:red"  href="/chart/?uid={{uid}}&item={{item}}"> {{ feature[item] }}  &#58 {{ data[item] }} </a> </li>   <br/> 
         <!-- <a href="/chart/{{uid}},{{item}}"> {{ feature[item] }} </a> &#58 {{ data[item] }} <br/> -->
 
 		{% else  %}
 
-	   <li>	<a style="color:green"  href="/chart/?uid={{uid}}&item={{item}}"> {{ feature[item] }}  &#58 {{ data[item] }} </a> </li> <br/>
+		<li>	{{ state[item]  }}  <a style="color:green"  href="/chart/?uid={{uid}}&item={{item}}"> {{ feature[item] }}  &#58 {{ data[item] }} </a> </li> <br/>
 
 		{% endif %}
         {% endfor %}

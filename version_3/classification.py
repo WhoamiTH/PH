@@ -299,6 +299,14 @@ def listTodic(date, value):
     return target
 
 
+def get_feature_name(index):
+    threshold_name = "threshold.csv"
+    threshold = loadData(threshold_name)
+    threshold = threshold[:, 0]
+    return threshold[index]
+
+
+
 
 def specific_data(offset, feature_number):
     data_name = "data.csv"

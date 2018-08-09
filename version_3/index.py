@@ -44,10 +44,11 @@ def chart_url():
     item = request.args.get('item')
     print(uid,item)
     data = classification.specific_data(int(uid),int(item))
-    top = 100
+    chart_title = classification.get_feature_name(int(item))
+    top = 20
     low = 13
     # print(data)
-    return render_template('chart.html', data = data, top = top, low = low)
+    return render_template('chart.html', chart_title = chart_title, data = data, top = top, low = low)
 
 
 
