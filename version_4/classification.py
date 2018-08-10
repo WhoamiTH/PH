@@ -26,17 +26,17 @@ def select_from_database(sql):
 
 
 def loadData(person_id):
-	sql_food = "SELECT * FROM food_content_and_nutrition where person_id='%d ORDER BY time_id"%(person_id)
-	sql_unhealthy = "SELECT * FROM unhealthy_habit swhere person_id='%d ORDER BY time_id"%(person_id)
-	sql_sensory = "SELECT * FROM sensory_appeal where person_id='%d ORDER BY time_id"%(person_id)
-	sql_social = "SELECT * FROM social_factors where person_id='%d ORDER BY time_id"%(person_id)
-	sql_diet_psychological_features = "SELECT * FROM diet_psychological_features where person_id='%d ORDER BY time_id"%(person_id)
-	sql_diseases = "SELECT * FROM related_diseases where person_id='%d ORDER BY time_id"%(person_id)
-	sql_symptoms = "SELECT * FROM related_symptoms where person_id='%d ORDER BY time_id"%(person_id)
-	sql_service = "SELECT * FROM medical_service where person_id='%d ORDER BY time_id"%(person_id)
-	sql_body = "SELECT * FROM body_factors where person_id='%d ORDER BY time_id"%(person_id)
-	sql_exercise = "SELECT * FROM physical_exercise where person_id='%d ORDER BY time_id"%(person_id)
-	sql_psychological_features = "SELECT * FROM psychological_features where person_id='%d ORDER BY time_id"%(person_id)
+	sql_food = "SELECT * FROM food_content_and_nutrition where person_id='%d' ORDER BY time_id"%(person_id)
+	sql_unhealthy = "SELECT * FROM unhealthy_habit swhere person_id='%d' ORDER BY time_id"%(person_id)
+	sql_sensory = "SELECT * FROM sensory_appeal where person_id='%d' ORDER BY time_id"%(person_id)
+	sql_social = "SELECT * FROM social_factors where person_id='%d' ORDER BY time_id"%(person_id)
+	sql_diet_psychological_features = "SELECT * FROM diet_psychological_features where person_id='%d' ORDER BY time_id"%(person_id)
+	sql_diseases = "SELECT * FROM related_diseases where person_id='%d' ORDER BY time_id"%(person_id)
+	sql_symptoms = "SELECT * FROM related_symptoms where person_id='%d' ORDER BY time_id"%(person_id)
+	sql_service = "SELECT * FROM medical_service where person_id='%d' ORDER BY time_id"%(person_id)
+	sql_body = "SELECT * FROM body_factors where person_id='%d' ORDER BY time_id"%(person_id)
+	sql_exercise = "SELECT * FROM physical_exercise where person_id='%d' ORDER BY time_id"%(person_id)
+	sql_psychological_features = "SELECT * FROM psychological_features where person_id='%d' ORDER BY time_id"%(person_id)
 
 
 	results_food = select_from_database(sql_food)
