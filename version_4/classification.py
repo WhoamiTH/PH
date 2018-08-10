@@ -404,18 +404,13 @@ def listTodic(date, value):
 
 
 
-def specific_data(offset, feature_number):
+def specific_data(person_id, feature_number):
     # data_name = "data.csv"
     # data = loadData(data_name)
-    data = loadData()
-    new_data = group(data)
-    # print(new_data)
-    data = new_data[offset-1]
-    # print(data)
-    data = np.array(data)
+    data = loadData(person_id)
+	Time = time_list(data)
     data = data[:, 2:]
     data = data.astype(np.float)
-    Time = time_list(new_data[0])
     Person_data = data[:,feature_number]
     Specific_data = listTodic(Time, Person_data)
     print(Specific_data)
