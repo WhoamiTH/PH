@@ -364,7 +364,6 @@ def id_list():
     # data = loadData(data_name)
 	sql_id = "select distinct person_id from body_factors"
 	data = select_from_database(sql_id)
-    data = data[:,0]
     data = data.astype(np.int)
     ID_list = list(set(data))
     ID_list = sorted(ID_list)
