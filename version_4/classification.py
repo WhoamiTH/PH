@@ -25,18 +25,18 @@ def select_from_database(sql):
 
 
 
-def loadData():
-	sql_food = "SELECT * FROM food_content_and_nutrition"
-	sql_unhealthy = "SELECT * FROM unhealthy_habits"
-	sql_sensory = "SELECT * FROM sensory_appeal"
-	sql_social = "SELECT * FROM social_factors"
-	sql_diet_psychological_features = "SELECT * FROM diet_psychological_features"
-	sql_diseases = "SELECT * FROM related_diseases"
-	sql_symptoms = "SELECT * FROM related_symptoms"
-	sql_service = "SELECT * FROM medical_service"
-	sql_body = "SELECT * FROM body_factors"
-	sql_exercise = "SELECT * FROM physical_exercise"
-	sql_psychological_features = "SELECT * FROM psychological_features"
+def loadData(person_id):
+	sql_food = "SELECT * FROM food_content_and_nutrition where person_id='%d ORDER BY time_id"%(person_id)
+	sql_unhealthy = "SELECT * FROM unhealthy_habit swhere person_id='%d ORDER BY time_id"
+	sql_sensory = "SELECT * FROM sensory_appeal where person_id='%d ORDER BY time_id"
+	sql_social = "SELECT * FROM social_factors where person_id='%d ORDER BY time_id"
+	sql_diet_psychological_features = "SELECT * FROM diet_psychological_features where person_id='%d ORDER BY time_id"
+	sql_diseases = "SELECT * FROM related_diseases where person_id='%d ORDER BY time_id"
+	sql_symptoms = "SELECT * FROM related_symptoms where person_id='%d ORDER BY time_id"
+	sql_service = "SELECT * FROM medical_service where person_id='%d ORDER BY time_id"
+	sql_body = "SELECT * FROM body_factors where person_id='%d ORDER BY time_id"
+	sql_exercise = "SELECT * FROM physical_exercise where person_id='%d ORDER BY time_id"
+	sql_psychological_features = "SELECT * FROM psychological_features where person_id='%d ORDER BY time_id"
 
 
 	results_food = select_from_database(sql_food)
@@ -360,35 +360,26 @@ def draw_curve(feature_value, lower, upper,name):
 
 
 def id_list():
-    # data_name = "data.csv"
-    # data = loadData(data_name)
     sql_id = "select distinct person_id from body_factors"
     data = select_from_database(sql_id)
     data = data.astype(np.int)
     data = data[:,0]
-    print(data)
     ID_list = list(set(data))
     ID_list = sorted(ID_list)
     print(type(ID_list))
     print(ID_list)
     return ID_list
 
-def feature_name(offset):
-    # data_name = "data.csv"
-    # threshold_name = "threshold.csv"
+def feature_name(person_id):
     feature_number = 74
-    # data = loadData(data_name)
-    # threshold = loadData(threshold_name)
-    data = loadData()
+    data = loadData(person_id)
     threshold = loadthresold()
     threshold = threshold[:, 1:]
     threshold = threshold.astype(np.float)
     data = data[:,2:]
     data = data.astype(np.float)
-    new_data = group(data)
-    Person_data = new_data[offset-1][0]
+    Person_data = data[-1]
     Pos_list = [i for i in range(feature_number)]
-    # Feature_name = init_feature_name(threshold_name)
     Feature_name = init_feature_name()
     state = transform_data(Person_data, threshold)
     return Pos_list, Feature_name, Person_data, state
