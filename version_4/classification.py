@@ -26,71 +26,73 @@ def select_from_database(sql):
 
 
 def loadData(person_id):
-	sql_food = "SELECT * FROM food_content_and_nutrition where person_id='%d' ORDER BY time_id"%(person_id)
-	sql_unhealthy = "SELECT * FROM unhealthy_habit swhere person_id='%d' ORDER BY time_id"%(person_id)
-	sql_sensory = "SELECT * FROM sensory_appeal where person_id='%d' ORDER BY time_id"%(person_id)
-	sql_social = "SELECT * FROM social_factors where person_id='%d' ORDER BY time_id"%(person_id)
-	sql_diet_psychological_features = "SELECT * FROM diet_psychological_features where person_id='%d' ORDER BY time_id"%(person_id)
-	sql_diseases = "SELECT * FROM related_diseases where person_id='%d' ORDER BY time_id"%(person_id)
-	sql_symptoms = "SELECT * FROM related_symptoms where person_id='%d' ORDER BY time_id"%(person_id)
-	sql_service = "SELECT * FROM medical_service where person_id='%d' ORDER BY time_id"%(person_id)
-	sql_body = "SELECT * FROM body_factors where person_id='%d' ORDER BY time_id"%(person_id)
-	sql_exercise = "SELECT * FROM physical_exercise where person_id='%d' ORDER BY time_id"%(person_id)
-	sql_psychological_features = "SELECT * FROM psychological_features where person_id='%d' ORDER BY time_id"%(person_id)
+    print(person_id)
+    print(type(person_id))
+    sql_food = "SELECT * FROM food_content_and_nutrition WHERE person_id=%d ORDER BY time_id"%(person_id)
+    print(sql_food)
+    sql_unhealthy = "SELECT * FROM unhealthy_habits WHERE person_id=%d ORDER BY time_id"%(person_id)
+    sql_sensory = "SELECT * FROM sensory_appeal WHERE person_id=%d ORDER BY time_id"%(person_id)
+    sql_social = "SELECT * FROM social_factors WHERE person_id=%d ORDER BY time_id"%(person_id)
+    sql_diet_psychological_features = "SELECT * FROM diet_psychological_features WHERE person_id=%d ORDER BY time_id"%(person_id)
+    sql_diseases = "SELECT * FROM related_diseases WHERE person_id=%d ORDER BY time_id"%(person_id)
+    sql_symptoms = "SELECT * FROM related_symptoms WHERE person_id=%d ORDER BY time_id"%(person_id)
+    sql_service = "SELECT * FROM medical_service WHERE person_id=%d ORDER BY time_id"%(person_id)
+    sql_body = "SELECT * FROM body_factors WHERE person_id=%d ORDER BY time_id"%(person_id)
+    sql_exercise = "SELECT * FROM physical_exercise WHERE person_id=%d ORDER BY time_id"%(person_id)
+    sql_psychological_features = "SELECT * FROM psychological_features WHERE person_id=%d ORDER BY time_id"%(person_id)
+
+    results_food = select_from_database(sql_food)
+    results_unhealthy = select_from_database(sql_unhealthy)
+    results_sensory = select_from_database(sql_sensory)
+    results_social = select_from_database(sql_social)
+    results_diet_psychological_features  = select_from_database(sql_diet_psychological_features)
+    results_diseases = select_from_database(sql_diseases)
+    results_symptoms = select_from_database(sql_symptoms)
+    results_service = select_from_database(sql_service)
+    results_body = select_from_database(sql_body)
+    results_exercise = select_from_database(sql_exercise)
+    results_psychological_features = select_from_database(sql_psychological_features)
 
 
-	results_food = select_from_database(sql_food)
-	results_unhealthy = select_from_database(sql_unhealthy)
-	results_sensory = select_from_database(sql_sensory)
-	results_social = select_from_database(sql_social)
-	results_diet_psychological_features  = select_from_database(sql_diet_psychological_features)
-	results_diseases = select_from_database(sql_diseases)
-	results_symptoms = select_from_database(sql_symptoms)
-	results_service = select_from_database(sql_service)
-	results_body = select_from_database(sql_body)
-	results_exercise = select_from_database(sql_exercise)
-	results_psychological_features = select_from_database(sql_psychological_features)
+    results_food = np.array(results_food)
+    results_unhealthy  = np.array(results_unhealthy)
+    results_sensory = np.array(results_sensory)
+    results_social = np.array(results_social)
+    results_diet_psychological_features = np.array(results_diet_psychological_features)
+    results_diseases = np.array(results_diseases)
+    results_symptoms = np.array(results_symptoms)
+    results_service = np.array(results_service )
+    results_body = np.array(results_body)
+    results_exercise = np.array(results_exercise)
+    results_psychological_features = np.array(results_psychological_features)
 
+    result = results_food[:,1:3]
 
-	results_food = np.array(results_food)
-	results_unhealthy  = np.array(results_unhealthy)
-	results_sensory = np.array(results_sensory)
-	results_social = np.array(results_social)
-	results_diet_psychological_features = np.array(results_diet_psychological_features)
-	results_diseases = np.array(results_diseases)
-	results_symptoms = np.array(results_symptoms)
-	results_service = np.array(results_service )
-	results_body = np.array(results_body)
-	results_exercise = np.array(results_exercise)
-	results_psychological_features = np.array(results_psychological_features)
+    results_food = results_food[:,3:]
+    results_unhealthy  = 	results_unhealthy [:,3:]
+    results_sensory = 	results_sensory[:,3:]
+    results_social = 	results_social[:,3:]
+    results_diet_psychological_features = 	results_diet_psychological_features[:,3:]
+    results_diseases = 	results_diseases[:,3:]
+    results_symptoms = 	results_symptoms[:,3:]
+    results_service = 	results_service[:,3:]
+    results_body = 	results_body[:,3:]
+    results_exercise = 	results_exercise[:,3:]
+    results_psychological_features = 	results_psychological_features[:,3:]
 
-	result = results_food[:,1:3]
+    result = np.hstack((result, results_food))
+    result = np.hstack((result, results_unhealthy))
+    result = np.hstack((result, results_sensory))
+    result = np.hstack((result, results_social))
+    result = np.hstack((result, results_diet_psychological_features))
+    result = np.hstack((result, results_diseases))
+    result = np.hstack((result, results_symptoms))
+    result = np.hstack((result, results_service))
+    result = np.hstack((result, results_body))
+    result = np.hstack((result, results_exercise))
+    result = np.hstack((result, results_psychological_features))
 
-	results_food = results_food[:,3:]
-	results_unhealthy  = 	results_unhealthy [:,3:]
-	results_sensory = 	results_sensory[:,3:]
-	results_social = 	results_social[:,3:]
-	results_diet_psychological_features = 	results_diet_psychological_features[:,3:]
-	results_diseases = 	results_diseases[:,3:]
-	results_symptoms = 	results_symptoms[:,3:]
-	results_service = 	results_service[:,3:]
-	results_body = 	results_body[:,3:]
-	results_exercise = 	results_exercise[:,3:]
-	results_psychological_features = 	results_psychological_features[:,3:]
-
-	result = np.hstack((result, results_food))
-	result = np.hstack((result, results_unhealthy))
-	result = np.hstack((result, results_sensory))
-	result = np.hstack((result, results_social))
-	result = np.hstack((result, results_diet_psychological_features))
-	result = np.hstack((result, results_diseases))
-	result = np.hstack((result, results_symptoms))
-	result = np.hstack((result, results_service))
-	result = np.hstack((result, results_body))
-	result = np.hstack((result, results_exercise))
-	result = np.hstack((result, results_psychological_features))
-
-	return result
+    return result
 
 
 def loadthresold():
