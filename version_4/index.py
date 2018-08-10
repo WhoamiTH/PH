@@ -32,7 +32,7 @@ def data_section_url():
     uid = request.args.get('uid')
     section_name = request.args.get('section_name')
     print(section_name)
-    print(type(section_name))
+    # print(type(section_name))
     pos_list, feature_name, person_data, current_state = classification.feature_name(int(uid))
     output_list = classification.section_feature(section_name)
     return render_template('section.html', uid = uid, pos = pos_list, feature = feature_name, data = person_data, state = current_state, feature_name = section_name, output_list = output_list)
@@ -42,7 +42,7 @@ def data_section_url():
 def chart_url():
     uid = request.args.get('uid')
     item = request.args.get('item')
-    print(uid,item)
+    # print(uid,item)
     data = classification.specific_data(int(uid),int(item))
     top = 100
     low = 13
