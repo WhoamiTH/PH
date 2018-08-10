@@ -18,6 +18,7 @@ def select_from_database(sql):
 	cursor.execute(sql)
 	results = cursor.fetchall()
 	db.close()
+	results = np.array(results)
 	return results
 
 
@@ -361,7 +362,8 @@ def draw_curve(feature_value, lower, upper,name):
 def id_list():
     # data_name = "data.csv"
     # data = loadData(data_name)
-    data = loadData()
+	sql_id = "select distinct person_id from body_factors"
+	data = select_from_database(sql_id)
     data = data[:,0]
     data = data.astype(np.int)
     ID_list = list(set(data))
