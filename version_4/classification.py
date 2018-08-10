@@ -362,9 +362,11 @@ def draw_curve(feature_value, lower, upper,name):
 def id_list():
     # data_name = "data.csv"
     # data = loadData(data_name)
-	sql_id = "select distinct person_id from body_factors"
-	data = select_from_database(sql_id)
+    sql_id = "select distinct person_id from body_factors"
+    data = select_from_database(sql_id)
     data = data.astype(np.int)
+    data = data[:,0]
+    print(data)
     ID_list = list(set(data))
     ID_list = sorted(ID_list)
     print(type(ID_list))
