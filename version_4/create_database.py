@@ -208,31 +208,31 @@ nutrient_rich_food FLOAT NOT NULL,
 fiber FLOAT NOT NULL,
 vegetales FLOAT NOT NULL,
 water FLOAT NOT NULL,
-fluid_balance FLOAT NOT NULL
+fluid_balance FLOAT NOT NULL,
 alcoholic_beverages FLOAT NOT NULL,
 tobacco FLOAT NOT NULL,
-drug FLOAT NOT NULL
+drug FLOAT NOT NULL,
 visual_appearance FLOAT NOT NULL,
 in_mouth_taste FLOAT NOT NULL,
 flavour FLOAT NOT NULL,
-oder FLOAT NOT NULL
+oder FLOAT NOT NULL,
 availability_converience FLOAT NOT NULL,
 affordability_price_time FLOAT NOT NULL,
 label FLOAT NOT NULL,
 brand FLOAT NOT NULL,
 peer_group_influence FLOAT NOT NULL,
 social_class FLOAT NOT NULL,
-knowledge FLOAT NOT NULL
+knowledge FLOAT NOT NULL,
 attitude_belief FLOAT NOT NULL,
 risk_expectation FLOAT NOT NULL,
 need_urgency FLOAT NOT NULL,
 habitual_addiction FLOAT NOT NULL,
 sociao_cultural_ethical_values FLOAT NOT NULL,
 familiarity FLOAT NOT NULL,
-inntention_motivation FLOAT NOT NULL
+inntention_motivation FLOAT NOT NULL,
 diabetes FLOAT NOT NULL,
 hypertension FLOAT NOT NULL,
-obesity FLOAT NOT NULL
+obesity FLOAT NOT NULL,
 breathlessness FLOAT NOT NULL,
 shortness_of_breath FLOAT NOT NULL,
 middle_of_night_short_of_breath FLOAT NOT NULL,
@@ -246,22 +246,22 @@ ascites FLOAT NOT NULL,
 increased_need_to_urinate_at_night FLOAT NOT NULL,
 difficulties_concentrating FLOAT NOT NULL,
 lack_of_appetite_nausea FLOAT NOT NULL,
-sudden_loss_gain_weight FLOAT NOT NULL
+sudden_loss_gain_weight FLOAT NOT NULL,
 availability_converience FLOAT NOT NULL,
 affordability_price_time FLOAT NOT NULL,
-trust_authority FLOAT NOT NULL
+trust_authority FLOAT NOT NULL,
 BMI FLOAT NOT NULL,
 gender FLOAT NOT NULL,
 ethnicity FLOAT NOT NULL,
 family_history FLOAT NOT NULL,
 physical_disease_checkup FLOAT NOT NULL,
-body_wellness_signs FLOAT NOT NULL
+body_wellness_signs FLOAT NOT NULL,
 availability_converience FLOAT NOT NULL,
 affordability_price_time FLOAT NOT NULL,
 mood FLOAT NOT NULL,
 peer_group_pressure FLOAT NOT NULL,
 social_class FLOAT NOT NULL,
-motivation FLOAT NOT NULL
+motivation FLOAT NOT NULL,
 attitude_belief FLOAT NOT NULL,
 risk_expectation FLOAT NOT NULL,
 need_urgency FLOAT NOT NULL,
@@ -272,7 +272,7 @@ poverty_financial FLOAT NOT NULL,
 peer_group_influence FLOAT NOT NULL
 )
 """
-cursor.execute(sql_psychological_features)
+cursor.execute(sql_con_moti)
 
 db.close()
 
