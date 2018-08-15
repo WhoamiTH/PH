@@ -69,7 +69,41 @@ def main(code):
             exit(1)
  
 if __name__ == '__main__':
-    code ="""print("hello world")\n
-print("123")"""
+    # code ="""print("hello world")\nprint("123")"""
+    filename = "test.py"
+    f = open(filename)
+    tem = f.readlines()
+    code = ""
+    for t in tem:
+        code += t
+    
+    
     print(code)
     print(main(code))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
