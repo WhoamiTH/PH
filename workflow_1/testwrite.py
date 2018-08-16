@@ -11,3 +11,7 @@ print(code)
 exec(code)
 
 print(l)
+
+ie = dict()
+
+print(locals()[l])
