@@ -7,10 +7,13 @@ import json
 app = Flask(__name__)
 
 
-@app.route('/th')
+@app.route('/')
 def index():
     return render_template('index.html')
 
+
+def f1():
+    ""
 
 
 @app.route('/exec')
@@ -22,6 +25,13 @@ def exec_code(code,name_output):
 
     return jsonify(output)
 
+
+@app.route('/test', methods=["POST"])
+def test_post():
+    print(request)
+    # dt = json.loads(data)
+    # print(dt)
+    return 'success'
 
 
 @app.route('/data/<uid>')
