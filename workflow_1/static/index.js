@@ -36,7 +36,9 @@ $("#add").click(function(){
 	// $("#down-left-down").load("a.txt");
 	// alert("add");
 	alert("add");
+	alert("add2");
 	url = "/static/a.txt";
+	alert("add3s");
 	alert(url);
 	test_get(url,func);
 	// $.get("/static/a.txt",function(data,status){
@@ -46,10 +48,15 @@ $("#add").click(function(){
 });
 
 $("#submit").click(function(){
-	alert('submit');
-	$.post("/test",{
-		l:[1,2,3]
-	},
+	alert('submit1');
+	alert('submit1');
+	alert('submit1');
+	alert('submit1');
+    var psot_data = {"l":[1,2,3] }
+	alert('submit2');
+// post_data = JSON.stringify(post_data)
+	alert('submit3');
+	$.post("/test/", post_data,
 	function(data,status){
 		alert("data:"+data+"\nstatus:"+status);
 	});

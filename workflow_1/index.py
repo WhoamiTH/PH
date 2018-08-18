@@ -1,3 +1,4 @@
+# _*_ coding:utf-8 _*_
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -9,11 +10,9 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
+    print(123)
     return render_template('index.html')
 
-
-def f1():
-    ""
 
 
 @app.route('/exec')
@@ -26,12 +25,20 @@ def exec_code(code,name_output):
     return jsonify(output)
 
 
-@app.route('/test', methods=["POST"])
+@app.route('/test/', methods=["POST"])
 def test_post():
+    print('sadfsdaf')
     print(request)
-    # dt = json.loads(data)
-    # print(dt)
-    return 'success'
+    print(request.headers)
+    print(request.form.get(post_data))
+#data = request.form
+#    print(request.form['l[]'])
+#    print(request.form['l[]'])
+#    print(request.form['l[]'])
+#    dt = json.loads(data)
+#    print(dt)
+    return_data = 'success'
+    return render_template('test.html', return_data = return_data)
 
 
 @app.route('/data/<uid>')
