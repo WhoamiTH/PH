@@ -49,15 +49,25 @@ $("#add").click(function(){
 
 $("#submit").click(function(){
 	alert('submit1');
-	alert('submit1');
-	alert('submit1');
-	alert('submit1');
-    var psot_data = {"l":[1,2,3] }
+
+
+    var post_data = new Object();
+    alert('submit2');
+    // post_data = {l:[1,2,3] };
+
+    post_data.a = 1;
+    console.log(post_data)
+    post_data.b = 2;
+    post_data.c = [1,2,3];
+
+
+    alert(post_data);
 	alert('submit2');
-// post_data = JSON.stringify(post_data)
+	post_data = JSON.stringify(post_data)
 	alert('submit3');
 	$.post("/test/", post_data,
 	function(data,status){
 		alert("data:"+data+"\nstatus:"+status);
 	});
+	alert('submit4');
 });
