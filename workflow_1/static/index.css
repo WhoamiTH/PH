@@ -1,8 +1,8 @@
+/*----------------------------------------------------------*/
 .body {
     height: 100%;
     width: 100%;
     margin: 0;
-    background: red;
 }
 
 .top {
@@ -30,6 +30,12 @@
     width: 19.7%;
     height: 100%;
     float: left;
+}
+
+.middle-left-top {
+    height: 10%;
+    width: 100%;
+    margin: 0;
 }
 
 .middle-middle {
@@ -96,3 +102,186 @@
     height: 100%;
     float: right;
 }
+
+.div-name-font {
+    font-size: 100%;
+}
+
+/*------------------------------------------------------*/
+
+
+/*超出省略号*/
+.text-ellipsis{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* 清除浮动 */
+.clearfix:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both;    
+    visibility: hidden;
+}
+
+
+
+
+/*------------------------------------------------------*/
+/*.full-left,.full-right { 
+    height: 100%; 
+    float: left 
+}
+
+.full-left { 
+    width: 9%; 
+    padding: 5px; 
+    border-right: 1px solid #58a5f3;
+}
+
+.full-right { 
+    width: 91%;
+    padding-top: 4px;
+    padding-left: 6px;
+}
+
+.full-right>.tab { 
+    height: 95%; 
+    padding: 6px;
+    border-left: 1px solid #d4d4d5;
+    border-right: 1px solid #d4d4d4;
+}
+
+.full-right>.menu {
+    height: 5%;
+}
+
+.full-right>.menu>.item { padding: 0.8em 1.0em !important; }
+
+.full-right>.menu>.item>i:hover { color: green !important; }
+
+.full-right form { height: 100%; }
+
+.full-right-top { 
+    background-image: url(data:image/gif;base64,R0lGODlhCgAKAIAAAPPz89/f3ywAAAAACgAKAAACEQyOaJnL515ksz11YQah+18AADs=)!important; 
+    box-sizing: border-box; 
+    border: 1px dashed #FFF; 
+}
+
+.full-right-top.activate {
+    border: 1px dashed #37F537;
+}
+
+.view { 
+    height: 68%; 
+}
+
+.full-right-btn { 
+    border-top: 1px solid #D4D4D5 !important;
+    margin-bottom: 0px !important;
+    height: 3%;
+    margin-bottom: 0px !important;
+}
+
+.full-right-btn .item { 
+    height: 100%; 
+    padding: 0.5em 1.0em !important;
+}
+
+.full-right-bottom { 
+    height: 26%; 
+    border: 1px solid #c7cacd; 
+}*/
+
+.components-btn { 
+    display: flex;
+    margin-top: 2px; 
+    line-height: 23px; 
+    min-width: 100px; 
+    min-height: 23px; 
+}
+
+.components-btn:hover { 
+    background: #e6e7f5; 
+    border-radius: 3px;
+}
+
+.components-btn:not(.noComponent):hover span:after {
+  content: '\00BB'; 
+  color: #21BA45;
+  margin-left: 5px;
+}
+
+.components-btn.active { 
+    background: #e6e7f5;
+    border-radius: 3px;
+}
+
+.components-btn span { 
+    padding-left: 6px; 
+    cursor: pointer;
+}
+
+
+
+/*------------------------工具栏 icon start------------------------*/
+.middle-left .components-btn>div {
+    display: flex;
+}
+
+.middle-left i.tools {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin: 5px 0 0 8px;
+    overflow: hidden;
+}
+
+.middle-left .start-icon {
+    background: url('../static/icons/test.png');
+/*    background-position: 81px 0px;*/
+}
+
+.meddle-left .end-icon {
+    background: url('../static/icons/input_icon.png');
+/*    background-position: 61px 0px;*/
+}
+
+/*.full-left .ordinary-icon {
+    background: url('../static/icons/wf_tools.png');
+    background-position: 0px 57px;
+}
+
+.full-left .block-icon {
+    background: url('../static/icons/wf_tools.png');
+    background-position: 80px 57px;
+}
+
+.full-left .subFlow-icon {
+    background: url('../static/icons/wf_tools.png');
+    background-position: 61px 57px;
+}
+
+.full-left .route-icon {
+    background: url('../static/icons/wf_tools.png');
+    background-position: 41px 57px;
+}
+
+.full-left .line-icon {
+    background: url('../static/icons/wf_tools.png');
+    background-position: 0 34px;
+}
+
+.full-left .polyline-icon {
+    background: url('../static/icons/wf_tools.png');
+    background-position: 81px 34px;
+}
+
+.full-left .loop-icon {
+    background: url('../static/icons/wf_tools.png');
+    background-position: 60px 34px;
+}*/
+
+/*------------------------工具栏 icon end------------------------*/

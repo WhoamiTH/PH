@@ -16,10 +16,27 @@
     <!-- middle -->
     <div class="middle">
       <div class="middle-left">
-        <p>middle-left</p>
+        <div><span class="div-name-font">Components</span></div>
+        <div class="components-btn clearfix" name="inputComponent" type="start" draggable="true" data-show="I">
+          <div><i class="tools start-icon"></i><span>Input</span></div>
+        </div>        
+        <div class="components-btn clearfix" name="outputComponent" type="end" draggable="true" data-show="O">
+          <div><i class="tools end-icon"></i><span>Output</span></div>
+        </div>
+        <div class="components-btn clearfix" name="ordinaryActivity" type="activity" draggable="true" data-show="Process">
+          <div><i class="tools start-icon"></i><span>普通活动</span></div>
+        </div>
+        <div class="components-btn noComponent clearfix" name="NOROUTING">
+          <div><i class="tools start-icon"></i><span>转移</span></div>
+        </div>
+        <div class="components-btn noComponent clearfix" name="SIMPLEROUTING">
+          <div><i class="tools start-icon"></i><span>自转移</span></div>
+        </div>
       </div>
       <div class="middle-middle">
           <p>middle-middle</p>
+          <i style="background: url(../static/icons/input_icon.png);"></i>
+          <p>after that</p>
       </div>
       <div class="middle-right">
           <p>middle-right</p>
