@@ -4,8 +4,17 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" href="../static/index.css">
-    <script type="text/javascript" src="../static/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/index.css">
+    <link type="text/css" href="../static/semantic-ui-2.2.13/dist/semantic.min.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../static/js/jquery-form.min.js"></script>
+    <script type="text/javascript" src="../static/js/base64.js"></script>
+    <script type="text/javascript" src="../static/js/base64.min.js"></script>
+    <script type="text/javascript" src="../static/js/d3.v3.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script type="text/javascript" src="../static/js/juicer-min.js"></script>
+    <script type="text/javascript" src="../static/js/vkbeautify.js"></script>
     <title>PYWE</title>
   </head>
   <body class="body">
@@ -18,25 +27,28 @@
       <div class="middle-left">
         <div><span class="div-name-font">Components</span></div>
         <div class="components-btn clearfix" name="inputComponent" type="start" draggable="true" data-show="I">
-          <div><i class="tools start-icon"></i><span>Input</span></div>
+          <div><i class="tools input-icon"></i><span>Input</span></div>
         </div>        
         <div class="components-btn clearfix" name="outputComponent" type="end" draggable="true" data-show="O">
-          <div><i class="tools end-icon"></i><span>Output</span></div>
+          <div><i class="tools output-icon"></i><span>Output</span></div>
         </div>
         <div class="components-btn clearfix" name="ordinaryActivity" type="activity" draggable="true" data-show="Process">
-          <div><i class="tools start-icon"></i><span>普通活动</span></div>
+          <div><i class="tools process-icon"></i><span>Process</span></div>
         </div>
         <div class="components-btn noComponent clearfix" name="NOROUTING">
-          <div><i class="tools start-icon"></i><span>转移</span></div>
+          <div><i class="tools line-icon"></i><span>Line</span></div>
         </div>
         <div class="components-btn noComponent clearfix" name="SIMPLEROUTING">
-          <div><i class="tools start-icon"></i><span>自转移</span></div>
+          <div><i class="tools polyline-icon"></i><span>Polyline</span></div>
         </div>
       </div>
-      <div class="middle-middle">
-          <p>middle-middle</p>
-          <i style="background: url(../static/icons/input_icon.png);"></i>
-          <p>after that</p>
+      <div class="middle-middle tab clearfix">
+            <div class="ui bottom attached tab active" data-tab="tab_main">
+
+              <div id="container" class="ui top attached tab active view svg-container" data-tab="first">
+                <!-- svg -->
+              </div>
+        </div>
       </div>
       <div class="middle-right">
           <p>middle-right</p>
@@ -64,6 +76,10 @@
         <p> Output </p>
       </div>
     </div>
-    <script type="text/javascript" src="../static/index.js" ></script>
+    <script type="text/javascript" src="../static/js/index.js" ></script>
+    <script type="text/javascript" src="../static/js/flowchart.js" ></script>
+    <script type="text/javascript" src="../static/js/graphCreator.js" ></script>
+    <script type="text/javascript" src="../static/js/graphCommonEvent.js" ></script>
+    <script type="text/javascript" src="../static/js/common.js" ></script>
   </body>
 </html>

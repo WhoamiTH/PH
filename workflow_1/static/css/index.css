@@ -19,6 +19,7 @@
 
 .middle {
     border: 0.05em solid;
+    /* #D4D4D5 */
     height: 45%;
     width: 60%;
     margin-left: 20%;
@@ -27,6 +28,7 @@
 
 .middle-left {
     border: 0.05em solid;
+    /* #D4D4D5 */
     width: 19.7%;
     height: 100%;
     float: left;
@@ -108,7 +110,40 @@
 }
 
 /*------------------------------------------------------*/
+/* .bg-gray { background: #d8d5d5; }
 
+.ui.menu { margin: 0; }
+
+.ui.modal>.header { padding: 0 0 0.7rem 0; }
+
+.field textarea { resize: none !important; }
+
+.subheader { 
+    min-height: 34px;
+    height: 6%;
+    box-sizing: border-box;
+    border-bottom: 1px solid #58a5f3; 
+    padding-top: 10px; 
+    padding-left: 6px; 
+}
+.subheader .column { 
+    display: inline-block; 
+    height: 19px; 
+    width: 26px; 
+    font-size: 20px; 
+    margin: 0 4px; 
+}
+.subheader .column:hover { cursor: pointer; }
+
+.subheader .divider { 
+    display: inline-block; 
+    height: 14px; 
+    border-right: 1px solid #c7cacd; 
+}
+
+.editor-toolbar .icon { color: #3B5998; }
+
+.editor-toolbar .icon:hover { color: #21BA45; } */
 
 /*超出省略号*/
 .text-ellipsis{
@@ -130,17 +165,18 @@
 
 
 /*------------------------------------------------------*/
-/*.full-left,.full-right { 
+
+.middle-middle>.tab { 
+    height: 100%;
+    /* padding: 6px; */
+    border-left: 1px solid #d4d4d5;
+    border-right: 1px solid #d4d4d4;
+}
+.view { 
     height: 100%; 
-    float: left 
 }
 
-.full-left { 
-    width: 9%; 
-    padding: 5px; 
-    border-right: 1px solid #58a5f3;
-}
-
+/*
 .full-right { 
     width: 91%;
     padding-top: 4px;
@@ -239,49 +275,23 @@
     overflow: hidden;
 }
 
-.middle-left .start-icon {
-    background: url('../static/icons/test.png');
-/*    background-position: 81px 0px;*/
+.middle-left .input-icon {
+    background: url('../icons/input_icon.png');
 }
 
-.meddle-left .end-icon {
-    background: url('../static/icons/input_icon.png');
-/*    background-position: 61px 0px;*/
+.middle-left .output-icon {
+    background: url('../icons/output_icon.png');
 }
 
-/*.full-left .ordinary-icon {
-    background: url('../static/icons/wf_tools.png');
-    background-position: 0px 57px;
+.middle-left .process-icon {
+    background: url('../icons/process_icon.png');
 }
 
-.full-left .block-icon {
-    background: url('../static/icons/wf_tools.png');
-    background-position: 80px 57px;
+.middle-left .line-icon {
+    background: url('../icons/line_icon.png');
 }
 
-.full-left .subFlow-icon {
-    background: url('../static/icons/wf_tools.png');
-    background-position: 61px 57px;
+.middle-left .polyline-icon {
+    background: url('../icons/polyline_icon.png');
 }
-
-.full-left .route-icon {
-    background: url('../static/icons/wf_tools.png');
-    background-position: 41px 57px;
-}
-
-.full-left .line-icon {
-    background: url('../static/icons/wf_tools.png');
-    background-position: 0 34px;
-}
-
-.full-left .polyline-icon {
-    background: url('../static/icons/wf_tools.png');
-    background-position: 81px 34px;
-}
-
-.full-left .loop-icon {
-    background: url('../static/icons/wf_tools.png');
-    background-position: 60px 34px;
-}*/
-
 /*------------------------工具栏 icon end------------------------*/
