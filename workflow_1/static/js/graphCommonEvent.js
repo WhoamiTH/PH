@@ -450,6 +450,7 @@ function handleDownLeftDownSubmit()
         {
           var teminputlist = split(text);
           selectedNode.inputlist = teminputlist;
+          selectedNode.outputlist = teminputlist;
           showDownRightOutput();
         }
         // else
@@ -457,6 +458,11 @@ function handleDownLeftDownSubmit()
         //   length = text.length;
 
         // }
+        debugger;
+
+        post_data = JSON.stringify(teminputlist);
+        $.post("/down_left_bottom_submit/",post_data,
+          function(data,status){alert("data:"+data+"\nstatus:"+status);});
        
       
       }
@@ -580,6 +586,49 @@ function handleDownRightMiddleRemove()
 }
 
 
+function RunWorkflow()
+{
+    var runningarr = RunningOrder();
+    if (runningarr instanceof Array)
+    {
+        if ( checkObjectIsEmpty(runningarr))
+        {
+            for (var key in runningarr)
+            {
+
+                RunIndividualProcess(runningarr[key])
+
+                
+
+            }
+        }
+        
+    }
+
+}
+
+function RunIndividualProcess(id)
+{
+
+    var inputobj = {}
+    var node = graphPool.getNodeById(id);
+    var inputlist = node.inputlist;
+    for (var inputitem in inputlist)
+    {
+        var inputnode = graphPool.getNodeById(inputlist[inputitem].id);
+        inputobj[inputlist[inputitem].name] = inputnode.outputlist;
+    }
+    var obj = {};
+    obj.inputlist = inputobj;
+    obj.code = node.code;
+    obj.outputlist = node.outputlist;
+
+    post_data = JSON.stringify(obj);
+    $.post("/run/",post_data,
+          function(data,status){alert("data:"+data+"\nstatus:"+status);});
+
+}
+
 
 function RunningOrder()
 {
@@ -611,6 +660,15 @@ function RunningOrder()
     console.log(startarr);
     console.log(temarr);
     console.log(endarr);
+
+    var startlength = startarr.length;
+    var endlength = endarr.length;
+    if ((startlength === 0) || (endlength === 0))
+    {
+        layer.msg('There are something wrong with this workflow!', { offset: '180px', time: 1000});
+        return false;
+    }
+
     var runningarr = [];
 
     if ( !checkStartArr(startarr) )

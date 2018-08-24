@@ -112,21 +112,9 @@
     <script type="text/javascript" src="../static/js/base64.js" charset="utf-8"></script>
   
     
-    <script>
-      juicer.set({  
-        'tag::operationOpen': '{@',  
-        'tag::operationClose': '}',  
-        'tag::interpolateOpen': '{{=',  
-        'tag::interpolateClose': '}}'  
-      });
-      // 通过`juicer.register`创建模板内引用方法
-      juicer.register('juicer_stringify', function(jsonObj) {
-          return JSON.stringify(jsonObj);
-      });
-    </script>
-    <script type="text/javascript" src="js/graphCommonEvent.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/flowchart.js" charset="utf-8"></script>
-    <script type="text/javascript" src="js/graphCreator.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/js/graphCommonEvent.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/js/flowchart.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/js/graphCreator.js" charset="utf-8"></script>
 </body>
 </html>
   

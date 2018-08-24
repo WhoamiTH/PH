@@ -1237,7 +1237,7 @@ $(document).ready(function(){
 function initCommonEvent() {
   $('.editor-toolbar').on('click', '.sign.in,.sign.out', handleImportOrExport);
 
-  $('.editor-toolbar').on('click', '#editor-toolbar-run-button', RunningOrder);
+  $('.editor-toolbar').on('click', '#editor-toolbar-run-button', RunWorkflow);
 
   // $('.full-right').on('click', '.full-right-btn .item', handleViews);
   $('.editor-toolbar #delete-ele').on('click', handleDeleteNode);
