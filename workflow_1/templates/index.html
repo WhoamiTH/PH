@@ -1,58 +1,68 @@
-<!doctype html>
-<html lang="en" style="height: 100%; width: 100%">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" href="../static/css/index.css">
-    <link type="text/css" href="../static/semantic-ui-2.2.13/dist/semantic.min.css" rel="stylesheet" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>FULL-FLOWCHART</title>
 
-    <script type="text/javascript" src="../static/js/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="../static/js/jquery-form.min.js"></script>
-    <script type="text/javascript" src="../static/js/base64.js"></script>
-    <script type="text/javascript" src="../static/js/base64.min.js"></script>
-    <script type="text/javascript" src="../static/js/d3.v3.js"></script>
-    <script type="text/javascript" src="../static/js/jquery.mCustomScrollbar.concat.min.js"></script>
-    <script type="text/javascript" src="../static/js/juicer-min.js"></script>
-    <script type="text/javascript" src="../static/js/vkbeautify.js"></script>
-    <title>PYWE</title>
-  </head>
-  <body class="body">
+	<link type="text/css" href="../static/semantic-ui-2.2.13/dist/semantic.min.css" rel="stylesheet" />
+  <link type="text/css" href="../static/css/graph-creator.css" rel="stylesheet" />
+  <link type="text/css" href="../static/css/jquery.mCustomScrollbar.css" rel="stylesheet" />
+  <link type="text/css" href="../static/css/flowchart.css" rel="stylesheet" />
+</head>
+
+
+<body class="body">
     <!-- top -->
-    <div class="top"> 
-      <p> Python Workflow Editor</p>
+    <div class="subheader editor-toolbar">
+     
+      <div class="column pop-btn" id="delete-graph" data-content="清空" data-position="bottom center" data-variation="mini"><i class="trash icon"></i></div>
+      <div class="column pop-btn" id="delete-ele" data-content="删除" data-position="bottom center" data-variation="mini"><i class="remove icon"></i></div>
+      <div class="divider"></div>
+
+
+      <div class="column pop-btn" id="zoom-enlarge" data-content="放大" data-position="bottom center" data-variation="mini"><i class="zoom icon"></i></div>
+      <div class="column pop-btn" id="zoom-narrow" data-content="缩小" data-position="bottom center" data-variation="mini"><i class="zoom out icon"></i></div>
+      <div class="column pop-btn" id="reset-zoom" data-content="归位" data-position="bottom center" data-variation="mini"><i class="maximize icon"></i></div>
+      <div class="divider"></div>
+      <div class="column pop-btn" data-content="导入json" data-position="bottom center" data-variation="mini"><i class="sign in icon"></i></div>
+      <div class="column pop-btn small popup" data-content="导出json" data-position="bottom center" data-variation="mini"><i class="sign out icon"></i></div>
+      <div class="column pop-btn small popup" data-content="导出json" data-position="bottom center" data-variation="mini"><button id="editor-toolbar-run-button">Run</button></div>
     </div>
+
     <!-- middle -->
     <div class="middle">
-      <div class="middle-left">
-        <div><span class="div-name-font">Components</span></div>
-        <div class="components-btn clearfix" name="inputComponent" type="start" draggable="true" data-show="I">
-          <div><i class="tools input-icon"></i><span>Input</span></div>
-        </div>        
-        <div class="components-btn clearfix" name="outputComponent" type="end" draggable="true" data-show="O">
-          <div><i class="tools output-icon"></i><span>Output</span></div>
+      <div id="flowComponents" class="full-left">
+        <div class="components-btn" name="startComponent" type="start" draggable="true" data-show="S">
+          <div><i class="tools start-icon"></i><span>开始</span></div>
         </div>
-        <div class="components-btn clearfix" name="ordinaryActivity" type="activity" draggable="true" data-show="Process">
-          <div><i class="tools process-icon"></i><span>Process</span></div>
+        <div class="components-btn clearfix" name="endComponent" type="end" draggable="true" data-show="E">
+          <div><i class="tools end-icon"></i><span>结束</span></div>
+        </div>
+        <div class="components-btn clearfix" name="ordinaryActivity" type="activity" draggable="true" data-show="普通活动">
+          <div><i class="tools ordinary-icon"></i><span>普通活动</span></div>
         </div>
         <div class="components-btn noComponent clearfix" name="NOROUTING">
-          <div><i class="tools line-icon"></i><span>Line</span></div>
+          <div><i class="tools line-icon"></i><span>转移</span></div>
         </div>
         <div class="components-btn noComponent clearfix" name="SIMPLEROUTING">
-          <div><i class="tools polyline-icon"></i><span>Polyline</span></div>
+          <div><i class="tools polyline-icon"></i><span>自转移</span></div>
         </div>
       </div>
-      <div class="middle-middle tab clearfix">
+      <div class="full-right">
             <div class="ui bottom attached tab active" data-tab="tab_main">
 
               <div id="container" class="ui top attached tab active view svg-container" data-tab="first">
                 <!-- svg -->
               </div>
-        </div>
+            </div>
+            
       </div>
       <div class="middle-right">
-          <p>middle-right</p>
+          <div class="middle-right-top"><p>Attributes</p></div>
+          <div class="middle-right-bottom"></div>
       </div>
+      
     </div>
 
     <!-- down -->
@@ -61,25 +71,62 @@
         <div class="down-left-top">
           <p> Input </p> 
         </div>
-        <div id="down-left-middle_id" class="down-left-middle">
-          <div style="height:10%;">world</div>
-          <div style="height:10%;">world</div>
+        <div class="down-left-middle" id="down-left-middle-id">
+            
+
         </div>
+
 
         <div class="down-left-down">
-          <button class="down-left-down-add" id="add" onclick="add_btn()"> add </button>
-          <button class="down-left-down-submit" id="submit"> submit </button>
-
+          <button class="down-left-down-add" id="down-left-down-add-button"> add </button>
+          <button class="down-left-down-refresh" id="down-left-down-refresh-buttom"> refresh </button>
+          <button class="down-left-down-submit" id="down-left-down-submit-buttom"> submit </button>
         </div>
       </div>
+
+
       <div class="down-right">
-        <p> Output </p>
+          <div class="down-right-top">
+              <p> Output </p> 
+          </div>
+          <div class="down-right-middle" id="down-right-middle-id">    
+          </div>
+          <div class="down-right-down">
+              <button class="down-right-down-add" id="down-right-down-add-button"> add </button>
+              <!-- <button class="down-right-down-refresh" id="down-right-down-refresh-buttom"> refresh </button> -->
+              <button class="down-right-down-submit" id="down-right-down-submit-buttom"> submit </button>
+          </div>
       </div>
     </div>
-    <script type="text/javascript" src="../static/js/index.js" ></script>
-    <script type="text/javascript" src="../static/js/flowchart.js" ></script>
-    <script type="text/javascript" src="../static/js/graphCreator.js" ></script>
-    <script type="text/javascript" src="../static/js/graphCommonEvent.js" ></script>
-    <script type="text/javascript" src="../static/js/common.js" ></script>
-  </body>
+
+    <script type="text/javascript" src="../static/js/jquery.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/js/common.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/js/d3.v3.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/js/juicer-min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/layer/layer.js" charset="utf-8"></script>
+  
+    <script type="text/javascript" src="../static/semantic-ui-2.2.13/dist/semantic.js"></script>
+    <script type="text/javascript" src="../static/js/jquery-form.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/js/jquery.mCustomScrollbar.concat.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/js/vkbeautify.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/js/base64.js" charset="utf-8"></script>
+  
+    
+    <script>
+      juicer.set({  
+        'tag::operationOpen': '{@',  
+        'tag::operationClose': '}',  
+        'tag::interpolateOpen': '{{=',  
+        'tag::interpolateClose': '}}'  
+      });
+      // 通过`juicer.register`创建模板内引用方法
+      juicer.register('juicer_stringify', function(jsonObj) {
+          return JSON.stringify(jsonObj);
+      });
+    </script>
+    <script type="text/javascript" src="js/graphCommonEvent.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/flowchart.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/graphCreator.js" charset="utf-8"></script>
+</body>
 </html>
+  

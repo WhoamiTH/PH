@@ -1,54 +1,4 @@
-/**
- * jquery函数扩展
- */
-$.fn.extend({
-	trimForm: function(){
-		$(this).find("input, textarea").each(function(){
-			$(this).val($.trim($(this).val())); 
-		});
-		return $(this);
-	}
-});
 
-/**
- * jquery函数扩展
- */
-$.extend({
-	/**
-	 * 显示分页信息
-	 * @param options 自定义参数，规则与原始插件相同
-	 * @param select 查询数据的js函数，参数有两个，依次是：当前页数，每页数量
-	 * @param size 每页显示数量，默认为10条
-	 */
-	pages: function(options, select, size) {
-		//每页数量默认为10条
-		size = !size || size < 1 ? 10 : size;
-		var pages = options.count % size == 0 ? options.count / size : Math.ceil(options.count/size);
-		//默认的分页配置
-		var settings = {
-		    cont: 'pageDiv', // 容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="pageDiv"></div>
-		    pages: pages, // 通过后台拿到的总页数
-		    skin: '#3B5998', // 加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-		    curr: options.curr, // 当前页
-		    skip: true, // 是否开启跳页
-		    groups: 3, // 连续显示分页数
-		    jump: function(obj, first) {// 触发分页后的回调
-				// 添加总页数
-				if (obj.count > size) {
-					$("#" + this.cont + '>div').append("<span class='pageCount'>共" + obj.count + "条</span>");
-				}
-				if (!first) {
-					select(obj.curr, size);
-				}
-			}	
-		};
-		// 合并分页配置
-		$.extend(settings, options);
-		// 显示分页
-		laypage(settings);
-	}
-
-});
 
  /**
  * 对Date的扩展，将 Date 转化为指定格式的String * 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
@@ -93,58 +43,10 @@ Date.prototype.pattern = function(fmt) {
     return fmt;         
 };     
 
-// Extend the default Number object with a formatMoney() method:
-// usage: someVar.formatMoney(decimalPlaces, symbol, thousandsSeparator, decimalSeparator)
-// defaults: (2, "￥", ",", ".")
-// var price = 4999.99;
-// alert(price.formatMoney(2, "€", ".", ",")); // €4.999,99
-Number.prototype.formatMoney = function (places, symbol, thousand, decimal) {
-	places = !isNaN(places = Math.abs(places)) ? places : 2;
-	symbol = symbol !== undefined ? symbol : "￥";
-	thousand = thousand || ",";
-	decimal = decimal || ".";
-	var number = this,
-		negative = number < 0 ? "-" : "",
-		i = parseInt(number = Math.abs(+number || 0).toFixed(places), 10) + "",
-		j = (j = i.length) > 3 ? j % 3 : 0;
-	return symbol + negative + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
-};
 
-//格式化数字
-function cc(obj) {
-	if (obj) {
-		return obj.toFixed(2);
-	} else {
-		return "0.00";
-	}
-}
 
-//格式化金额
-function ccMoney(obj) {
-	if (obj) {
-		return obj.formatMoney();
-	} else {
-		return "￥ 0.00";
-	}
-}
 
-// 格式化 json
-// json_obj('{"name":"zhang","sex":"男"}');
-// return '{\"name\":\"zhang\",\"sex\":\"男\"}' 
-function json_obj(str) {
-	str = str.replace(new RegExp('(["\"])', 'g'), "\\\"");
-	var pattern = new RegExp("'([\r\n])[\s]+'") ; //创建一个包含\n的正则对象
-	var result = "";  //定义一个空字符
-	for(var i = 0;i < str.length; i++) {
-		result = result + str.substr(i, 1).replace(pattern, '');//逐字检索 发现\n就换为空;
-	}
-	return result; //返回转换完成的新json字符串
-}
 
-//获取n以内的随机数
-function getRandom(n) {
-	return Math.floor(Math.random() * n + 1);
-}
 
 /** 
  * randomWord 产生任意长度随机字母数字组合
@@ -176,12 +78,15 @@ function randomWord(randomFlag, min, max) {
  * @return {String} [uuid]
  */
 function generateUUID() {
+    // debugger;
     var d = new Date().getTime();
     var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = (d + Math.random() * 16) % 16 | 0;
         d = Math.floor(d/16);
+        console.log(d);
         return (c=='x' ? r : (r&0x3|0x8)).toString(16);
     });
+    console.log(uuid);
     return uuid;
 }
 
@@ -206,34 +111,13 @@ var serial_marker = function() {
 	};
 };
 
-/**
- * 根据id从nodes中获取相应的node对象
- */
-function getNodeById(id, nodes) {
-	if (!nodes.length) return false;
-	nodes.forEach(function(node) {
-		if (node.id == id) {
-			return node;
-		}
-	});
-	return false;
-}
+
 
 //这一块的封装，主要是针对数字类型的数组
 function maxArr(arr) {
     return Math.max.apply(null, arr);
 }
-function minArr(arr) {
-    return Math.min.apply(null, arr);
-}
 
-var is_array = function(value) {
-	return Object.prototype.toString.apply(value) === '[object Array]';
-};
-
-var is_number = function(value) {
-	return typeof value === 'number' && isFinite(value);
-};
 
 /**
  * 存放所有 GraphCreator 对象及方法 
@@ -248,7 +132,17 @@ var graphPool = {
 	      	graph.state.activeEdit = false;
 	    }
 	  });
-	},
+    },
+    
+    getNodeById: function(ID) {
+        var graph = this.pools[0];
+        var nodes = graph.nodes;
+        var node = nodes.find(function(item){
+            return item.id === ID;
+        });
+        return node;
+    },
+
 	getGraphByActiveEdit: function() {
 	  	var graph_active = this.pools.find(function(graph) {
 	    	return graph.state.activeEdit;
@@ -265,6 +159,9 @@ var graphPool = {
 
 	}
 };
+
+
+
 
 /**
  * 大小写字母转化
@@ -310,18 +207,3 @@ function changeCase(str, type) {
             return str;
     }
 }
-/*
-if (!String.prototype.includes) {
-  String.prototype.includes = function(search, start) {
-    'use strict';
-    if (typeof start !== 'number') {
-      start = 0;
-    }
-    
-    if (start + search.length > this.length) {
-      return false;
-    } else {
-      return this.indexOf(search, start) !== -1;
-    }
-  };
-}*/

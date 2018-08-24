@@ -2,6 +2,9 @@
  * 工具栏-导入/导出功能
  */
 function handleImportOrExport(e) {
+  // debugger;
+  console.log(e);
+  
   var isImport = e.target.className.indexOf('in'),
     textarea = $('.json_data textarea');
   $('.ui.modal.json_data').modal({
@@ -26,9 +29,9 @@ function handleImportOrExport(e) {
 
   var element_header = $('div.json_data .header');
   if (isImport !== -1) {
-    element_header.text('导入数据');
+    element_header.text('Import json data');
   } else {
-    element_header.text('导出数据');
+    element_header.text('Export json data');
     var data = {
       nodes: graph_main.nodes,
       edges: graph_main.edges
@@ -37,17 +40,22 @@ function handleImportOrExport(e) {
   }
 }
 
+
+
 /**
  * 工具栏-清空
  */
 function clearGraph() {
-  layer.confirm('确认清空？', {
+  
+  layer.confirm('Confirm clear?', {
+    title:"Clear",
     icon: 0,
-    btn: ['确定','取消'],
+    btn: ['Yes','Cancel'],
     offset: '180px'
   }, function() {
     var pools = graphPool.pools;
     for (var i = 0; i < pools.length; i++) {
+      // debugger;
       var id = pools[i].containerId;
       switch (id) {
         case 'tab_main':
@@ -59,7 +67,7 @@ function clearGraph() {
           break;
       }
     }
-    layer.msg('删除成功', {icon: 1, offset: '180px', time: 600});
+    layer.msg('Clear', {icon: 1, offset: '180px', time: 600});
   }, function() {
     
   });
@@ -74,23 +82,27 @@ function handleDeleteNode() {
   var selectedNode = graph_active.state.selectedNode,
     selectedEdge = graph_active.state.selectedEdge;
   if (!selectedNode && !selectedEdge) {
-    layer.msg('请选中元素！', {time: 2000, icon: 0, offset: '180px'});
+    //请选中元素
+    layer.msg('Please select an element！', {time: 2000, icon: 0, offset: '180px'});
     return;
   } else {
-    layer.confirm('确定要删除选择元素吗？', {
+    // 确定要删除选择元素吗
+    layer.confirm('Delete the selection element?', {
+      title:'Delete',
       icon: 0,
-      btn: ['确定','取消'],
+      btn: ['Yes','Cancel'],
       offset: '180px'
     }, function() {
       if (selectedNode) {
         var nodes = graph_active.nodes;
         nodes.splice(nodes.indexOf(selectedNode), 1);
         graph_active.spliceLinksForNode(selectedNode);
-        if (selectedNode.component === 'blockActivity') {
-          var containerId = 'tab_'+selectedNode.id;
-          $('.full-right [data-tab='+containerId+']').remove();
-          graphPool.removeGraphFromPools(containerId);
-        }
+        // blockacivity
+        // if (selectedNode.component === 'blockActivity') {
+        //   var containerId = 'tab_'+selectedNode.id;
+        //   $('.full-right [data-tab='+containerId+']').remove();
+        //   graphPool.removeGraphFromPools(containerId);
+        // }
         selectedNode = null;
         graph_active.updateGraph();
       } else if (selectedEdge) {
@@ -99,7 +111,7 @@ function handleDeleteNode() {
         selectedEdge = null;
         graph_active.updateGraph();
       }
-      layer.msg('删除成功', {icon: 1, offset: '180px', time: 600});
+      layer.msg('Delete!', {icon: 1, offset: '180px', time: 600});
     }, function() {
       
     });
@@ -139,31 +151,13 @@ function resetZoom() {
   graph_active.dragSvg.translate([0,0]);
 }
 
-/**
- * 工具栏-帮助
- */
-function handleHelp() {
-  if ($('.layer_notice').length) return;
-  layer.open({
-    type: 1,
-    shade: false,
-    title: false, // 不显示标题
-    offset: ['91px', '394px'],
-    content: '<ul class="layer_notice">'+
-             '  <li><a href="javascript:;">1. 将左侧活动拖至编辑区</a></li>'+
-             '  <li><a href="javascript:;">2. 选中"转移"或"自转移"，编辑区活动之间连线</a></li>'+
-             '  <li><a href="javascript:;">3. 右击活动和线都有自己的属性 </a></li>'+
-             '</ul>',
-    cancel: function() {
-      // console.log('helper closed!');
-    }
-  });
-}
+
 
 /**
  * 左侧组件
  */
 function handleComponentsBtn() {
+  // debugger;
   $(this).siblings().removeClass('active').end().addClass('active');
   var graph_active = graphPool.getGraphByActiveEdit(),
     state = graph_active.state,
@@ -184,222 +178,35 @@ function handleComponentsBtn() {
   }
 }
 
-/**
- * 自动插入开始结束节点
- */
-function handleAddStartEnd() {
-  var graph_active = graphPool.getGraphByActiveEdit();
-  var edges = graph_active.edges;
-  var nodes = graph_active.filterActivities();
-  nodes.forEach(function(node) {
-    if (!graph_active.hasLinked(node, false, -1)) {
-      var start = {
-        id: generateUUID(),
-        title: 'S',
-        component: 'startComponent',
-        type: 'start',
-        x: node.x - 120,
-        y: node.y
-      };
-      graph_active.nodes.push(start);
-      var edge_start = {
-        edgeId: generateUUID(),
-        drawLine: 'NOROUTING',
-        source: start,
-        target: node
-      };
-      graph_active.edges.push(edge_start);
-      graph_active.updateGraph();
-    }
-    if (!graph_active.hasLinked(node, false, 1)) {
-      var end = { 
-        id: generateUUID(),
-        title: 'E',
-        component: 'endComponent',
-        type: 'end',
-        x: node.x + 120,
-        y: node.y
-      };
-      graph_active.nodes.push(end);
-      var edge_end = {
-        edgeId: generateUUID(),
-        drawLine: 'NOROUTING',
-        source: node,
-        target: end
-      };
-      graph_active.edges.push(edge_end);
-      graph_active.updateGraph();
-    }
-  });
-}
 
-/**
- * 视图显示Tab（图标视图、Xpdl视图、Xml视图）
- */
-function handleViews() {
-  var dataTab = $(this).attr('data-tab');
-  var element = $('.full-right>.tab.active .content-div');
-  var activitysetid = $('.full-right>.menu>.item.active').attr('activitysetid');
-  switch (dataTab) {
-    case 'second':
-      var xpdlContent = graph_main.emergeAllxpdlContent();
-      $('#xpdlContainer xmp').empty().text(xpdlContent);
-      element.mCustomScrollbar("update");
-      break;
-    case 'third':
-      var XmlContent = graph_main.emergeAllXmlContent();
-      $('#xmlContainer xmp').empty().text(XmlContent);
-      break;
-  }
-  var isSubGraphXpdlView = /Package_(.+)_second/.test(dataTab);
-  if (isSubGraphXpdlView) {
-    var blockActivity = graph_main.findActByActSetId(activitysetid);
-    var subGraph = blockActivity.activitySet.graphCreator;
-    var activitySet = graph_main.emergeActivitySet.call(subGraph, activitysetid);
-    activitySet = vkbeautify.xml('<ActivitySet>' + activitySet + '</ActivitySet>');
-    element.find('xmp').empty().text(activitySet);
-    element.mCustomScrollbar("update");
-  }
-}
 
-function handleSave() {
-  var dataTab = $('.full-right-btn .item.active').attr('data-tab');
-  $('.tab[data-tab="tab_main"] .item').not($('.full-right-btn .item.active')).trigger('click'); // 触发点击事件获取xpdl和xml
-  $('.full-right-btn .item[data-tab="' + dataTab + '"]').trigger('click');
-  var xpdl = $('#xpdlContainer xmp').text();
-  var xml = $('#xmlContainer xmp').text();
-  var xpdl_top = /*下面这一块应该可以从WfDSystemConfig.xml中获取，发现Applet与xml中有差别*/
-    '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' +
-    '   <Package xmlns="http://www.wfmc.org/2002/XPDL1.0" xmlns:xpdl="http://www.wfmc.org/2002/XPDL1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Id="' + package_id + '" Name="新包" xsi:schemaLocation="http://www.wfmc.org/2002/XPDL1.0 http://wfmc.org/standards/dtd/TC-1025_schema_10_xpdl.xsd">' +
-    '       <PackageHeader>' +
-    '           <XPDLVersion>1.0</XPDLVersion>' +
-    '           <Vendor>GENTLESOFT</Vendor>' +
-    '           <Created>' + create_time + '</Created>' +
-    '       </PackageHeader>' +
-    '       <RedefinableHeader PublicationStatus="UNDER_TEST">' +
-    '           <Author>管理员</Author>' +
-    '           <Version>1.0</Version>' +
-    '       </RedefinableHeader>' +
-    '       <ConformanceClass GraphConformance="NON_BLOCKED"/>' +
-    '       <Script Type="text/javascript"/>' +
-    '       <DataFields>' +
-    '           <DataField Id="sourceReferenceId" IsArray="FALSE" Name="sourceReferenceId">' +
-    '               <DataType>' +
-    '                   <BasicType Type="STRING"/>' +
-    '               </DataType>' +
-    '               <InitialValue>null</InitialValue>' +
-    '           </DataField>' +
-    '           <DataField Id="formId" IsArray="FALSE" Name="formId">' +
-    '               <DataType>' +
-    '                   <BasicType Type="STRING"/>' +
-    '               </DataType>' +
-    '               <InitialValue>null</InitialValue>' +
-    '           </DataField>' +
-    '           <DataField Id="nextActivityInfo" IsArray="FALSE" Name="nextActivityInfo">' +
-    '               <DataType>' +
-    '                   <ExternalReference location="org.gentlesoft.wf.NextActivitiesParty"/>' +
-    '               </DataType>' +
-    '               <InitialValue>null</InitialValue>' +
-    '           </DataField>' +
-    '           <DataField Id="nextActivityName" IsArray="FALSE" Name="nextActivityName">' +
-    '               <DataType>' +
-    '                   <ExternalReference location="java.util.ArrayList"/>' +
-    '               </DataType>' +
-    '               <InitialValue>null</InitialValue>' +
-    '           </DataField>' +
-    '           <DataField Id="formType" IsArray="FALSE" Name="formType">' +
-    '               <DataType>' +
-    '                   <BasicType Type="STRING"/>' +
-    '               </DataType>' +
-    '               <InitialValue>null</InitialValue>' +
-    '           </DataField>' +
-    '       </DataFields>';
-  var xpdl_end = 
-    '       <ExtendedAttributes>'+
-    '           <ExtendedAttribute Name="MadeBy" Value="com.gentlesoft.tools.wfd"/>' +
-    '           <ExtendedAttribute Name="Version" Value="1.4.2"/>' +
-    '       </ExtendedAttributes>' +
-    '   </Package>';
-  var xml_top = '<?xml version="1.0" encoding="UTF-8"?><pkg-config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Id="' + package_id + '" Name="新包" Version="" xsi:noNamespaceSchemaLocation="../dtd/flowactconfig.xsd">';
-  var xml_end = '</pkg-config>';
-  xpdl = vkbeautify.xml(xpdl_top + xpdl + xpdl_end);
-  xml = vkbeautify.xml(xml_top + xml + xml_end);
-  $('input[name=xpdlcontent]').val(xpdl);
-  $('input[name=xmlcontent]').val(xpdl);
-  $('#containerForm').submit();
-}
 
-/**
- * 右击菜单编辑
- */
-function handleMenuEdit() {
-  var graph_active = graphPool.getGraphByActiveEdit();
-  var selectedNode = graph_active.state.selectedNode;
-  var data = {
-      id: selectedNode.id,
-      activitySetId: selectedNode.activitySet.activitySetId
-    };
-  var full_right = $('.full-right'),
-    menu = full_right.children('.menu'),
-    tab = full_right.find('.tab.active'),
-    curr_tab = menu.find('[data-tab="tab_'+ data.id + '"]');
-  if (curr_tab.length) {
-    full_right.find('[data-tab=tab_' + data.id + ']').show();
-    curr_tab.trigger('click');
-  } else { // 创建标签页及graph对象
-    menu.append(juicer($('#blockActiEdi_item_tpl').html(), data));
-    full_right.append(juicer($('#blockActiEdi_tab_tpl').html(), data));
-    menu.find('.item').tab();
-    menu.find('[data-tab="tab_' + data.id + '"]').trigger('click');
-    tab.find('.full-right-btn .item').tab();
-    tab.find('.content-div').mCustomScrollbar();
-    graph_active.createSubGraph();
-  }
-}
 
+
+//chuliyoujianshuxing
 function handleNodeMenuProp() {
+  // debugger;
   var graph_active = graphPool.getGraphByActiveEdit();
   var selectedNode = graph_active.state.selectedNode;
+
+  
+
   $('.ui.modal.prop_node').modal({
     autofocus: false,
     closable: false,
     onApprove: function() {
       //更新-扩展属性
       selectedNode.extendAttr = [];
-      $('.extended_attr tbody tr').each(function() {
-        var jsonstr = $(this).attr('jsonstr');
-        selectedNode.extendAttr.push(jsonstr);
-      });
-      //更新-高级 属性
-      selectedNode.highLevel = {};
-      var highLevel = {};
-      $('.prop_node .highLevel').find('input').each(function() {
-        highLevel[$(this).attr('name')] = $(this).val();
-      });
-      selectedNode.highLevel = highLevel;
-      //更新-超时限制
-      $('.timeout_limit').find('input[name], select[name]').each(function() {
-        selectedNode.timeoutLimit[$(this).attr('name')] = $(this).val();
-      });
-      selectedNode.timeoutLimit.deadline = [];
-      $('.timeout_limit tbody tr').each(function() {
-        var jsonstr = $(this).attr('jsonstr');
-        selectedNode.timeoutLimit.deadline.push(jsonstr);
-      });
-      //更新-后置条件
-      graph_active.updatePostCondi('.post_condition');
-      //更新-前置条件
-      selectedNode.frontCondition = {};
-      $('.front_condition > div:not(".hideDiv")').find('input:not(:radio)[name], select').each(function() {
-        selectedNode.frontCondition[$(this).attr('name')] = $(this).val();
-      });
-      //更新-工具
-      
+
       //更新-常规
       selectedNode.conventional = {};
       var conventional = {};
+      // debugger;
       $('.prop_node .conventional').find('input[name], textarea, select').each(function() {
         conventional[$(this).attr('name')] = $(this).val();
+        console.log($(this).attr('name'));
+        console.log(conventional[$(this).attr('name')]);
+        console.log($(this).val());
       });
       if (conventional.ID != selectedNode.id) {
         selectedNode.id = conventional.ID;
@@ -407,131 +214,19 @@ function handleNodeMenuProp() {
       if (conventional.name != selectedNode.title) {
         selectedNode.title = conventional.name;
       }
-      var $role = $('.conventional select[name="definition_role"]').parent();
-      conventional.performer = $role.children('.text').attr('definition_id') || '';
-      var role_txt = $role.dropdown('get text'); //Semantic存在bug，重构dropdown不能取value
-      if (role_txt !='请选择' && role_txt !='(空)') {
-        conventional.participantID = $role.dropdown('get text');
-      }
+      // var $role = $('.conventional select[name="definition_role"]').parent();
+      // conventional.performer = $role.children('.text').attr('definition_id') || '';
+      // var role_txt = $role.dropdown('get text'); //Semantic存在bug，重构dropdown不能取value
+      // if (role_txt !='请选择' && role_txt !='(空)') {
+      //   conventional.participantID = $role.dropdown('get text');
+      // }
       selectedNode.conventional = conventional;
       graph_active.updateGraph();
     },
     onShow: function() {
       var node = selectedNode;
-      //展示-监控信息
-      $('.monitorinf select[name="isResponsibleTem"]').dropdown('set selected', node.monitorinf.isResponsibleTem);
-      var responsible = node.monitorinf.responsible;
-      if (responsible && responsible.length) {
-        var tr = '';
-        responsible.forEach(function(resp) {
-          graph_active.participants.forEach(function(participant) {
-            if (resp == participant.conventional_definition_id) {
-              tr += participant.conventional_definition_name?'<tr definition_id="'+resp+'"><td>'+(participant.conventional_definition_name+'-rol')+'</td></tr>':
-                '<tr  definition_id="'+resp+'"><td>'+(resp+'-rol')+'</td></tr>';
-            }
-          });
-        });
-        $('.monitorinf tbody').append(tr);
-      }
-      //展示-高级
-      $('.highLevel').find('input').each(function() {
-        for (var i in node.highLevel) {
-          if ($(this).attr('name') == i) {
-            $(this).val(node.highLevel[i]);
-          }
-        }
-      });
-      //展示-超时限制
-      $('.timeout_limit').find('input').each(function() {
-        for (var i in node.timeoutLimit) {
-          if ($(this).attr('name') == i) {
-            $(this).val(node.timeoutLimit[i]);
-          }
-        }
-      });
-      $('.timeout_limit').find('select').each(function() {
-        for (var i in node.timeoutLimit) {
-          if ($(this).attr('name') == i) {
-            $(this).dropdown('set selected', node.timeoutLimit[i]);
-          }
-        }
-      });
-      var deadline_strs = node.timeoutLimit.deadline;
-      if (deadline_strs && deadline_strs.length) {
-        var d_tr = '';
-        deadline_strs.forEach(function(deadline_str){
-          var deadline_obj = JSON.parse(deadline_str);
-          d_tr += '<tr jsonstr= '+deadline_str+'><td>'+deadline_obj.deadlineCondition+'</td></tr>';
-        });
-        $('.timeout_limit tbody').append(d_tr);
-      }
-      //展示-扩展属性集
-      var extendAttr_strs = node.extendAttr;
-      if (extendAttr_strs && extendAttr_strs.length) {
-        var e_tr = '';
-        extendAttr_strs.forEach(function(extendAttr_str) {
-          var extendAttr_obj = JSON.parse(extendAttr_str);
-          var data = {
-            data: extendAttr_obj, 
-            jsonstr: extendAttr_str
-          };
-          e_tr += juicer($('#extended_attr_tpl').html(), data);
-        });
-        $('.extended_attr tbody').append(e_tr).find('.ui.checkbox').checkbox();
-      }
-      //展示-后置条件
-      $('.post_condition .targetActivity').html($('#transition_tpl').html());
-      $('.post_condition .targetActivity .menu .item').tab();
-      $(".targetActivity .transferInf_extended_attr .postCondi_extendedAttr").mCustomScrollbar();
-      $('.targetActivity .conditionList,.conditionList2').mCustomScrollbar();
-      var postCondition = {targetActivities: []};
-      var edges_act = graph_active.edgesLinkAcivity();
-      edges_act.forEach(function(edge) {
-        if (edge.source == node) {
-          postCondition.targetActivities.push({'activity': edge.target, 'transition': edge});
-        }
-      });
-      if (postCondition.targetActivities.length > 0) {
-        $('.post_condition .targetActivity').removeClass('invisible');
-        $('.post_condition select[name="splitType"]').parent().removeClass('disabled');
-        if (postCondition.targetActivities.length > 1) {
-          var splitType = graph_active.state.selectedNode.postCondition.splitType || 'XOR';
-          $('.post_condition select[name="splitType"]').parent().dropdown('set selected', splitType);
-        } else {
-          $('.post_condition select[name="splitType"]').parent().addClass('disabled');
-        }
-        postCondition.targetActivities.forEach(function(targetActivity) {// 目标活动展示
-          $('.post_condition .list').append('<div class="item" acivityId="'+targetActivity.activity.id+'" jsonstr='+JSON.stringify(targetActivity.transition)+'>'+
-                                            '    <div class="content">'+
-                                            '        <div class="">'+targetActivity.activity.title+'</div>'+
-                                            '    </div>'+
-                                            '</div>');
-        });
-        $('.post_condition .list').on('click', '.item', function() {// 点击目标活动
-          $(this).addClass('active').siblings().removeClass('active');
-          var transition = JSON.parse($(this).attr('jsonstr'));
-          graph_active.showTransition('.post_condition', transition);
-        });
-        $('.post_condition .list .item').eq(0).trigger('click');
-      } else {
-        $('.post_condition .targetActivity').addClass('invisible');
-        $('.post_condition select[name="splitType"]').parent().addClass('disabled');
-      }
-      //展示-前置条件
-      var frontCondition = node.frontCondition;
-      if (frontCondition.convergeType) {
-        $('.front_condition .dropdown.convergeType').dropdown('set selected', frontCondition.convergeType);
-        $('.front_condition select[name=syncType]').dropdown('set selected', frontCondition.syncType || "");
-        $('.front_condition input[name=voteText]').val(frontCondition.voteText || "");
-        if (frontCondition.isCreateNew == "true") {
-          $('.front_condition input[tabindex="true"]').parent().checkbox('check');
-        } else if (frontCondition.isCreateNew == "false") {
-          $('.front_condition input[tabindex="false"]').parent().checkbox('check');
-        }
-      }
-      //展示-工具
-      
       //展示-常规
+      // debugger;
       var conventional = node.conventional;
       $('.conventional').find('input[name], textarea').each(function() {
         for (var key in conventional) {
@@ -540,70 +235,50 @@ function handleNodeMenuProp() {
           }
         }
       });
-      $('.conventional').find('select').not($('input[name="definition_role"]')).each(function() {
-        for (var key in conventional) {
-          if (key == $(this).attr('name')) {
-            $(this).dropdown('set selected', conventional[key]);
-          }
-        }
-      });
-      $('.conventional').find('.checkbox').each(function() {
-        var value = $(this).find('input[name]').val();
-        if (value && value !="false") $(this).checkbox('check');
-      });
+      // $('.conventional').find('select').not($('input[name="definition_role"]')).each(function() {
+      //   for (var key in conventional) {
+      //     if (key == $(this).attr('name')) {
+      //       $(this).dropdown('set selected', conventional[key]);
+      //     }
+      //   }
+      // });
+      // $('.conventional').find('.checkbox').each(function() {
+      //   var value = $(this).find('input[name]').val();
+      //   if (value && value !="false") $(this).checkbox('check');
+      // });
       $('.conventional input[name=ID]').val(node.id);
       $('.conventional input[name=name]').val(node.title);
-      if (conventional.performer) {
-        $('.conventional select[name="definition_role"]').dropdown('set text', conventional.participantID || '');
-        $('.conventional .dropdown .text').attr('definition_id', conventional.performer);
-      }
-      //监控信息-是否为临时监控
-      $('.monitorinf select[name="isResponsibleTem"]').on('change', function() {
-        var node = graph_active.state.selectedNode;
-        node.monitorinf.isResponsibleTem = $(this).val();
-      });
-      //常规-参与者集
-      $('.conventional .definition_field').on('click', function() {
-        var participants = graph_active.participants;
-        var options ='<option value="">请选择</option><option value="0">(空)</option>';
-        participants.forEach(function(participant) {
-          var rol = participant.conventional_definition_name ? participant.conventional_definition_name + "-rol" : participant.conventional_definition_id + "-rol";
-          options += '<option value="' + participant.conventional_definition_id + '">' + rol + '</option>';
-        });
-        $('.conventional select[name="definition_role"]').empty().append(options);
-      });
-      //常规-参与者集-下拉菜单
-      $('.conventional .definition_field').on('click', '.item', function() {
-        var definition_id = $(this).attr('data-value') != "0" ? $(this).attr('data-value') : '';
-        $('.conventional select[name="definition_role"]').siblings('.text').attr('definition_id', definition_id);
-      });
+      // if (conventional.performer) {
+      //   $('.conventional select[name="definition_role"]').dropdown('set text', conventional.participantID || '');
+      //   $('.conventional .dropdown .text').attr('definition_id', conventional.performer);
+      // }
     },
     onHidden: function() {
-      $('.prop_node .menu .item[data-tab="one"]').trigger('click');
-      $('.monitorinf select[name="isResponsibleTem"]').off('change'); // 弹窗关闭，避免清空表单时触发事件
+      // $('.prop_node .menu .item[data-tab="one"]').trigger('click');
+      // $('.monitorinf select[name="isResponsibleTem"]').off('change'); // 弹窗关闭，避免清空表单时触发事件
       $(this).find('input, textarea').val('');
-      $(this).find('.ui.dropdown').dropdown('clear');
-      $(this).find('.ui.checkbox').checkbox('uncheck');
-      $('.monitorinf tbody').empty(); // 清空监控信息 
-      $('.timeout_limit tbody').empty(); // 清空监控信息
-      $('.extended_attr tbody').empty(); // 清空扩展属性集
-      $('.post_condition .list').empty(); // 清空后置条件
-      $('.post_condition .targetActivity').html('');
-      $('.conventional select[name="definition_role"]').siblings('.text').removeAttr('definition_id');
+      // $(this).find('.ui.dropdown').dropdown('clear');
+      // $(this).find('.ui.checkbox').checkbox('uncheck');
+      // $('.monitorinf tbody').empty(); // 清空监控信息 
+      // $('.timeout_limit tbody').empty(); // 清空监控信息
+      // $('.extended_attr tbody').empty(); // 清空扩展属性集
+      // $('.post_condition .list').empty(); // 清空后置条件
+      // $('.post_condition .targetActivity').html('');
+      // $('.conventional select[name="definition_role"]').siblings('.text').removeAttr('definition_id');
     }
   }).modal('show');
-  $('.prop_node>.menu a[data-tab*="two"]').addClass('hideitem');
-  if (selectedNode.title == '普通活动') {
-    $('.prop_node>.menu a[data-tab="two_1"]').removeClass('hideitem');
-  }
-  if (selectedNode.title == '块活动') {
-    $('.prop_node>.menu a[data-tab="two_2"]').removeClass('hideitem');
-  }
-  if (selectedNode.title == '子活动') {
-    $('.prop_node>.menu a[data-tab="two_3"]').removeClass('hideitem');
-  }
+  // $('.prop_node>.menu a[data-tab*="two"]').addClass('hideitem');
+  // if (selectedNode.title == '普通活动') {
+  //   $('.prop_node>.menu a[data-tab="two_1"]').removeClass('hideitem');
+  // }
+  // if (selectedNode.title == '块活动') {
+  //   $('.prop_node>.menu a[data-tab="two_2"]').removeClass('hideitem');
+  // }
+  // if (selectedNode.title == '子活动') {
+  //   $('.prop_node>.menu a[data-tab="two_3"]').removeClass('hideitem');
+  // }
 }
-
+/* do not need */
 function handleEdgeMenuProp() {
   var graph_active = graphPool.getGraphByActiveEdit();
   var selectedEdge = graph_active.state.selectedEdge;
@@ -654,6 +329,7 @@ function handleRightMenu() {
   }
   $('#rMenu').hide();
 }
+/* do not need end */
 
 /**
  * edge关联连接的node对象
@@ -676,3 +352,390 @@ function edgeAssociateNode(jsonObj) {
 }
 
 
+function updateMiddleRightInformation(){
+  var graph_active = graphPool.getGraphByActiveEdit();
+  var selectedNode = graph_active.state.selectedNode;
+
+  
+  // console.log(selectedNode.component);
+  // console.log(selectedNode.title);
+  // console.log(selectedNode.name);
+  //  debugger;
+  if ((selectedNode.title === "I") || (selectedNode.title === "O"))
+  {
+      selectedNode.name = $("#middle-right-name").val();
+  }
+  else
+  {
+      selectedNode.title = $("#middle-right-name").val();
+      selectedNode.code = $("#middle-right-code").val();
+
+  }
+  graph_active.updateGraph();
+}
+
+
+
+function handleDownLeftDownAdd()
+{
+  var graph_active = graphPool.getGraphByActiveEdit();
+  var selectedNode = graph_active.state.selectedNode;
+
+  if (selectedNode !== null)
+  {
+    const container = $(".down-left-middle");
+    container.append(
+      `<div class="down-left-middle-add">
+          <span>name:</span><input type="text" /> 
+          <span style="margin-left:10%;">value:</span><input type="text" />
+          <button id="down-left-middle-remove-button"> remove </button>
+      </div>`);
+  }
+}
+
+
+function handleDownLeftMiddleRemove()
+{
+  $(this).parent().remove();
+}
+
+
+function showDownRightOutput()
+{
+    var graph_active = graphPool.getGraphByActiveEdit();
+    var selectedNode = graph_active.state.selectedNode;
+
+    var inputliststr = ``;
+    var inputlist = selectedNode.inputlist;
+    for (var key in inputlist)
+    {
+      inputliststr = inputliststr + `<div class="down-right-middle-add">
+      <span style="margin-left:20%;">name:${key}</span> 
+      <span style="margin-left:30%;">value:${inputlist[key]}</span>
+      </div>`;
+    }
+    $('.down-right-middle').empty().append(inputliststr);
+}
+
+
+function handleDownLeftDownSubmit()
+{
+    var graph_active = graphPool.getGraphByActiveEdit();
+    var selectedNode = graph_active.state.selectedNode;
+
+    var text = [];
+    // debugger;
+    if (selectedNode !== null)
+    {
+      $(".down-left-middle input").each(function(){
+        if ($(this).val() !== "")
+        {
+            text.push($(this).val());
+        }
+      });
+      var sign = true;
+      for(var key in text)
+      {
+          // console.log(key);
+          // console.log(text[key]);
+          // if((key === undefined) || (text[key] === undefined))
+          if(text[key] === undefined)
+          {
+              sign = false;
+          }
+      }
+      if (sign)
+      {
+        if (selectedNode.title === "I")
+        {
+          var teminputlist = split(text);
+          selectedNode.inputlist = teminputlist;
+          showDownRightOutput();
+        }
+        // else
+        // {
+        //   length = text.length;
+
+        // }
+       
+      
+      }
+      else
+      {
+        layer.msg('Some values are required! Cannot submit!', { offset: '180px', time: 1000});
+      }
+    }
+}
+
+
+function handleDownLeftDownRefresh()
+{
+    var graph_active = graphPool.getGraphByActiveEdit();
+    var selectedNode = graph_active.state.selectedNode;
+
+    var text = [];
+    // debugger;
+    if (selectedNode !== null)
+    {
+
+      $(".down-left-middle input").each(function(){
+        if ($(this).val() !== "")
+        {
+          text.push($(this).val());
+        }
+        
+      });
+      var sign;
+      for(var key in text)
+      {
+          if((key === undefined) || (text[key] === undefined))
+          {
+              sign = false;
+          }
+      }
+      if (sign)
+      {
+        var teminputlist = split(text);
+        selectedNode.inputlist = teminputlist;
+      }
+      else
+      {
+        layer.msg('Some values are required! Cannot refresh!', {offset: '180px', time: 1000});
+      }
+    }
+}
+
+function split(text){
+  var obj = {};
+  var i = 0;
+  while(i<text.length){
+      obj[text[i]] = text[i+1];
+      i = i+2;
+  }
+  return obj
+}
+
+
+function handleDownRightDownAdd()
+{
+  var graph_active = graphPool.getGraphByActiveEdit();
+  var selectedNode = graph_active.state.selectedNode;
+
+  if (selectedNode !== null)
+  {
+    const container = $(".down-right-middle");
+    container.append(
+      `<div class="down-right-middle-add">
+          <span style="margin-left:20%;">name:</span><input type="text" value="output"/> 
+          <button id="down-right-middle-remove-button"> remove </button>
+      </div>`);
+  }
+}
+
+
+function handleDownRightDownSubmit()
+{
+    var graph_active = graphPool.getGraphByActiveEdit();
+    var selectedNode = graph_active.state.selectedNode;
+
+    var text = [];
+    // debugger;
+    if (selectedNode !== null)
+    {
+      $(".down-right-middle input").each(function(){
+        if ($(this).val() !== "")
+        {
+            text.push($(this).val());
+        }
+      });
+      var sign = true;
+      for(var key in text)
+      {
+          // console.log(key);
+          // console.log(text[key]);
+          // if((key === undefined) || (text[key] === undefined))
+          if(text[key] === undefined)
+          {
+              sign = false;
+          }
+      }
+      if (sign)
+      {
+        for(var key in text)
+        {
+          selectedNode.outputlist[text[key]] = ""
+        }
+      }
+      else
+      {
+        layer.msg('Some values are required! Cannot submit!', { offset: '180px', time: 1000});
+      }
+    }
+}
+
+
+function handleDownRightMiddleRemove()
+{
+  $(this).parent().remove();
+}
+
+
+
+function RunningOrder()
+{
+    var pool = graphPool.pools[0];
+    console.log(pool);
+    var nodes = pool.nodes;
+
+    var startarr = [];
+    var temarr = [];
+    var endarr = [];
+
+
+    for (var each in nodes)
+    {
+      if (nodes[each].component === "startComponent")
+      {
+        startarr.push(nodes[each].id);
+      }
+      else if (nodes[each].component === "endComponent")
+      {
+        endarr.push(nodes[each].id);
+      }
+      else
+      {
+        temarr.push(nodes[each].id);
+      }
+    }
+
+    console.log(startarr);
+    console.log(temarr);
+    console.log(endarr);
+    var runningarr = [];
+
+    if ( !checkStartArr(startarr) )
+    {
+        layer.msg('There are something wrong with this workflow!(Input node!)', { offset: '180px', time: 1000});
+        return false;
+    }
+    runningarr = checkRunningArr(startarr, temarr);
+
+
+    if (!(runningarr instanceof Array))
+    {
+        layer.msg('There are something wrong with this workflow!', { offset: '180px', time: 1000});
+        return false;
+    }
+    if ( !checkEndArr(startarr, runningarr, endarr))
+    {
+        layer.msg('There are something wrong with this workflow!(Output node!)', { offset: '180px', time: 1000});
+        return false;
+    }
+    return runningarr;
+}
+
+function checkStartArr(startarr){
+
+    for(var candidate in startarr)
+    {
+        var node = graphPool.getNodeById(startarr[candidate]);
+        var nodeinputlist = node.inputlist;
+        // var sign = true;
+        if ( !checkObjectIsEmpty(nodeinputlist) )
+        {
+          return false;
+        }
+
+        for (var key in nodeinputlist)
+        {
+            if ((key === undefined) || (nodeinputlist[key] === undefined))
+            {
+                return false;
+            } 
+        }
+    }
+    return true;
+}
+
+function checkRunningArr(startarr, temarr){
+    var runningarr = [];
+    var length = temarr.length;
+
+    while(length !== 0)
+    {
+        var beforelength = runningarr.length;
+        for(var candidate in temarr)
+        {
+            var node = graphPool.getNodeById(temarr[candidate]);
+            var nodeinputlist = node.inputlist;
+            var nodeoutputlist = node.outputlist; 
+            var sign = true;
+
+            if ( !checkObjectIsEmpty(nodeinputlist) || !checkObjectIsEmpty(nodeoutputlist) )
+            {
+                //inputlist is empty
+                //outputlist is empty
+                return false;
+            }
+            for (var t in nodeinputlist)
+            {
+              if ( (startarr.indexOf(nodeinputlist[t].id) === -1) && (runningarr.indexOf(nodeinputlist[t].id) === -1 ) )
+              {
+                //input cannot be obtained either from inputnode or other node
+                sign = false;
+                break;
+              } 
+            }
+    
+            if (sign)
+            {
+              runningarr.push(temarr[candidate]);
+            }
+        }
+        var afterlength = runningarr.length;
+        if (afterlength === length)
+        {
+          return runningarr;
+        }
+        if(afterlength === beforelength)
+        {
+          
+          return false;
+        }
+    }
+    return runningarr;
+}
+
+function checkObjectIsEmpty(obj){
+  for(var i in obj)
+  {
+    return true;
+  }
+  return false;
+}
+
+
+function checkEndArr(startarr, runningarr, endarr)
+{
+    for(var candidate in endarr)
+    {
+        var node = graphPool.getNodeById(endarr[candidate]);
+        var nodeinputlist = node.inputlist;
+        // var sign = true;
+
+        if ( !checkObjectIsEmpty(nodeinputlist) )
+        {
+          return false;
+        }
+
+        for (var key in nodeinputlist)
+        {
+            if ((startarr.indexOf(nodeinputlist[key].id) === -1) && runningarr.indexOf(nodeinputlist[key].id) === -1)
+            {
+                  return false;
+            } 
+        }
+    }
+    return true;
+
+}
