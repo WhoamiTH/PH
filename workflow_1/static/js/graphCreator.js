@@ -1261,6 +1261,9 @@ function initCommonEvent() {
   $('.down-right').on('click','#down-right-down-submit-buttom', handleDownRightDownSubmit);
   $('.down-right-middle').on('click','#down-right-middle-remove-button', handleDownRightMiddleRemove);
 
+  $(".chartpart-checkbox").on('click', "input[type='checkbox']", handleAddChart);
+  $(".chartpart-checkbox").on('click', "#btn_all", handleAddChart);
+
 
 }
 
@@ -1378,11 +1381,15 @@ function changeDownLeftInformation(d)
       var inputlist = d.inputlist;
       for (var key in inputlist)
       {
-        inputliststr = inputliststr + `<div class="down-left-middle-add">
-        <span>name:</span><input type="text" value="${key}"/> 
-        <span style="margin-left:10%;">value:</span><input type="text" value="${inputlist[key]}"/>
-        <button id="down-left-middle-remove-button"> remove </button>
-        </div>`;
+        var itemobj = inputlist[key];
+        for (var theName in itemobj)
+        {
+            inputliststr = inputliststr + `<div class="down-left-middle-add">
+            <span>name:</span><input type="text" value="${theName}"/> 
+            <span style="margin-left:10%;">value:</span><input type="text" value="${itemobj[theName]}"/>
+            <button id="down-left-middle-remove-button"> remove </button>
+            </div>`;
+        }  
       }
     }
     $('.down-left-middle').empty().append(inputliststr);
@@ -1412,12 +1419,17 @@ function changeDownRightInformation(d)
   {
     var inputliststr = ``;
     var inputlist = d.inputlist;
+    console.log(inputlist);
     for (var key in inputlist)
     {
-      inputliststr = inputliststr + `<div class="down-right-middle-add">
-      <span style="margin-left:20%;">name:${key}</span> 
-      <span style="margin-left:30%;">value:${inputlist[key]}</span>
-      </div>`;
+        var itemobj = inputlist[key];
+        for (var theName in itemobj)
+        {
+          inputliststr = inputliststr + `<div class="down-right-middle-add">
+          <span style="margin-left:20%;">name:${theName}</span> 
+          <span style="margin-left:30%;">value:${itemobj[theName]}</span>
+          </div>`;
+        }  
     }
     $('.down-right-middle').empty().append(inputliststr);
   }

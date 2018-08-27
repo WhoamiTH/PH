@@ -4,7 +4,7 @@
 function handleImportOrExport(e) {
   // debugger;
   console.log(e);
-  
+
   var isImport = e.target.className.indexOf('in'),
     textarea = $('.json_data textarea');
   $('.ui.modal.json_data').modal({
@@ -46,7 +46,7 @@ function handleImportOrExport(e) {
  * 工具栏-清空
  */
 function clearGraph() {
-  
+
   layer.confirm('Confirm clear?', {
     title:"Clear",
     icon: 0,
@@ -69,9 +69,9 @@ function clearGraph() {
     }
     layer.msg('Clear', {icon: 1, offset: '180px', time: 600});
   }, function() {
-    
+
   });
-  
+
 }
 
 /**
@@ -113,7 +113,7 @@ function handleDeleteNode() {
       }
       layer.msg('Delete!', {icon: 1, offset: '180px', time: 600});
     }, function() {
-      
+
     });
   }
 }
@@ -189,7 +189,7 @@ function handleNodeMenuProp() {
   var graph_active = graphPool.getGraphByActiveEdit();
   var selectedNode = graph_active.state.selectedNode;
 
-  
+
 
   $('.ui.modal.prop_node').modal({
     autofocus: false,
@@ -259,7 +259,7 @@ function handleNodeMenuProp() {
       $(this).find('input, textarea').val('');
       // $(this).find('.ui.dropdown').dropdown('clear');
       // $(this).find('.ui.checkbox').checkbox('uncheck');
-      // $('.monitorinf tbody').empty(); // 清空监控信息 
+      // $('.monitorinf tbody').empty(); // 清空监控信息
       // $('.timeout_limit tbody').empty(); // 清空监控信息
       // $('.extended_attr tbody').empty(); // 清空扩展属性集
       // $('.post_condition .list').empty(); // 清空后置条件
@@ -356,7 +356,7 @@ function updateMiddleRightInformation(){
   var graph_active = graphPool.getGraphByActiveEdit();
   var selectedNode = graph_active.state.selectedNode;
 
-  
+
   // console.log(selectedNode.component);
   // console.log(selectedNode.title);
   // console.log(selectedNode.name);
@@ -386,7 +386,7 @@ function handleDownLeftDownAdd()
     const container = $(".down-left-middle");
     container.append(
       `<div class="down-left-middle-add">
-          <span>name:</span><input type="text" /> 
+          <span>name:</span><input type="text" />
           <span style="margin-left:10%;">value:</span><input type="text" />
           <button id="down-left-middle-remove-button"> remove </button>
       </div>`);
@@ -409,10 +409,14 @@ function showDownRightOutput()
     var inputlist = selectedNode.inputlist;
     for (var key in inputlist)
     {
-      inputliststr = inputliststr + `<div class="down-right-middle-add">
-      <span style="margin-left:20%;">name:${key}</span> 
-      <span style="margin-left:30%;">value:${inputlist[key]}</span>
-      </div>`;
+        var itemobj = inputlist[key];
+        for (var theName in itemobj)
+        {
+            inputliststr = inputliststr + `<div class="down-right-middle-add">
+            <span style="margin-left:20%;">name:${theName}</span>
+            <span style="margin-left:30%;">value:${itemobj[theName]}</span>
+            </div>`;
+        }
     }
     $('.down-right-middle').empty().append(inputliststr);
 }
@@ -428,27 +432,36 @@ function handleDownLeftDownSubmit()
     if (selectedNode !== null)
     {
       $(".down-left-middle input").each(function(){
-        if ($(this).val() !== "")
-        {
-            text.push($(this).val());
-        }
+        text.push($(this).val());
+        // if (($(this).val() !== "") && ($(this).val() !== null) && ($(this).val() !== undefined) )
+        // {
+        //     text.push($(this).val());
+        // }
       });
       var sign = true;
-      for(var key in text)
+      if(text.length === 0)
       {
-          // console.log(key);
-          // console.log(text[key]);
-          // if((key === undefined) || (text[key] === undefined))
-          if(text[key] === undefined)
-          {
-              sign = false;
-          }
+          sign = false;
       }
+
+    for(var key in text)
+    {
+        // console.log(key);
+        // console.log(text[key]);
+        // if((key === undefined) || (text[key] === undefined))
+        if ((key === undefined) || (text[key] === undefined) || (text[key] === null) || (text[key] === ''))
+        {
+            sign = false;
+            break;
+        }
+    }
+      
+      
       if (sign)
       {
         if (selectedNode.title === "I")
         {
-          var teminputlist = split(text);
+          var teminputlist = SplitInputText(text);
           selectedNode.inputlist = teminputlist;
           selectedNode.outputlist = teminputlist;
           showDownRightOutput();
@@ -460,11 +473,31 @@ function handleDownLeftDownSubmit()
         // }
         debugger;
 
-        post_data = JSON.stringify(teminputlist);
+        //post_data = JSON.stringify(teminputlist);
+
+        //cichukeyizhuanhuan
+        var theData = {};
+
+        for (var key in teminputlist)
+        {
+            var itemobj = teminputlist[key];
+            for (var theName in itemobj)
+            {
+                theData[theName] = itemobj[theName];
+            }
+        }
+
+        post_data = JSON.stringify(theData);
+
+
         $.post("/down_left_bottom_submit/",post_data,
           function(data,status){alert("data:"+data+"\nstatus:"+status);});
-       
-      
+
+        updateCheckBox(theData);
+
+        
+
+
       }
       else
       {
@@ -472,6 +505,8 @@ function handleDownLeftDownSubmit()
       }
     }
 }
+
+
 
 
 function handleDownLeftDownRefresh()
@@ -489,9 +524,9 @@ function handleDownLeftDownRefresh()
         {
           text.push($(this).val());
         }
-        
+
       });
-      var sign;
+      var sign = true;
       for(var key in text)
       {
           if((key === undefined) || (text[key] === undefined))
@@ -501,8 +536,11 @@ function handleDownLeftDownRefresh()
       }
       if (sign)
       {
-        var teminputlist = split(text);
+        var teminputlist = SplitInputText(text);
         selectedNode.inputlist = teminputlist;
+        selectedNode.outputlist = teminputlist;
+        showDownRightOutput();
+
       }
       else
       {
@@ -511,14 +549,20 @@ function handleDownLeftDownRefresh()
     }
 }
 
-function split(text){
+function SplitInputText(text){
   var obj = {};
   var i = 0;
+  var inputindex = 0;
   while(i<text.length){
-      obj[text[i]] = text[i+1];
+      var itemobj = {};
+      itemobj[text[i]] = text[i+1];
+
+      obj[inputindex] = itemobj;
+
       i = i+2;
+      inputindex++;
   }
-  return obj
+  return obj;
 }
 
 
@@ -532,7 +576,7 @@ function handleDownRightDownAdd()
     const container = $(".down-right-middle");
     container.append(
       `<div class="down-right-middle-add">
-          <span style="margin-left:20%;">name:</span><input type="text" value="output"/> 
+          <span style="margin-left:20%;">name:</span><input type="text" value="output"/>
           <button id="down-right-middle-remove-button"> remove </button>
       </div>`);
   }
@@ -598,11 +642,11 @@ function RunWorkflow()
 
                 RunIndividualProcess(runningarr[key])
 
-                
+
 
             }
         }
-        
+
     }
 
 }
@@ -704,13 +748,24 @@ function checkStartArr(startarr){
           return false;
         }
 
-        for (var key in nodeinputlist)
-        {
-            if ((key === undefined) || (nodeinputlist[key] === undefined))
-            {
-                return false;
-            } 
-        }
+        // for (var key in nodeinputlist)
+        // {
+        //     if ((key === undefined) || (nodeinputlist[key] === undefined))
+        //     {
+        //         return false;
+        //     }
+        //     else
+        //     {
+        //         var itemnodeinput = nodeinputlist[key];
+        //         for (var itemname in itemnodeinput)
+        //         {
+        //             if((itemname === undefined) || itemnodeinput[itemname] === undefined || (itemnodeinput[itemname] === null) || (itemnodeinput[itemname] === '') )
+        //             {
+        //                 return false;
+        //             }
+        //         }
+        //     }
+        // }
     }
     return true;
 }
@@ -726,7 +781,7 @@ function checkRunningArr(startarr, temarr){
         {
             var node = graphPool.getNodeById(temarr[candidate]);
             var nodeinputlist = node.inputlist;
-            var nodeoutputlist = node.outputlist; 
+            var nodeoutputlist = node.outputlist;
             var sign = true;
 
             if ( !checkObjectIsEmpty(nodeinputlist) || !checkObjectIsEmpty(nodeoutputlist) )
@@ -742,9 +797,9 @@ function checkRunningArr(startarr, temarr){
                 //input cannot be obtained either from inputnode or other node
                 sign = false;
                 break;
-              } 
+              }
             }
-    
+
             if (sign)
             {
               runningarr.push(temarr[candidate]);
@@ -757,7 +812,7 @@ function checkRunningArr(startarr, temarr){
         }
         if(afterlength === beforelength)
         {
-          
+
           return false;
         }
     }
@@ -791,9 +846,216 @@ function checkEndArr(startarr, runningarr, endarr)
             if ((startarr.indexOf(nodeinputlist[key].id) === -1) && runningarr.indexOf(nodeinputlist[key].id) === -1)
             {
                   return false;
-            } 
+            }
         }
     }
     return true;
 
+}
+
+function updateCheckBox(theData)
+{
+    var checkboxstr = ``;
+    checkboxstr = checkboxstr + `<input type="button" id="btn_all" value="All">
+                                <input type="button" id="btn_clear" value="Clear">
+                                `;
+    for (var key in theData)
+    {
+        checkboxstr = checkboxstr + `<input class="ui checkbox" type="checkbox" name="checkbox" value="${key}"> ${key}`;
+    }
+
+    $('.chartpart-checkbox').empty().append(checkboxstr);
+}
+
+function handleAddChart(){
+    var eventid = this.id;
+    var position = -1;
+    $("input[type='checkbox']").each(function(){
+        if(eventid)
+        {
+            this.checked = true;
+        }
+        var sName = this.value;
+        var divarr = $(".chart").children();
+        var itemposi = findObjIndex(sName, divarr);
+        if(this.checked)
+        {
+            if(itemposi === -1)
+            {
+                //append
+                appendhtml = `<div id="${sName}" class="chartdiv">
+                    <div id="name"> <center> <span> ${sName} </span> </center> </div>
+                    <div id="${sName}chart" class="chartitem"></div>
+                    </div>`;
+                if(position === -1)
+                {
+                    $(".chart").prepend(appendhtml);
+                    addChart(sName + "chart");
+                    position++;
+                }
+                else
+                {
+                    $(".chart").children().eq(position).after(appendhtml);
+                    addChart(sName + "chart");
+                    position++;
+
+                }
+            }
+            else
+            {
+                //do not need append
+                position++;
+            }
+        }
+        else
+        {
+            if(itemposi !== -1)
+            {
+                //remove
+                $(".chart").children().eq(itemposi).remove();
+            }
+            // else do not need remove
+        }
+    });
+}
+
+
+// function handleAddChart(){
+//     var eventid = this.id;
+//     var position = -1;
+//     $("input[type='checkbox']").each(function(){
+//         if(eventid)
+//         {
+//             console.log(this);
+//             this.checked = true;
+//         }
+//     });
+// }
+
+
+
+function findObjIndex(sName, divarr)
+{
+    theIndex = -1;
+    console.log(divarr);
+    for (var i=0; i<divarr.length; i++)
+    {
+        // console.log(key);
+        // console.log(t[key]);
+        console.log(divarr[i].id);
+
+        theIndex++;
+        if( divarr[i].id === sName )
+        {
+            return theIndex;
+        }
+    }
+
+    return -1;       
+}
+
+
+function addChart(position)
+{
+    var chart = AmCharts.makeChart(position, {
+        "type": "serial",
+        "theme": "light",
+        "marginRight": 40,
+        "marginLeft": 40,
+        "autoMarginOffset": 20,
+        "mouseWheelZoomEnabled":true,
+        "dataDateFormat": "YYYY-MM-DD",
+        "valueAxes": [{
+            "id": "v1",
+            "axisAlpha": 0,
+            "position": "left",
+            "ignoreAxisWidth":true
+        }],
+        "balloon": {
+            "borderThickness": 1,
+            "shadowAlpha": 0
+        },
+        "graphs": [{
+            "id": "g1",
+            "balloon":{
+            "drop":true,
+            "adjustBorderColor":false,
+            "color":"#ffffff"
+            },
+            "bullet": "round",
+            "bulletBorderAlpha": 1,
+            "bulletColor": "#FFFFFF",
+            "bulletSize": 5,
+            "hideBulletsCount": 50,
+            "lineThickness": 2,
+            "title": "red line",
+            "useLineColorForBulletBorder": true,
+            "valueField": "value",
+            "balloonText": "<span style='font-size:18px;'>[[value]]</span>"
+        }],
+        "chartScrollbar": {
+            "graph": "g1",
+            "oppositeAxis":false,
+            "offset":30,
+            "scrollbarHeight": 80,
+            "backgroundAlpha": 0,
+            "selectedBackgroundAlpha": 0.1,
+            "selectedBackgroundColor": "#888888",
+            "graphFillAlpha": 0,
+            "graphLineAlpha": 0.5,
+            "selectedGraphFillAlpha": 0,
+            "selectedGraphLineAlpha": 1,
+            "autoGridCount":true,
+            "color":"#AAAAAA"
+        },
+        "chartCursor": {
+            "pan": true,
+            "valueLineEnabled": true,
+            "valueLineBalloonEnabled": true,
+            "cursorAlpha":1,
+            "cursorColor":"#258cbb",
+            "limitToGraph":"g1",
+            "valueLineAlpha":0.2,
+            "valueZoomable":true
+        },
+        "valueScrollbar":{
+        "oppositeAxis":false,
+        "offset":50,
+        "scrollbarHeight":10
+        },
+        "categoryField": "date",
+        "categoryAxis": {
+            "parseDates": true,
+            "dashLength": 1,
+            "minorGridEnabled": true
+        },
+        "export": {
+            "enabled": true
+        },
+        "dataProvider": [{
+            "date": "2012-07-27",
+            "value": 13
+        }, {
+            "date": "2012-07-28",
+            "value": 11
+        }, {
+            "date": "2012-07-29",
+            "value": 15
+        }, {
+            "date": "2012-07-30",
+            "value": 16
+        }, {
+            "date": "2012-07-31",
+            "value": 18
+        }, {
+            "date": "2012-08-01",
+            "value": 13
+        }, {
+            "date": "2012-08-02",
+            "value": 22
+        }, {
+            "date": "2012-08-03",
+            "value": 23
+        }]
+    });
 }

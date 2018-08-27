@@ -9,6 +9,7 @@
   <link type="text/css" href="../static/css/graph-creator.css" rel="stylesheet" />
   <link type="text/css" href="../static/css/jquery.mCustomScrollbar.css" rel="stylesheet" />
   <link type="text/css" href="../static/css/flowchart.css" rel="stylesheet" />
+  <link type="text/css" href="../static/amcharts/plugins/export/export.css" rel="stylesheet" />
 </head>
 
 
@@ -98,6 +99,31 @@
           </div>
       </div>
     </div>
+    <!-- chart -->
+    <div class="chartpart">
+      <div class="chartpart-checkbox" >
+          
+
+      </div>
+      <div class="chart"></div>
+        
+        
+    </div>
+
+    	<!-- 导入导出弹出层 -->   
+      <div class="ui segment small modal json_data">
+        <i class="close icon"></i>
+        <div class="header">
+          导入数据
+        </div>
+        <div class="content">
+          <textarea></textarea>
+        </div>
+        <div class="actions">
+            <div class="ui negative button">No </div>
+            <div class="ui positive right labeled icon button">Yes <i class="checkmark icon"></i> </div>
+        </div>
+    </div>
 
     <script type="text/javascript" src="../static/js/jquery.js" charset="utf-8"></script>
     <script type="text/javascript" src="../static/js/common.js" charset="utf-8"></script>
@@ -110,6 +136,11 @@
     <script type="text/javascript" src="../static/js/jquery.mCustomScrollbar.concat.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="../static/js/vkbeautify.js" charset="utf-8"></script>
     <script type="text/javascript" src="../static/js/base64.js" charset="utf-8"></script>
+    
+    <script src="../static/amcharts/amcharts.js"></script>
+    <script src="../static/amcharts/serial.js"></script>
+    <script src="../static/amcharts/plugins/export/export.min.js"></script>
+    <script src="../static/amcharts/themes/light.js"></script>
   
     
     <script type="text/javascript" src="../static/js/graphCommonEvent.js" charset="utf-8"></script>
