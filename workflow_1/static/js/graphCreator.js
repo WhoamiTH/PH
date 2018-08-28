@@ -172,7 +172,7 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
 
     // handle uploaded data
     // d3.select("#upload-input").on("click", function() {
-    //   document.getElementById("hidden-file-upload").click();
+    //   document.getElementByIdgetgraphByid("hidden-file-upload").click();
     // });
     // d3.select("#hidden-file-upload").on("change", function() {
     //   if (window.File && window.FileReader && window.FileList && window.Blob) {
@@ -539,6 +539,18 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
         return (l.source === node || l.target === node);
       });
     toSplice.map(function(l) {
+        var sourcenode = l.source;
+        var targetnode = l.target;
+        var inputlist = targetnode.inputlist;
+        for(var key in inputlist)
+        {
+            if (inputlist[key].id === sourcenode.id) 
+            {
+                delete inputlist[key];
+            }
+        }
+
+
       thisGraph.edges.splice(thisGraph.edges.indexOf(l), 1);
     });
   };
@@ -667,6 +679,22 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
       };
       var filtRes = thisGraph.paths.filter(function(d) {
         if (d.source === newEdge.target && d.target === newEdge.source) {
+
+            var sourcenode = d.source;
+            var targetnode = d.target;
+            var inputlist = targetnode.inputlist;
+            for(var key in inputlist)
+            {
+                if (inputlist[key].id === sourcenode.id) 
+                {
+                    delete inputlist[key];
+                }
+            }
+
+
+
+
+
           thisGraph.edges.splice(thisGraph.edges.indexOf(d), 1);
         }
         return d.source === newEdge.source && d.target === newEdge.target;
@@ -939,7 +967,7 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
       var xycoords = d3.mouse(thisGraph.svgG.node()),
         d = {
           id: seqer_nodeID.gensym(),
-          title: '普通活动',
+          title: 'Process',
           component: 'ordinaryActivity',
           type: 'activity',
           x: xycoords[0],
@@ -1321,15 +1349,20 @@ function refresh(link) {
 
 
 function count(obj){
-  var num = 0;
+  // var num = 0;
+  var max = 0;
   for (var key in obj)
   {
     if (key !== undefined)
     {
-      num++;
+      // num++;
+      if(Number(key) > max)
+      {
+          max = Number(key);
+      }
     }
   }
-  return num;
+  return max;
 }
 
 
@@ -1371,9 +1404,20 @@ function changeDownLeftInformation(d)
       var inputlist = d.inputlist;
       for (var key in inputlist)
       {
-        iteminput = inputlist[key];
+
+        console.log(key);
+        console.log(inputlist[key]);
+        var inputnode = graphPool.getNodeById(inputlist[key].id);
+        if (inputnode.component === "startComponent")
+        {
+            inputlist[key].name = inputnode.name;
+        }
+        else
+        {
+            inputlist[key].name = inputnode.title;
+        }
         inputliststr = inputliststr + `<div class="down-left-middle-add">
-        <span style="margin-left:30%">name:</span><input type="text" value="${iteminput.name}"/>
+        <span style="margin-left:30%">name: ${inputlist[key].name}</span>
         </div>`;
       }
     }

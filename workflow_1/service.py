@@ -12,14 +12,10 @@ def select_from_database(sql):
     return results
 
 def select_main(sql):
-    print('precision_health')
     db = pymysql.connect("localhost", "root", "123456", "precision_health")
     cursor = db.cursor()
-    print('111111111111111')
     cursor.execute(sql)
-    print('222222222222222222')
     results = cursor.fetchall()
-    print('333333333333333333')
     db.close()
     results = np.array(results)
     return results
@@ -27,14 +23,23 @@ def select_main(sql):
 
 
 def insert_to_database(sql):
-	db = pymysql.connect("localhost", "root", "123456", "test")
+	db = pymysql.connect("localhost", "root", "123456", "precision_health")
 	cursor = db.cursor()
-	t = cursor.execute(sql)
-	# print(sql)
-	# print(t)
+	cursor.execute(sql)
 	db.commit()
 	db.close()
 
+def update_to_database(sql):
+    db = pymysql.connect("localhost", "root", "123456", "precision_health")
+    cursor = db.cursor()
+    cursor.execute(sql)
+    db.commit()
+    db.close()
+
+
+def check_value_in_database(person_id,date,feature,value):
+    select_sql = "SELECT * FROM main WHERE person_id=%d AND feature='%s' ORDER BY time"%(person_id,feature_name)
+     
 
 
 
@@ -80,8 +85,8 @@ def ListToChartData(value_list, time_list):
 
 
 def chartData(person_id, feature_name):
-    person_id = 1
-    feature_name = "salt"
+    '''person_id = 1
+    feature_name = "salt"'''
     sql = "SELECT * FROM main WHERE person_id=%d AND feature='%s' ORDER BY time"%(person_id,feature_name)
     results = select_main(sql)
     results = sorted(results, key=lambda item:time.strptime(item[1],"%d/%m/%Y"))
@@ -108,7 +113,11 @@ def test(data):
     inputlist = data['inputlist']
     code = data['code']
     outputlist = data['outputlist']
+    print('---------------------------------------------------------\n\n\n')
     print(inputlist)
+    print(code)
+    print(outputlist)
+    print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n\n\n')
     for item in inputlist:
 #       print('---------------------------------------------------------')
 #       print(item)
@@ -133,6 +142,7 @@ def test(data):
 #s = 'print(Input)'
 #exec(s)
     print(outputlist)
+    return outputlist
     # print(Input)
 
 
