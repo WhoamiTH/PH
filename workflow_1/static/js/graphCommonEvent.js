@@ -908,7 +908,7 @@ function handleAddChart(){
                     /* shanchu */
                     var obj = {};
                     obj['id'] = 1;
-                    obj['name'] = 'haha';
+                    obj['name'] = sName;
                     obj['position_name'] = position_name;
                     var post_data = JSON.stringify(obj);
 
