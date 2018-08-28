@@ -97,12 +97,6 @@ function handleDeleteNode() {
         var nodes = graph_active.nodes;
         nodes.splice(nodes.indexOf(selectedNode), 1);
         graph_active.spliceLinksForNode(selectedNode);
-        // blockacivity
-        // if (selectedNode.component === 'blockActivity') {
-        //   var containerId = 'tab_'+selectedNode.id;
-        //   $('.full-right [data-tab='+containerId+']').remove();
-        //   graphPool.removeGraphFromPools(containerId);
-        // }
         selectedNode = null;
         graph_active.updateGraph();
       } else if (selectedEdge) {
@@ -216,11 +210,6 @@ function handleNodeMenuProp() {
       // debugger;
       $('.prop_node .conventional').find('input[name], textarea, select').each(function() {
         conventional[$(this).attr('name')] = $(this).val();
-        /*
-        console.log($(this).attr('name'));
-        console.log(conventional[$(this).attr('name')]);
-        console.log($(this).val());
-        */
       });
       if (conventional.ID != selectedNode.id) {
         selectedNode.id = conventional.ID;
@@ -228,12 +217,6 @@ function handleNodeMenuProp() {
       if (conventional.name != selectedNode.title) {
         selectedNode.title = conventional.name;
       }
-      // var $role = $('.conventional select[name="definition_role"]').parent();
-      // conventional.performer = $role.children('.text').attr('definition_id') || '';
-      // var role_txt = $role.dropdown('get text'); //Semantic存在bug，重构dropdown不能取value
-      // if (role_txt !='请选择' && role_txt !='(空)') {
-      //   conventional.participantID = $role.dropdown('get text');
-      // }
       selectedNode.conventional = conventional;
       graph_active.updateGraph();
     },
@@ -249,48 +232,13 @@ function handleNodeMenuProp() {
           }
         }
       });
-      // $('.conventional').find('select').not($('input[name="definition_role"]')).each(function() {
-      //   for (var key in conventional) {
-      //     if (key == $(this).attr('name')) {
-      //       $(this).dropdown('set selected', conventional[key]);
-      //     }
-      //   }
-      // });
-      // $('.conventional').find('.checkbox').each(function() {
-      //   var value = $(this).find('input[name]').val();
-      //   if (value && value !="false") $(this).checkbox('check');
-      // });
       $('.conventional input[name=ID]').val(node.id);
       $('.conventional input[name=name]').val(node.title);
-      // if (conventional.performer) {
-      //   $('.conventional select[name="definition_role"]').dropdown('set text', conventional.participantID || '');
-      //   $('.conventional .dropdown .text').attr('definition_id', conventional.performer);
-      // }
     },
     onHidden: function() {
-      // $('.prop_node .menu .item[data-tab="one"]').trigger('click');
-      // $('.monitorinf select[name="isResponsibleTem"]').off('change'); // 弹窗关闭，避免清空表单时触发事件
       $(this).find('input, textarea').val('');
-      // $(this).find('.ui.dropdown').dropdown('clear');
-      // $(this).find('.ui.checkbox').checkbox('uncheck');
-      // $('.monitorinf tbody').empty(); // 清空监控信息
-      // $('.timeout_limit tbody').empty(); // 清空监控信息
-      // $('.extended_attr tbody').empty(); // 清空扩展属性集
-      // $('.post_condition .list').empty(); // 清空后置条件
-      // $('.post_condition .targetActivity').html('');
-      // $('.conventional select[name="definition_role"]').siblings('.text').removeAttr('definition_id');
     }
   }).modal('show');
-  // $('.prop_node>.menu a[data-tab*="two"]').addClass('hideitem');
-  // if (selectedNode.title == '普通活动') {
-  //   $('.prop_node>.menu a[data-tab="two_1"]').removeClass('hideitem');
-  // }
-  // if (selectedNode.title == '块活动') {
-  //   $('.prop_node>.menu a[data-tab="two_2"]').removeClass('hideitem');
-  // }
-  // if (selectedNode.title == '子活动') {
-  //   $('.prop_node>.menu a[data-tab="two_3"]').removeClass('hideitem');
-  // }
 }
 /* do not need */
 function handleEdgeMenuProp() {
@@ -370,11 +318,6 @@ function updateMiddleRightInformation(){
   var graph_active = graphPool.getGraphByActiveEdit();
   var selectedNode = graph_active.state.selectedNode;
 
-
-  // console.log(selectedNode.component);
-  // console.log(selectedNode.title);
-  // console.log(selectedNode.name);
-  //  debugger;
   if ((selectedNode.title === "I") || (selectedNode.title === "O"))
   {
       selectedNode.name = $("#middle-right-name").val();
@@ -447,10 +390,6 @@ function handleDownLeftDownSubmit()
     {
       $(".down-left-middle input").each(function(){
         text.push($(this).val());
-        // if (($(this).val() !== "") && ($(this).val() !== null) && ($(this).val() !== undefined) )
-        // {
-        //     text.push($(this).val());
-        // }
       });
       var sign = true;
       if(text.length === 0)
@@ -460,9 +399,6 @@ function handleDownLeftDownSubmit()
 
     for(var key in text)
     {
-        // console.log(key);
-        // console.log(text[key]);
-        // if((key === undefined) || (text[key] === undefined))
         if ((key === undefined) || (text[key] === undefined) || (text[key] === null) || (text[key] === ''))
         {
             sign = false;
@@ -503,24 +439,9 @@ function handleDownLeftDownSubmit()
                 function(data,status){alert("data:"+data+"\nstatus:"+status);});
 
               updateCheckBox(theData);
-
-          // }
-          // else
-          // {
-          //     layer.msg('Some names are duplicated ! Cannot submit!', { offset: '180px', time: 1000});
-          // }
           
         }
-        // else
-        // {
-        //   length = text.length;
 
-        // }
-        // debugger;
-
-        //post_data = JSON.stringify(teminputlist);
-
-        //cichukeyizhuanhuan
       }
       else
       {
@@ -640,9 +561,6 @@ function handleDownRightDownSubmit()
       var sign = true;
       for(var key in text)
       {
-          // console.log(key);
-          // console.log(text[key]);
-          // if((key === undefined) || (text[key] === undefined))
           if(text[key] === undefined)
           {
               sign = false;
@@ -679,12 +597,7 @@ function RunWorkflow()
             for (var key in runningarr)
             {
 
-                // alert(key);
-                // alert(runningarr);
-
                 RunIndividualProcess(runningarr[key])
-
-
 
             }
         }
@@ -711,7 +624,6 @@ function RunIndividualProcess(id)
 
     post_data = JSON.stringify(obj);
     $.post("/run/",post_data, function(data,status){
-            // alert("data:"+data+"\nstatus:"+status);
             data = JSON.parse(data);
             node.outputlist = data;
           });
@@ -722,7 +634,6 @@ function RunIndividualProcess(id)
 function RunningOrder()
 {
     var pool = graphPool.pools[0];
-    // console.log(pool);
     var nodes = pool.nodes;
 
     var startarr = [];
@@ -745,11 +656,6 @@ function RunningOrder()
         temarr.push(nodes[each].id);
       }
     }
-/*
-    console.log(startarr);
-    console.log(temarr);
-    console.log(endarr);
-*/
     var startlength = startarr.length;
     var endlength = endarr.length;
     if ((startlength === 0) || (endlength === 0))
@@ -787,30 +693,10 @@ function checkStartArr(startarr){
     {
         var node = graphPool.getNodeById(startarr[candidate]);
         var nodeinputlist = node.inputlist;
-        // var sign = true;
         if ( !checkObjectIsEmpty(nodeinputlist) )
         {
           return false;
         }
-
-        // for (var key in nodeinputlist)
-        // {
-        //     if ((key === undefined) || (nodeinputlist[key] === undefined))
-        //     {
-        //         return false;
-        //     }
-        //     else
-        //     {
-        //         var itemnodeinput = nodeinputlist[key];
-        //         for (var itemname in itemnodeinput)
-        //         {
-        //             if((itemname === undefined) || itemnodeinput[itemname] === undefined || (itemnodeinput[itemname] === null) || (itemnodeinput[itemname] === '') )
-        //             {
-        //                 return false;
-        //             }
-        //         }
-        //     }
-        // }
     }
     return true;
 }
@@ -831,15 +717,12 @@ function checkRunningArr(startarr, temarr){
 
             if ( !checkObjectIsEmpty(nodeinputlist) || !checkObjectIsEmpty(nodeoutputlist) )
             {
-                //inputlist is empty
-                //outputlist is empty
                 return false;
             }
             for (var t in nodeinputlist)
             {
               if ( (startarr.indexOf(nodeinputlist[t].id) === -1) && (runningarr.indexOf(nodeinputlist[t].id) === -1 ) )
               {
-                //input cannot be obtained either from inputnode or other node
                 sign = false;
                 break;
               }
@@ -879,7 +762,6 @@ function checkEndArr(startarr, runningarr, endarr)
     {
         var node = graphPool.getNodeById(endarr[candidate]);
         var nodeinputlist = node.inputlist;
-        // var sign = true;
 
         if ( !checkObjectIsEmpty(nodeinputlist) )
         {
@@ -1004,50 +886,12 @@ function handleAddChart(){
     });
 }
 
-/*
-function handleAddChart(){
-    var obj = {};
-    obj['id'] = 1;
-    obj['name'] = 'haha';
-    var post_data = JSON.stringify(obj);
-    var appendhtml = `<div id="1" class="chartdiv">
-                    <div id="name"> <center> <span> 1 </span> </center> </div>
-                    <div id="1chart" class="chartitem"></div>
-                    </div>`;
-    $(".chart").prepend(appendhtml);
-    var position_name = "1chart";
-    
-    $.post("/chartpart/", post_data, function(data, status){
-      
-      data = JSON.parse(data);
-      addChart(position_name, data);
-
-    });
-
-
-
-     // var eventid = this.id;
-     // var position = -1;
-     // $("input[type='checkbox']").each(function(){
-     //     if(eventid)
-     //     {
-     //         console.log(this);
-     //         this.checked = true;
-     //     }
-     // });
- }
-*/
-
 
 function findObjIndex(sName, divarr)
 {
     theIndex = -1;
-    // console.log(divarr);
     for (var i=0; i<divarr.length; i++)
     {
-        // console.log(key);
-        // console.log(t[key]);
-        // console.log(divarr[i].id);
 
         theIndex++;
         if( divarr[i].id === sName )
@@ -1143,8 +987,8 @@ function addChart(position, data)
 
 
 function handleClearChart(){    
-$("input[type='checkbox']").each(function(){
-  this.checked = false;
-});
-$(".chart").empty();
+    $("input[type='checkbox']").each(function(){
+      this.checked = false;
+    });
+    $(".chart").empty();
 }

@@ -1,16 +1,8 @@
 @charset "utf-8";
 @import 'reset.css';
-/**
- * @created :   2017/09/20
- * @author  :   zhangyl
- * @version :   v1.0
- * @desc    :   流程图编辑器
- */
 
 html, body {
     width: 100%;
-    /* height: 100%; */
-    /* overflow-y: hidden; */
     overflow: auto;
 }
 
@@ -19,26 +11,17 @@ html, body {
 
 .middle {
     border: 0.05em solid;
-    /* #D4D4D5 */
     height: 55%;
     overflow :auto;
 }
 
 .middle-left {
     border: 0.05em solid blueviolet;
-    /* #D4D4D5 */
     width: 19.7%;
     height: 100%;
     float: left;
 }
 
-/*.full-right>.middle-right {
-    border: 0.05em solid;
-    width: 19.7%;
-    height: 100%;
-    float: left;
-
-}*/
 .middle-right {
     border: 0.05em solid;
     width: 19.7%;
@@ -47,18 +30,6 @@ html, body {
 
 }
 
-
-/* .full-right>.middle-right {
-    position: absolute;
-    margin-top: 2%;
-    margin-left: 82%;
-    z-index:999; 
-    top:0;
-    border: 0.05em solid;
-    width: 19.7%;
-    height: 55%;
-    float: left;
-} */
 
 .full-right>.middle-right>.middle-right-top {
     width: 100%;
@@ -87,8 +58,6 @@ html, body {
 }
 
 .down-left {
-    /* border: 0.05em solid; */
-    /* border-right: 1px solid red; */
     border: 1px solid red;
     width: 50%;
     height: 100%;
@@ -139,7 +108,6 @@ html, body {
 }
 
 .down-right {
-    /* border: 0.05em solid; */
     width: 50%;
     height: 100%;
     float: right;
@@ -296,18 +264,12 @@ html, body {
 }
 
 .full-right { 
-    /* width: 91%; */
     width: 73%;
-    /* padding-top: 4px;
-    padding-left: 6px; */
     float: left;
 }
 
 .full-right>.tab { 
     height: 100%; 
-    /* padding: 6px; */
-    /* border-left: 1px solid #d4d4d5;
-    border-right: 1px solid #d4d4d4; */
     border-right: 1px solid red;
 }
 
@@ -395,8 +357,6 @@ html, body {
 }
 
 .run-icon {
-    /* background: url('../icons/wf_tools.png');
-    background-position: 61px 0px; */
     width: 100%;
     height: 100%;
     background: url('../icons/run_icon.png');
@@ -414,14 +374,10 @@ html, body {
 }
 
 .full-left .start-icon {
-    /* background: url('../icons/wf_tools.png');
-    background-position: 81px 0px; */
     background: url('../icons/input_icon.png');
 }
 
 .full-left .end-icon {
-    /* background: url('../icons/wf_tools.png');
-    background-position: 61px 0px; */
     background: url('../icons/output_icon.png');
 }
 
@@ -482,21 +438,11 @@ html, body {
 
 
 .middle-right .prop-value {
-    /*border: 1px;*/
     margin: 1px;
     width: 100%;
-    /* float: left; */
-
-    /* overflow: hidden; */
 }
 
-/* .prop-value span:first-child { 
-    font-weight: bold; 
-    display: block; 
-    width: 36%; 
-    float: left; 
-    padding-left: 10px;
-} */
+
 
 #xmlContainer, #xpdlContainer {
     border-top: 1px dashed #d4d4d4;
@@ -677,26 +623,6 @@ html, body {
     color: #4c4c4c; 
 }
 
-#role-center { height: 74%; }
 
-.no-info {
-    font-size: 15px;
-    padding: 10px 0 0 10px;
-    font-weight: bold;
-    color: #999999;
-}
 
-/*------------------------- 块活动编辑 -----------------------------*/
-.blockDiv {
-    margin: 0px !important;
-    border-right: 1px solid #d4d4d5 !important;
-    border-bottom: none !important;
-}
-
-.blockDiv>.content-div.active {
-    border-top: 1px dashed #d4d4d4;
-    border-left: 1px dashed #d4d4d4;
-    border-right: 1px dashed #d4d4d4;
-    overflow-x: hidden;
-}
 

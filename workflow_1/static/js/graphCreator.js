@@ -122,7 +122,6 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
     var dragSvg = d3.behavior.zoom()
       .scaleExtent([0.3, 2])
       .on("zoom", function() {
-        // console.log('zoom triggered');
         if (d3.event.sourceEvent.shiftKey) {
           // the internal d3 state is still changing
           return false;
@@ -140,7 +139,6 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
         if (!d3.event.sourceEvent.shiftKey) d3.select('body').style("cursor", "move");
       })
       .on("zoomend", function() {
-        // console.log('zoomend triggered');
         d3.select('body').style("cursor", "auto");
       });
     thisGraph.dragSvg = dragSvg;
@@ -151,76 +149,14 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
       thisGraph.updateWindow(svg);
     };
 
-    // handle download data
-    // d3.select("#download-input").on("click", function() {
-    //   var saveEdges = [];
-    //   thisGraph.edges.forEach(function(val, i) {
-    //     saveEdges.push({
-    //       source: val.source.id,
-    //       target: val.target.id
-    //     });
-    //   });
-    //   var blob = new Blob([window.JSON.stringify({
-    //     "nodes": thisGraph.nodes,
-    //     "edges": saveEdges
-    //   })], {
-    //     type: "text/plain;charset=utf-8"
-    //   });
-    //   saveAs(blob, "mydag.json");
-    // });
 
-
-    // handle uploaded data
-    // d3.select("#upload-input").on("click", function() {
-    //   document.getElementByIdgetgraphByid("hidden-file-upload").click();
-    // });
-    // d3.select("#hidden-file-upload").on("change", function() {
-    //   if (window.File && window.FileReader && window.FileList && window.Blob) {
-    //     var uploadFile = this.files[0];
-    //     var filereader = new window.FileReader();
-        
-    //     filereader.onload = function() {
-    //       var txtRes = filereader.result;
-    //       // better error handling
-    //       try {
-    //         var jsonObj = JSON.parse(txtRes);
-    //         thisGraph.deleteGraph();
-    //         thisGraph.nodes = jsonObj.nodes;
-    //         var newEdges = jsonObj.edges;
-    //         newEdges.forEach(function(e, i) {
-    //           newEdges[i] = {
-    //             source: thisGraph.nodes.filter(function(n) {
-    //               return n.id == e.source;
-    //             })[0],
-    //             target: thisGraph.nodes.filter(function(n) {
-    //               return n.id == e.target;
-    //             })[0]
-    //           };
-    //         });
-    //         thisGraph.edges = newEdges;
-    //         thisGraph.updateGraph();
-    //       } catch (err) {
-    //         window.alert("Error parsing uploaded file\nerror message: " + err.message);
-    //         return;
-    //       }
-    //     };
-    //     filereader.readAsText(uploadFile);
-
-    //   } else {
-    //     alert("Your browser won't let you save this graph -- try upgrading your browser to IE 10+ or Chrome or Firefox.");
-    //   }
-
-    // });
 
     $('#flowComponents .components-btn[type]').not('.noComponent').attr('draggable', 'true')
       .on('dragstart', function(ev) {
         // $('.full-left').css({cursor: 'no-drop'});
         $(this).siblings().removeClass('active').end().addClass('active');
         $('.full-right>.tab.active .full-right-top').addClass('activate');
-        /* 设置拖动过程显示图片
-        var icon = document.createElement('img');
-        icon.src = $(this).find('img').attr('src');
-        ev.originalEvent.dataTransfer.setDragImage(icon,10,10);*/
+        /* 设置拖动过程显示图片*/
         var json_obj = {
           text: $(this).attr('data-show'),
           component: $(this).attr('name'),
@@ -480,14 +416,6 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
       d.x += d3.event.dx;
       d.y += d3.event.dy;
       thisGraph.updateGraph();
-      /*
-      // 防止circle脱出svg范围(放大缩小后还存在问题，待修改...)
-      var radius = thisGraph.consts.nodeRadius + thisGraph.consts.nodeRadiusVary,
-        svg_width = $('svg').width(),
-        svg_heigh = $('svg').height();
-      d.x = Math.max(Math.min(d3.event.x, svg_width-radius), radius);
-      d.y = Math.max(Math.min(d3.event.y, svg_heigh-radius), radius);
-      thisGraph.updateGraph();*/
     }
   };
 
@@ -714,12 +642,7 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
 
       length = count(d.inputlist);
       d.inputlist[length+1] = obj;
-      // for (var key in d.inputlist)
-      // {
-      //   console.log(key);
-      //   console.log(d.inputlist[key]);
 
-      // }
 
 
       if (!filtRes[0].length) {
@@ -772,33 +695,6 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
 
   }; // end of circles mouseup
 
-  // GraphCreator.prototype.changeInputDiv = function(d){
-
-
-    
-  //     $('.middle-right-bottom').empty().append(
-  //       `<div name="id" class="middle-right-bottom-top">
-  //           <div name="id" class="prop-value"><span>name:</span><input id="middle-right-name" type="text" value="${d.title}"></div>
-  //           <div><span>Script:</span></div>
-  //           <div name="name" class="prop-value"><textarea id="middle-right-code" style="hight:60%;">${d.code}</textarea></div>
-  //       </div>
-  //       <div name="buttom" class="middle-right-bottom-bottom">
-  //           <button id="middle-right-submit-button"> submit <button>
-  //       <div>
-  //       `
-  //     );
-
-
-
-
-
-  // };
-
-
-
-
-
-
 
 
   /**
@@ -819,32 +715,19 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
         result.msg = 'Error! Cannot return to input';
         break;
       case 'end':
-        // if (thisGraph.hasLinked(eventNode)) {
-        //   result.success = false;
-        //   result.msg = '已有连线！';
-        // }
+
         break;
     }
     switch (mouseDownNode.type) {
       case 'start':
-        // if (thisGraph.hasLinked(mouseDownNode)) {
-        //   result.success = false;
-        //   result.msg = '已有连线！';
-        // }
+
         break;
       case 'end':
         result.success = false;
         result.msg = 'Error! Cannot return to the workflow!';
         break;
       case 'activity':
-        // var edges = thisGraph.getLinkedEdges(mouseDownNode, 1);
-        // var edgeLinkEnd = edges.filter(function(edge) {
-        //   return edge.target.type == 'end';
-        // });
-        // if (edgeLinkEnd.length) {
-        //   result.success = false;
-        //   result.msg = '活动不能有转出转移！';
-        // }
+
         break;
     }
     return result;
@@ -863,10 +746,7 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
     };
     switch (eventNode.type) {
       case 'start':
-        // if (thisGraph.hasLinked(eventNode)) { 
-        //   result.success = false;
-        //   result.msg = '已有连线！';
-        // }
+
         break;
       case 'end':
         result.success = false;
@@ -879,14 +759,7 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
             result.success = false;
             result.msg = "Error! Output is required!";
           }
-        // var edges = thisGraph.getLinkedEdges(eventNode, 1);
-        // var edgeLinkEnd = edges.filter(function(edge) {
-        //   return edge.target.type === 'end';
-        // });
-        // if (edgeLinkEnd.length) {
-        //   result.success = false;
-        //   result.msg = '活动不能有转出转移！';
-        // }
+
           break;
     }
     return result;
@@ -897,15 +770,6 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
 
   //更改属性div genggaishuxingdiv
   GraphCreator.prototype.changePropDiv = function(d) {
-    // debugger;
-
-    // alert('change data');
-    console.log(d);
-    console.log(d.id);
-    console.log(d.title);
-    console.log(d.component);
-
-
     changeMiddleRightInformation(d);
     changeDownLeftInformation(d);
     changeDownRightInformation(d);
@@ -1175,12 +1039,6 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
 
   GraphCreator.prototype.createNode = function(data) {
     var node;
-
-    // for (var key in data){console.log('---------------------------------------------------------------------');console.log(key);console.log(data[key]);}
-
-    console.log(data.type);
-
-
     switch (data.type) {
       case 'activity':
         node = {
@@ -1242,7 +1100,6 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
 
   var svg = d3.select('[data-tab="tab_main"] .svg-container').append("svg")
     .attr("width", "100%")
-    // .attr("height", container.clientHeight);
     .attr("height", "100%");
 
   var initialDate = initFlowChart();
@@ -1302,28 +1159,6 @@ function initFlowChart() {
     edges: [],
     participants: []
   };
-  // if (create_type == 'create') return;
-  // if (create_type == 'Show') {
-  //   $.ajax({ // handle=Show&id=Package_njyaCNBY&type=xpdl&onlycode=23653VB5&fornocache=KXW33813
-  //     url: "../wfdurl/urlConfig.do",
-  //     type: "post",
-  //     async: false,
-  //     data: {
-  //       "handle": create_type,
-  //       "id": package_id,
-  //       "type": 'xpdl',
-  //       "onlycode": '23653VB5',
-  //       "fornocache": 'KXW33813'
-  //     },
-  //     dataType: "html",
-  //     success: function(result) {
-  //       initialDate = importXpdl(result);
-  //     },
-  //     error: function(data) {
-  //       alert("服务器繁忙,请稍后再试...");
-  //     }
-  //   });
-  // }
   return initialDate;
 }
 
@@ -1497,6 +1332,4 @@ function changeDownRightInformation(d)
     }
     $('.down-right-middle').empty().append(str);
   }
-
-  
 }
