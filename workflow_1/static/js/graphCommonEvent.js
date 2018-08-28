@@ -471,7 +471,7 @@ function handleDownLeftDownSubmit()
         //   length = text.length;
 
         // }
-        debugger;
+        // debugger;
 
         //post_data = JSON.stringify(teminputlist);
 
