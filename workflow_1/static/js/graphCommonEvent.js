@@ -461,9 +461,9 @@ function handleDownLeftDownSubmit()
       {
         if (selectedNode.title === "I")
         {
-          var teminputlist = SplitInputText(text);
-          selectedNode.inputlist = teminputlist;
-          selectedNode.outputlist = teminputlist;
+          // var teminputlist = SplitInputText(text);
+          selectedNode.inputlist = SplitInputText(text);
+          selectedNode.outputlist = SplitOutputText(text);
           showDownRightOutput();
         }
         // else
@@ -561,6 +561,17 @@ function SplitInputText(text){
 
       i = i+2;
       inputindex++;
+  }
+  return obj;
+}
+
+function SplitOutputText(text){
+  var obj = {};
+  var i = 0;
+  while(i<text.length){
+      var itemobj = {};
+      itemobj[text[i]] = text[i+1];
+      i = i+2;
   }
   return obj;
 }
