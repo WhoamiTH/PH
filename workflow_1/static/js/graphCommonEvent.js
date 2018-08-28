@@ -3,7 +3,7 @@
  */
 function handleImportOrExport(e) {
   // debugger;
-  console.log(e);
+  // console.log(e);
 
   var isImport = e.target.className.indexOf('in'),
     textarea = $('.json_data textarea');
@@ -106,6 +106,18 @@ function handleDeleteNode() {
         selectedNode = null;
         graph_active.updateGraph();
       } else if (selectedEdge) {
+        var sourcenode = selectedEdge.source;
+        var targetnode = selectedEdge.target;
+        var inputlist = targetnode.inputlist;
+        for(var key in inputlist)
+        {
+            if (inputlist[key].id === sourcenode.id) 
+            {
+                delete inputlist[key];
+            }
+        }
+
+
         var edges = graph_active.edges;
         edges.splice(edges.indexOf(selectedEdge), 1);
         selectedEdge = null;
@@ -204,9 +216,11 @@ function handleNodeMenuProp() {
       // debugger;
       $('.prop_node .conventional').find('input[name], textarea, select').each(function() {
         conventional[$(this).attr('name')] = $(this).val();
+        /*
         console.log($(this).attr('name'));
         console.log(conventional[$(this).attr('name')]);
         console.log($(this).val());
+        */
       });
       if (conventional.ID != selectedNode.id) {
         selectedNode.id = conventional.ID;
@@ -461,10 +475,41 @@ function handleDownLeftDownSubmit()
       {
         if (selectedNode.title === "I")
         {
-          // var teminputlist = SplitInputText(text);
-          selectedNode.inputlist = SplitInputText(text);
-          selectedNode.outputlist = SplitOutputText(text);
-          showDownRightOutput();
+          var temoutputlist = SplitOutputText(text);
+          // if (temoutputlist instanceof Object)
+          // {
+              var teminputlist = SplitInputText(text);
+              // selectedNode.inputlist = SplitInputText(text);
+              selectedNode.inputlist = teminputlist;
+              selectedNode.outputlist = temoutputlist;
+              // alert(selectedNode.outputlist);
+              showDownRightOutput();
+
+              var theData = {};
+
+              for (var key in teminputlist)
+              {
+                  var itemobj = teminputlist[key];
+                  for (var theName in itemobj)
+                  {
+                      theData[theName] = itemobj[theName];
+                  }
+              }
+
+              post_data = JSON.stringify(theData);
+
+
+              $.post("/down_left_bottom_submit/",post_data,
+                function(data,status){alert("data:"+data+"\nstatus:"+status);});
+
+              updateCheckBox(theData);
+
+          // }
+          // else
+          // {
+          //     layer.msg('Some names are duplicated ! Cannot submit!', { offset: '180px', time: 1000});
+          // }
+          
         }
         // else
         // {
@@ -476,28 +521,6 @@ function handleDownLeftDownSubmit()
         //post_data = JSON.stringify(teminputlist);
 
         //cichukeyizhuanhuan
-        var theData = {};
-
-        for (var key in teminputlist)
-        {
-            var itemobj = teminputlist[key];
-            for (var theName in itemobj)
-            {
-                theData[theName] = itemobj[theName];
-            }
-        }
-
-        post_data = JSON.stringify(theData);
-
-
-        $.post("/down_left_bottom_submit/",post_data,
-          function(data,status){alert("data:"+data+"\nstatus:"+status);});
-
-        updateCheckBox(theData);
-
-        
-
-
       }
       else
       {
@@ -568,10 +591,15 @@ function SplitInputText(text){
 function SplitOutputText(text){
   var obj = {};
   var i = 0;
+  var inputnamearr = [];
   while(i<text.length){
-      var itemobj = {};
-      itemobj[text[i]] = text[i+1];
+      if (inputnamearr.indexOf(text[i]) !== -1)
+      {
+          return false;
+      }
+      obj[text[i]] = Number(text[i+1]);
       i = i+2;
+      inputnamearr.push(text[i]);
   }
   return obj;
 }
@@ -651,6 +679,9 @@ function RunWorkflow()
             for (var key in runningarr)
             {
 
+                // alert(key);
+                // alert(runningarr);
+
                 RunIndividualProcess(runningarr[key])
 
 
@@ -679,8 +710,11 @@ function RunIndividualProcess(id)
     obj.outputlist = node.outputlist;
 
     post_data = JSON.stringify(obj);
-    $.post("/run/",post_data,
-          function(data,status){alert("data:"+data+"\nstatus:"+status);});
+    $.post("/run/",post_data, function(data,status){
+            // alert("data:"+data+"\nstatus:"+status);
+            data = JSON.parse(data);
+            node.outputlist = data;
+          });
 
 }
 
@@ -688,7 +722,7 @@ function RunIndividualProcess(id)
 function RunningOrder()
 {
     var pool = graphPool.pools[0];
-    console.log(pool);
+    // console.log(pool);
     var nodes = pool.nodes;
 
     var startarr = [];
@@ -711,11 +745,11 @@ function RunningOrder()
         temarr.push(nodes[each].id);
       }
     }
-
+/*
     console.log(startarr);
     console.log(temarr);
     console.log(endarr);
-
+*/
     var startlength = startarr.length;
     var endlength = endarr.length;
     if ((startlength === 0) || (endlength === 0))
@@ -908,7 +942,7 @@ function handleAddChart(){
                     /* shanchu */
                     var obj = {};
                     obj['id'] = 1;
-                    obj['name'] = 'haha';
+                    obj['name'] = sName;
                     obj['position_name'] = position_name;
                     var post_data = JSON.stringify(obj);
 
@@ -916,7 +950,7 @@ function handleAddChart(){
 
                     
                     $.post("/chartpart/", post_data, function(data, status){
-                      alert(data);
+                      // alert(data);
                       data = JSON.parse(data);
 
                       var position_name = data['position_name'];
@@ -934,14 +968,14 @@ function handleAddChart(){
                     /* shanchu */
                     var obj = {};
                     obj['id'] = 1;
-                    obj['name'] = 'haha';
+                    obj['name'] = sName;
                     obj['position_name'] = position_name;
                     var post_data = JSON.stringify(obj);
 
 
                     position_name = sName + "chart";
                     $.post("/chartpart/", post_data, function(data, status){
-                      alert(data);
+                      // alert(data);
                       data = JSON.parse(data);
                       var position_name = data['position_name'];
                       var chartdata = data['data'];
@@ -1008,12 +1042,12 @@ function handleAddChart(){
 function findObjIndex(sName, divarr)
 {
     theIndex = -1;
-    console.log(divarr);
+    // console.log(divarr);
     for (var i=0; i<divarr.length; i++)
     {
         // console.log(key);
         // console.log(t[key]);
-        console.log(divarr[i].id);
+        // console.log(divarr[i].id);
 
         theIndex++;
         if( divarr[i].id === sName )

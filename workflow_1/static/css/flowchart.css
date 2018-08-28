@@ -32,7 +32,14 @@ html, body {
     float: left;
 }
 
-.full-right>.middle-right {
+/*.full-right>.middle-right {
+    border: 0.05em solid;
+    width: 19.7%;
+    height: 100%;
+    float: left;
+
+}*/
+.middle-right {
     border: 0.05em solid;
     width: 19.7%;
     height: 100%;
@@ -475,7 +482,8 @@ html, body {
 
 
 .middle-right .prop-value {
-    border: 1px solid green;
+    /*border: 1px;*/
+    margin: 1px;
     width: 100%;
     /* float: left; */
 

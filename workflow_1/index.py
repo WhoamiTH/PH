@@ -82,7 +82,8 @@ def run_workflow():
     #     exec(t)
     #     locals()[item] = inputlist[item]
     #     print(Input)
-    service.test(data)
+    outputlist = service.test(data)
+    outputlist = json.dumps(outputlist)
     #     locals()[item] = inputlist[item]
     # print(Input)
 
@@ -102,7 +103,7 @@ def run_workflow():
     # for i in outputlist:
     #     outputlist[i] = locals()[i]
     # print(outputlist)
-    return 'success'
+    return outputlist
 
 
 
