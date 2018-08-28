@@ -1255,6 +1255,7 @@ function changeDownLeftInformation(d)
         <span style="margin-left:30%">name: ${inputlist[key].name}</span>
         </div>`;
       }
+      $(".down-left-down").attr("style","visibiliy:hidden");
     }
     else//start
     {
@@ -1271,6 +1272,7 @@ function changeDownLeftInformation(d)
             </div>`;
         }  
       }
+      $(".down-left-down").attr("style","visibility:visible");
     }
     $('.down-left-middle').empty().append(inputliststr);
 }
@@ -1294,6 +1296,7 @@ function changeDownRightInformation(d)
       outputliststr = outputliststr + `</div>`;
     }
     $('.down-right-middle').empty().append(outputliststr);
+    $('.down-right-down').attr('style','visibility:visible');
   }
   else if(d.component === "startComponent")//start
   {
@@ -1312,6 +1315,7 @@ function changeDownRightInformation(d)
         }  
     }
     $('.down-right-middle').empty().append(inputliststr);
+    $('.down-right-down').attr('style','visibility:hidden');
   }
   else
   {
@@ -1331,5 +1335,6 @@ function changeDownRightInformation(d)
       str = str + `</div>`;
     }
     $('.down-right-middle').empty().append(str);
+    $('.down-right-down').attr('style','visibility:hidden');
   }
 }

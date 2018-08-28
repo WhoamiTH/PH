@@ -12,7 +12,7 @@ html, body {
 .middle {
     border: 0.05em solid;
     height: 55%;
-    overflow :auto;
+    /*overflow :auto;*/
 }
 
 .middle-left {
@@ -24,7 +24,7 @@ html, body {
 
 .middle-right {
     border: 0.05em solid;
-    width: 19.7%;
+    width: 18%;
     height: 100%;
     float: left;
 
@@ -89,6 +89,7 @@ html, body {
     margin-top: 1em;
     width: 100%;
     height: 10%;
+    visibility: hidden;
 }
 
 .down-left-down-add {
@@ -139,6 +140,7 @@ html, body {
     margin-top: 1em;
     width: 100%;
     height: 10%;
+    visibility: hidden;
 }
 
 .down-right-down-add {
@@ -168,6 +170,7 @@ html, body {
     width: 100%;
     border-left: 1px solid purple;
     border-right: 1px solid purple;
+    visibility: hidden;
 }
 
 .chartpart-checkbox {

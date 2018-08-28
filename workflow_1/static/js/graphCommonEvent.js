@@ -411,9 +411,9 @@ function handleDownLeftDownSubmit()
       {
         if (selectedNode.title === "I")
         {
-          var temoutputlist = SplitOutputText(text);
-          // if (temoutputlist instanceof Object)
-          // {
+          var temoutputlist = SplitOutputText(text); // do not duplicated
+          if (temoutputlist instanceof Object)
+          {
               var teminputlist = SplitInputText(text);
               // selectedNode.inputlist = SplitInputText(text);
               selectedNode.inputlist = teminputlist;
@@ -439,6 +439,11 @@ function handleDownLeftDownSubmit()
                 function(data,status){alert("data:"+data+"\nstatus:"+status);});
 
               updateCheckBox(theData);
+          }
+          else
+          {
+              layer.msg('Some names are duplicated ! Cannot submit!', { offset: '180px', time: 1000});
+          }
           
         }
 

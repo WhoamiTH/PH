@@ -37,22 +37,29 @@ def update_to_database(sql):
     db.close()
 
 
-def check_value_in_database(person_id,date,feature,value):
-    select_sql = "SELECT * FROM main WHERE person_id=%d AND feature='%s' ORDER BY time"%(person_id,feature_name)
-     
+def check_value_in_database(person_id,date,feature_name,value):
+    select_sql = "SELECT * FROM main WHERE person_id=%d AND time='%s' AND feature='%s'"%(person_id,date,feature_name)
+    result = select_main(select_sql)
+    if result:
+        return true
+    else:
+        return false
+    
 
 
 
 def submit_new_data(data):
-	person_id = 1
-	date = time.strftime("%d/%m/%Y")
-
-	for i in data:
-		feature = i
-		value = float(data[i])
-
-		insert_sql ="INSERT INTO main (person_id,time,feature,value) VALUES ('%d', '%s', '%s', '%f')"%(person_id,date,feature,value)
-		insert_to_database(insert_sql)
+    person_id = 1
+    date = time.strftime("%d/%m/%Y")
+    for i in data:
+        feature_name = i
+        value = float(data[i])
+        if check_value_in_database(person_id,date,feature_name,value):
+            update_sql = "UPDATE main SET value=%f WHERE person_id=%d AND time='%s' AND feature='%s'"%(value,person_id,date,feature_name)
+            update_to_database(update_sql)
+        else:
+            insert_sql ="INSERT INTO main (person_id,time,feature,value) VALUES ('%d', '%s', '%s', '%f')"%(person_id,date,feature_name,value)
+            insert_to_database(insert_sql)
 
 
 
@@ -149,4 +156,13 @@ def test(data):
 
 
 if __name__ == "__main__" :
-    chartData(1,'haha')
+# chartData(1,'haha')
+#    check_value_in_database(1,'29/08/2018','Diet|salt',1)
+    person_id = 1
+    date = '28/08/2018'
+    feature_name = 'Diet|salt'
+    value = 9.0
+    update_sql = "UPDATE main SET value=%f WHERE person_id=%d AND time='%s' AND feature='%s'"%(value,person_id,date,feature_name)
+    print(update_sql)
+    update_to_database(update_sql)
+
