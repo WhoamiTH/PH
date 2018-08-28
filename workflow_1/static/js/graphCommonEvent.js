@@ -867,6 +867,8 @@ function updateCheckBox(theData)
     $('.chartpart-checkbox').empty().append(checkboxstr);
 }
 
+
+
 function handleAddChart(){
     var eventid = this.id;
     var position = -1;
@@ -890,13 +892,51 @@ function handleAddChart(){
                 if(position === -1)
                 {
                     $(".chart").prepend(appendhtml);
-                    addChart(sName + "chart");
+                    position_name = sName + "chart";
+
+                    /* shanchu */
+                    var obj = {};
+                    obj['id'] = 1;
+                    obj['name'] = 'haha';
+                    obj['position_name'] = position_name;
+                    var post_data = JSON.stringify(obj);
+
+
+
+                    
+                    $.post("/chartpart/", post_data, function(data, status){
+                      alert(data);
+                      data = JSON.parse(data);
+
+                      var position_name = data['position_name'];
+                      var chartdata = data['data'];
+
+                      addChart(position_name, chartdata);
+                      });
                     position++;
                 }
                 else
                 {
                     $(".chart").children().eq(position).after(appendhtml);
-                    addChart(sName + "chart");
+                    position_name = sName + "chart";
+                    
+                    /* shanchu */
+                    var obj = {};
+                    obj['id'] = 1;
+                    obj['name'] = 'haha';
+                    obj['position_name'] = position_name;
+                    var post_data = JSON.stringify(obj);
+
+
+                    position_name = sName + "chart";
+                    $.post("/chartpart/", post_data, function(data, status){
+                      alert(data);
+                      data = JSON.parse(data);
+                      var position_name = data['position_name'];
+                      var chartdata = data['data'];
+
+                      addChart(position_name, chartdata);
+                      });
                     position++;
 
                 }
@@ -919,19 +959,39 @@ function handleAddChart(){
     });
 }
 
+/*
+function handleAddChart(){
+    var obj = {};
+    obj['id'] = 1;
+    obj['name'] = 'haha';
+    var post_data = JSON.stringify(obj);
+    var appendhtml = `<div id="1" class="chartdiv">
+                    <div id="name"> <center> <span> 1 </span> </center> </div>
+                    <div id="1chart" class="chartitem"></div>
+                    </div>`;
+    $(".chart").prepend(appendhtml);
+    var position_name = "1chart";
+    
+    $.post("/chartpart/", post_data, function(data, status){
+      
+      data = JSON.parse(data);
+      addChart(position_name, data);
 
-// function handleAddChart(){
-//     var eventid = this.id;
-//     var position = -1;
-//     $("input[type='checkbox']").each(function(){
-//         if(eventid)
-//         {
-//             console.log(this);
-//             this.checked = true;
-//         }
-//     });
-// }
+    });
 
+
+
+     // var eventid = this.id;
+     // var position = -1;
+     // $("input[type='checkbox']").each(function(){
+     //     if(eventid)
+     //     {
+     //         console.log(this);
+     //         this.checked = true;
+     //     }
+     // });
+ }
+*/
 
 
 function findObjIndex(sName, divarr)
@@ -955,7 +1015,7 @@ function findObjIndex(sName, divarr)
 }
 
 
-function addChart(position)
+function addChart(position, data)
 {
     var chart = AmCharts.makeChart(position, {
         "type": "serial",
@@ -1032,30 +1092,14 @@ function addChart(position)
         "export": {
             "enabled": true
         },
-        "dataProvider": [{
-            "date": "2012-07-27",
-            "value": 13
-        }, {
-            "date": "2012-07-28",
-            "value": 11
-        }, {
-            "date": "2012-07-29",
-            "value": 15
-        }, {
-            "date": "2012-07-30",
-            "value": 16
-        }, {
-            "date": "2012-07-31",
-            "value": 18
-        }, {
-            "date": "2012-08-01",
-            "value": 13
-        }, {
-            "date": "2012-08-02",
-            "value": 22
-        }, {
-            "date": "2012-08-03",
-            "value": 23
-        }]
+        "dataProvider": data
     });
+}
+
+
+function handleClearChart(){    
+$("input[type='checkbox']").each(function(){
+  this.checked = false;
+});
+$(".chart").empty();
 }

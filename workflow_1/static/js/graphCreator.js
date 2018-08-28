@@ -1263,6 +1263,7 @@ function initCommonEvent() {
 
   $(".chartpart-checkbox").on('click', "input[type='checkbox']", handleAddChart);
   $(".chartpart-checkbox").on('click', "#btn_all", handleAddChart);
+  $(".chartpart-checkbox").on('click', "#btn_clear", handleClearChart);
 
 
 }

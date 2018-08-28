@@ -33,33 +33,56 @@ def down_left_bottom_submit_button():
     service.submit_new_data(data)
     return 'success'
 
+
+
+@app.route('/chartpart/', methods=["POST"])
+def drawChart():
+    print('hahaha')
+    data = request.get_data()
+    data = json.loads(data)
+    print(data)
+    person_id = data['id']
+    feature_name = data['name']
+    position_name = data['position_name']
+    thechartdata = service.chartData(person_id, feature_name)
+    resultdata = {}
+    resultdata['data'] = thechartdata
+    resultdata['position_name'] = position_name
+    resultdata = json.dumps(resultdata)
+    return resultdata
+
+
+
+
+
+
 @app.route('/run/', methods=["POST"])
 def run_workflow():
     print('haha')
     data = request.get_data()
     data = json.loads(data)
-
     print(data)
 
-    inputlist = data['inputlist']
-    code = data['code']
-    outputlist = data['outputlist']
+    # inputlist = data['inputlist']
+    # code = data['code']
+    # outputlist = data['outputlist']
 
-    print(inputlist)
-    print(type(inputlist))
-
-    for item in inputlist:
-        print('---------------------------------------------------------')
-        print(item)
-        print(type(item))
-        print(inputlist[item])
-        print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-        t = ''
-        t += item
-        t += '= 0'
-        print(t)
-        exec(t)
-        print(Input)
+    # print(inputlist)
+    # print(type(inputlist))
+    # for item in inputlist:
+    #     print('---------------------------------------------------------')
+    #     print(item)
+    #     print(type(item))
+    #     print(inputlist[item])
+    #     print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+    #     t = ''
+    #     t += item
+    #     t += '= 0'
+    #     print(t)
+    #     exec(t)
+    #     locals()[item] = inputlist[item]
+    #     print(Input)
+    service.test(data)
     #     locals()[item] = inputlist[item]
     # print(Input)
 
