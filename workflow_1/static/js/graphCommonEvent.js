@@ -524,8 +524,9 @@ function SplitOutputText(text){
           return false;
       }
       obj[text[i]] = Number(text[i+1]);
-      i = i+2;
       inputnamearr.push(text[i]);
+      i = i+2;
+      
   }
   return obj;
 }
@@ -535,6 +536,14 @@ function handleDownRightDownAdd()
 {
   var graph_active = graphPool.getGraphByActiveEdit();
   var selectedNode = graph_active.state.selectedNode;
+
+  // var outputlist = selectedNode.outputlist;
+  // var num = 1;
+  // if(!checkobjnull(outputlist))
+  // {
+  //     num =  countobj(outputlist) + 1;     
+  // }
+
 
   if (selectedNode !== null)
   {
@@ -546,6 +555,27 @@ function handleDownRightDownAdd()
       </div>`);
   }
 }
+
+
+function checkobjnull(obj)
+{
+    for (var key in obj)
+    {
+        return false;
+    }
+    return true;
+}
+
+function countobj(obj)
+{
+    num = 0;
+    for (key in obj)
+    {
+        num++;
+    }
+    return num;
+}
+
 
 
 function handleDownRightDownSubmit()

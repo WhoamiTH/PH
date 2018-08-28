@@ -827,11 +827,14 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
       // dragged not clicked
       state.justScaleTransGraph = false;
     } else if (state.graphMouseDown && d3.event.shiftKey) {
+      console.log(seqer_Process.gensym());
       // clicked not dragged from svg
       var xycoords = d3.mouse(thisGraph.svgG.node()),
         d = {
           id: seqer_nodeID.gensym(),
-          title: 'Process',
+          // title: 'Process',
+          title: seqer_Process.gensym(),
+          
           component: 'ordinaryActivity',
           type: 'activity',
           x: xycoords[0],
@@ -1043,7 +1046,8 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
       case 'activity':
         node = {
           id: seqer_nodeID.gensym(),
-          title: data.text,
+          // title: data.text,
+          title: seqer_Process.gensym(),
           component: data.component,
           type: data.type,
           code: "",
@@ -1082,11 +1086,13 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
         {
           node.title = 'I';
           node.name = 'Input';
+          // node.name = seqer_Input.gensym();
         }
         else
         {
           node.title = 'O';
           node.name = 'Output';
+          // node.name = seqer_Output.gensym();
         }
         break;
     }

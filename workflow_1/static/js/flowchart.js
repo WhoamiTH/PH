@@ -15,13 +15,20 @@ seqer_nodeID.set_prefix(workflow_id + '_Act');
 var seqer_edgeID = serial_marker();
 seqer_edgeID.set_prefix(workflow_id + '_Tra');
 
-// 定义生成 参与者id 序列
-var seqer_participantID = serial_marker();
-seqer_participantID.set_prefix(workflow_id + '_Par');
+var Process_name = "Process"
+//process name
+var seqer_Process = serial_marker();
+seqer_Process.set_prefix(Process_name);
 
-// 定义生成 块活动blockId 序列
-var seqer_blockId = serial_marker();
-seqer_blockId.set_prefix(workflow_id + '_Ase');
+var Input_name = "Input"
+//process name
+var seqer_Input = serial_marker();
+seqer_Input.set_prefix(Input_name);
+
+var Output_name = "Output"
+//process name
+var seqer_Output = serial_marker();
+seqer_Output.set_prefix(Output_name);
 
 
 
