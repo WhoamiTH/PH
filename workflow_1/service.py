@@ -40,10 +40,10 @@ def update_to_database(sql):
 def check_value_in_database(person_id,date,feature_name,value):
     select_sql = "SELECT * FROM main WHERE person_id=%d AND time='%s' AND feature='%s'"%(person_id,date,feature_name)
     result = select_main(select_sql)
-    if result:
-        return true
+    if result.shape[0] > 0:
+        return True
     else:
-        return false
+        return False
     
 
 
@@ -121,6 +121,7 @@ def test(data):
     code = data['code']
     outputlist = data['outputlist']
     print('---------------------------------------------------------\n\n\n')
+    print('inputlist is ',end='\t')
     print(inputlist)
     print(code)
     print(outputlist)
@@ -131,10 +132,13 @@ def test(data):
 #       print(type(item))
 #       print(inputlist[item])
 #       print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+        print("item is ",end='\t')
+        print(item)
+        
         t = ''
         t += item
-        t += '= 0'
-#print(t)
+        t += ' = 0'
+        #print(t)
         exec(t)
         print(item)
         locals()[item] = inputlist[item]

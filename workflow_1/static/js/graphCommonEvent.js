@@ -421,6 +421,8 @@ function handleDownLeftDownSubmit()
               // alert(selectedNode.outputlist);
               showDownRightOutput();
 
+              $(".chartpart").attr("style","visibility:visible");
+
               var theData = {};
 
               for (var key in teminputlist)
@@ -476,19 +478,36 @@ function handleDownLeftDownRefresh()
 
       });
       var sign = true;
+      if(text.length === 0)
+      {
+          sign = false;
+      }
       for(var key in text)
       {
-          if((key === undefined) || (text[key] === undefined))
-          {
-              sign = false;
-          }
+        if ((key === undefined) || (text[key] === undefined) || (text[key] === null) || (text[key] === ''))
+        {
+            sign = false;
+            break;
+        }
       }
+      
       if (sign)
       {
-        var teminputlist = SplitInputText(text);
-        selectedNode.inputlist = teminputlist;
-        selectedNode.outputlist = teminputlist;
-        showDownRightOutput();
+          var temoutputlist = SplitOutputText(text); // do not duplicated
+          if (temoutputlist instanceof Object)
+          {
+              var teminputlist = SplitInputText(text);
+              // selectedNode.inputlist = SplitInputText(text);
+              selectedNode.inputlist = teminputlist;
+              selectedNode.outputlist = temoutputlist;
+              // alert(selectedNode.outputlist);
+              showDownRightOutput();
+          }
+          else
+          {
+              layer.msg('Some names are duplicated ! Cannot submit!', { offset: '180px', time: 1000});
+          }
+        
 
       }
       else
@@ -631,6 +650,8 @@ function RunWorkflow()
         {
             for (var key in runningarr)
             {
+                console.log(key);
+                console.log(runningarr[key]);
 
                 RunIndividualProcess(runningarr[key])
 
@@ -644,23 +665,52 @@ function RunWorkflow()
 function RunIndividualProcess(id)
 {
 
-    var inputobj = {}
+    var inputobj = {};
     var node = graphPool.getNodeById(id);
     var inputlist = node.inputlist;
+
     for (var inputitem in inputlist)
     {
         var inputnode = graphPool.getNodeById(inputlist[inputitem].id);
+        console.log(inputnode);
         inputobj[inputlist[inputitem].name] = inputnode.outputlist;
+        // if(inputnode.component === 'startComponent')
+        // {
+        //     inputobj[inputlist[inputitem].name] = inputnode.outputlist;
+        // }
+        // else
+        // {
+        //     //transform outputlist to the startComponent format
+        //     var transformobj = {};
+        //     var inputindex = 0;
+        //     var transoutputlist = inputnode.outputlist;
+        //     for (var key in transoutputlist)
+        //     {
+        //         var itemobj = {};
+        //         itemobj[key] = transoutputlist[key];
+        //         transformobj[inputindex] = itemobj;
+        //         inputindex++;
+        //     }
+        //     inputobj[inputlist[inputitem].name] = transformobj;
+        // }
     }
     var obj = {};
     obj.inputlist = inputobj;
     obj.code = node.code;
     obj.outputlist = node.outputlist;
 
+    console.log(obj.inputlist);
+    console.log(obj.outputlist);
+
+
+
     post_data = JSON.stringify(obj);
     $.post("/run/",post_data, function(data,status){
             data = JSON.parse(data);
+
+            console.log(node.outputlist);
             node.outputlist = data;
+            console.log(node.outputlist);
           });
 
 }
