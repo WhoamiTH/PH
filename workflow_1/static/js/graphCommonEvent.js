@@ -1,15 +1,10 @@
-/**
- * 工具栏-导入/导出功能
- */
+//import or export
 function handleImportOrExport(e) {
-  // debugger;
-  // console.log(e);
-
   var isImport = e.target.className.indexOf('in'),
     textarea = $('.json_data textarea');
   $('.ui.modal.json_data').modal({
     onApprove: function() {
-      if (isImport !== -1) { // 导入
+      if (isImport !== -1) { // import
         var jsonStr = textarea.val();
         if (jsonStr) {
           var jsonObj = JSON.parse(jsonStr);
@@ -40,11 +35,7 @@ function handleImportOrExport(e) {
   }
 }
 
-
-
-/**
- * 工具栏-清空
- */
+//clear all thing
 function clearGraph() {
 
   layer.confirm('Confirm clear?', {
@@ -63,7 +54,6 @@ function clearGraph() {
     $('.down-right-down').attr("style", "visibility:hidden");
     var pools = graphPool.pools;
     for (var i = 0; i < pools.length; i++) {
-      // debugger;
       var id = pools[i].containerId;
       switch (id) {
         case 'tab_main':
@@ -82,19 +72,17 @@ function clearGraph() {
 
 }
 
-/**
- * 工具栏-删除节点
- */
+//delete element node or line
 function handleDeleteNode() {
   var graph_active = graphPool.getGraphByActiveEdit();
   var selectedNode = graph_active.state.selectedNode,
     selectedEdge = graph_active.state.selectedEdge;
   if (!selectedNode && !selectedEdge) {
-    //请选中元素
+    //please select an element
     layer.msg('Please select an element！', {time: 2000, icon: 0, offset: '180px'});
     return;
   } else {
-    // 确定要删除选择元素吗
+    // sure?
     layer.confirm('Delete the selection element?', {
       title:'Delete',
       icon: 0,
@@ -132,9 +120,7 @@ function handleDeleteNode() {
   }
 }
 
-/**
- * 工具栏-放大/缩小按钮 scale(0.3-2)
- */
+//zoom in and zoom out scale(0.3-2)
 function handleClickZoom() {
   var graph_active = graphPool.getGraphByActiveEdit();
   var translate = graph_active.dragSvg.translate(),
@@ -153,9 +139,7 @@ function handleClickZoom() {
   graph_active.zoomed();
 }
 
-/**
- * 工具栏-还原缩放及归位
- */
+//reset
 function resetZoom() {
   var graph_active = graphPool.getGraphByActiveEdit();
   graph_active.svgG.transition() // start a transition
@@ -166,12 +150,8 @@ function resetZoom() {
 }
 
 
-
-/**
- * 左侧组件
- */
+//component buttons
 function handleComponentsBtn() {
-  // debugger;
   $(this).siblings().removeClass('active').end().addClass('active');
   var graph_active = graphPool.getGraphByActiveEdit(),
     state = graph_active.state,

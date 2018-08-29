@@ -618,11 +618,6 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
                     delete inputlist[key];
                 }
             }
-
-
-
-
-
           thisGraph.edges.splice(thisGraph.edges.indexOf(d), 1);
         }
         return d.source === newEdge.source && d.target === newEdge.target;
@@ -1046,7 +1041,6 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
       case 'activity':
         node = {
           id: seqer_nodeID.gensym(),
-          // title: data.text,
           title: seqer_Process.gensym(),
           component: data.component,
           type: data.type,
@@ -1076,7 +1070,6 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
         node = {
           id: generateUUID(),
           inputlist: {},
-          // title: data.text,
           component: data.component,
           type: data.type,
           x: data.x,
@@ -1086,13 +1079,11 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
         {
           node.title = 'I';
           node.name = 'Input';
-          // node.name = seqer_Input.gensym();
         }
         else
         {
           node.title = 'O';
           node.name = 'Output';
-          // node.name = seqer_Output.gensym();
         }
         break;
     }
@@ -1127,36 +1118,25 @@ $(document).ready(function(){
 
 function initCommonEvent() {
   $('.editor-toolbar').on('click', '.sign.in,.sign.out', handleImportOrExport);
-
   $('.editor-toolbar').on('click', '#editor-toolbar-run-button', RunWorkflow);
-
-  // $('.full-right').on('click', '.full-right-btn .item', handleViews);
   $('.editor-toolbar #delete-ele').on('click', handleDeleteNode);
   $('.editor-toolbar #zoom-enlarge,#zoom-narrow').on('click.zoom', handleClickZoom);
   $("#reset-zoom").on("click", resetZoom);
-  // $('#helper').on('click', handleHelp);
+
   $('#flowComponents .components-btn').on('click', handleComponentsBtn);
   $("#delete-graph").on("click", clearGraph);
-  // $('.editor-toolbar .icon.save').on('click', handleSave);
   $('#rMenu .item').on('click', handleRightMenu);
-  // $('.full-left [name=addStartEndBtn]').on('click', handleAddStartEnd);
-
   $('.middle-right').on('click', "#middle-right-submit-button", updateMiddleRightInformation);
   $('#down-left-down-add-button').on('click', handleDownLeftDownAdd);
   $('.down-left').on('click','#down-left-down-refresh-buttom', handleDownLeftDownRefresh);
   $('.down-left').on('click','#down-left-down-submit-buttom', handleDownLeftDownSubmit);
   $('.down-left-middle').on('click','#down-left-middle-remove-button', handleDownLeftMiddleRemove);
-
-
   $('#down-right-down-add-button').on('click', handleDownRightDownAdd);
   $('.down-right').on('click','#down-right-down-submit-buttom', handleDownRightDownSubmit);
   $('.down-right-middle').on('click','#down-right-middle-remove-button', handleDownRightMiddleRemove);
-
   $(".chartpart-checkbox").on('click', "input[type='checkbox']", handleAddChart);
   $(".chartpart-checkbox").on('click', "#btn_all", handleAddChart);
   $(".chartpart-checkbox").on('click', "#btn_clear", handleClearChart);
-
-
 }
 
 function initFlowChart() {
@@ -1190,13 +1170,11 @@ function refresh(link) {
 
 
 function count(obj){
-  // var num = 0;
   var max = 0;
   for (var key in obj)
   {
     if (key !== undefined)
     {
-      // num++;
       if(Number(key) > max)
       {
           max = Number(key);
@@ -1245,9 +1223,6 @@ function changeDownLeftInformation(d)
       var inputlist = d.inputlist;
       for (var key in inputlist)
       {
-
-        console.log(key);
-        console.log(inputlist[key]);
         var inputnode = graphPool.getNodeById(inputlist[key].id);
         if (inputnode.component === "startComponent")
         {
