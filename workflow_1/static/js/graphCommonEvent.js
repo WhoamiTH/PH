@@ -53,6 +53,14 @@ function clearGraph() {
     btn: ['Yes','Cancel'],
     offset: '180px'
   }, function() {
+    $('.chart').empty();
+    $('.chartpart-checkbox').empty();
+    $('.chartpart').attr("style","visibility:hidden");
+    $('.middle-right-bottom').empty();
+    $('.down-left-middle').empty();
+    $('.down-right-middle').empty();
+    $('.down-left-down').attr("style","visibility:hidden");
+    $('.down-right-down').attr("style", "visibility:hidden");
     var pools = graphPool.pools;
     for (var i = 0; i < pools.length; i++) {
       // debugger;
