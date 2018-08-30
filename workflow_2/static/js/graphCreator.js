@@ -720,6 +720,44 @@ document.onload = (function(d3, saveAs, Blob, vkbeautify) {
     changeDownRightInformation(d);
   };
 
+    GraphCreator.prototype.showMenu = function() {
+    var thisGraph = this;
+    $('#flowComponents div[name=selectBtn]').trigger('click'); 
+    thisGraph.circles.style({'cursor': 'default'}); // 防止在活动块上右击存在问题
+    var selectedNode = thisGraph.state.selectedNode,
+      selectedEdge = thisGraph.state.selectedEdge;
+    if (selectedNode) {
+      if (selectedNode.type == 'activity') {
+        $('#rMenu a[name=propMenu]').show();
+        if (selectedNode.component == 'blockActivity') {
+          $('#rMenu a[name=editMenu]').show();
+        } else {
+          $('#rMenu a[name=editMenu]').hide();
+        }
+      } else {
+        $('#rMenu a[name=propMenu]').hide();
+        $('#rMenu a[name=editMenu]').hide();
+      }
+    } else if (selectedEdge) {
+      var sourceType = selectedEdge.source.type,
+        targetType = selectedEdge.target.type;
+      $('#rMenu a[name=editMenu]').hide();
+      if (sourceType == 'start' || targetType == 'end') {
+        $('#rMenu a[name=propMenu]').hide();
+      } else {
+        $('#rMenu a[name=propMenu]').show();
+      }
+    }
+    d3.select("#rMenu").style({ 
+      "top": (d3.event.clientY-2)+"px", 
+      "left": (d3.event.clientX-2)+"px", 
+      "display": "block" 
+    });
+    d3.select('#rMenu').on('contextmenu', function() {
+      d3.event.preventDefault();
+    });
+  };
+
   // mousedown on main svg
   GraphCreator.prototype.svgMouseDown = function() {
     this.state.graphMouseDown = true;

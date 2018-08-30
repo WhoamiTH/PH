@@ -6,6 +6,7 @@ from flask import jsonify
 import json
 import time
 import service
+import sys
 
 app = Flask(__name__)
 
@@ -18,7 +19,7 @@ def index():
 def down_left_bottom_submit_button():
     data = request.get_data()
     data = json.loads(data)
-    service.submit_new_data(data)
+    service.submit_new_data(data, person_id, host, user, password, database_name)
     return 'success'
 
 @app.route('/chartpart/', methods=["POST"])
@@ -28,7 +29,7 @@ def drawChart():
     person_id = data['id']
     feature_name = data['name']
     position_name = data['position_name']
-    thechartdata = service.chartData(person_id, feature_name)
+    thechartdata = service.chartData(person_id, feature_name, host, user, password, database_name)
     resultdata = {}
     resultdata['data'] = thechartdata
     resultdata['position_name'] = position_name
@@ -45,5 +46,31 @@ def run_workflow():
     return outputlist
 
 if __name__ == '__main__':
+    host = 'localhost'
+    user = 'root'
+    password = '123456'
+    database_name = 'precision_health'
+    person_id = 1
+
+    argv = sys.argv[1:]
+    for each in argv:
+        para = each.split('=')
+        if para[0] == 'host':
+            host = para[1]
+        if para[0] == 'user':
+            user = para[1]
+        if para[0] == 'password':
+            password = para[1]
+        if para[0] == 'database_name':
+            database_name = para[1]
+        if para[0] == 'person_id':
+            person_id = para[1]
+    print('host: ' + host)
+    print('user: ' + user)
+    print('password: ' + password)
+    print('database_name: ' + database_name)
+    print('person_id: {0}'.format(person_id))
+
     app.debug = True
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='127.0.0.1', port=5000)
+

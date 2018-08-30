@@ -2,17 +2,9 @@ import pymysql
 import numpy as np
 import time
 
-def select_from_database(sql):
-    db = pymysql.connect("localhost", "root", "123456", "test")
-    cursor = db.cursor()
-    cursor.execute(sql)
-    results = cursor.fetchall()
-    db.close()
-    results = np.array(results)
-    return results
 
-def select_main(sql):
-    db = pymysql.connect("localhost", "root", "123456", "precision_health")
+def select_from_database(sql, host, user, password, database_name):
+    db = pymysql.connect(host, user, password, database_name)
     cursor = db.cursor()
     cursor.execute(sql)
     results = cursor.fetchall()
@@ -22,24 +14,24 @@ def select_main(sql):
 
 
 
-def insert_to_database(sql):
-	db = pymysql.connect("localhost", "root", "123456", "precision_health")
-	cursor = db.cursor()
-	cursor.execute(sql)
-	db.commit()
-	db.close()
+def insert_to_database(sql, host, user, password, database_name):
+    db = pymysql.connect(host, user, password, database_name)
+    cursor = db.cursor()
+    cursor.execute(sql)
+    db.commit()
+    db.close()
 
-def update_to_database(sql):
-    db = pymysql.connect("localhost", "root", "123456", "precision_health")
+def update_to_database(sql, host, user, password, database_name):
+    db = pymysql.connect(host, user, password, database_name)
     cursor = db.cursor()
     cursor.execute(sql)
     db.commit()
     db.close()
 
 
-def check_value_in_database(person_id,date,feature_name,value):
+def check_value_in_database(person_id, date, feature_name, value, host, user, password, database_name):
     select_sql = "SELECT * FROM main WHERE person_id=%d AND time='%s' AND feature='%s'"%(person_id,date,feature_name)
-    result = select_main(select_sql)
+    result = select_from_database(select_sql, host, user, password, database_name)
     if result.shape[0] > 0:
         return True
     else:
@@ -48,18 +40,18 @@ def check_value_in_database(person_id,date,feature_name,value):
 
 
 
-def submit_new_data(data):
-    person_id = 1
+def submit_new_data(data, person_id, host, user, password, database_name):
     date = time.strftime("%d/%m/%Y")
+    date = '31/08/2018'
     for i in data:
         feature_name = i
         value = float(data[i])
-        if check_value_in_database(person_id,date,feature_name,value):
+        if check_value_in_database(person_id, date, feature_name, value, host, user, password, database_name):
             update_sql = "UPDATE main SET value=%f WHERE person_id=%d AND time='%s' AND feature='%s'"%(value,person_id,date,feature_name)
-            update_to_database(update_sql)
+            update_to_database(update_sql, host, user, password, database_name)
         else:
             insert_sql ="INSERT INTO main (person_id,time,feature,value) VALUES ('%d', '%s', '%s', '%f')"%(person_id,date,feature_name,value)
-            insert_to_database(insert_sql)
+            insert_to_database(insert_sql, host, user, password, database_name)
 
 
 
@@ -91,9 +83,9 @@ def ListToChartData(value_list, time_list):
 
 
 
-def chartData(person_id, feature_name):
+def chartData(person_id, feature_name, host, user, password, database_name):
     sql = "SELECT * FROM main WHERE person_id=%d AND feature='%s' ORDER BY time"%(person_id,feature_name)
-    results = select_main(sql)
+    results = select_from_database(sql, host, user, password, database_name)
     results = sorted(results, key=lambda item:time.strptime(item[1],"%d/%m/%Y"))
     results = np.array(results)
     value_list = results[:,3]
@@ -131,7 +123,17 @@ if __name__ == "__main__" :
     date = '28/08/2018'
     feature_name = 'Diet|salt'
     value = 9.0
-    update_sql = "UPDATE main SET value=%f WHERE person_id=%d AND time='%s' AND feature='%s'"%(value,person_id,date,feature_name)
-    print(update_sql)
-    update_to_database(update_sql)
-
+    host = 'localhost'
+    user = 'root'
+    password = '123456'
+    database_name = 'precision_health'
+#    select_sql = "SELECT * FROM main WHERE person_id=%d AND time='%s' AND feature='%s'"%(person_id,date,feature_name)
+#    results = select_from_database(select_sql, host, user, password, database_name)
+#    print(results)
+#    update_sql = "UPDATE main SET value=%f WHERE person_id=%d AND time='%s' AND feature='%s'"%(value,person_id,date,feature_name)
+#    print(update_sql)
+#    update_to_database(update_sql, host, user, password, database_name)
+#    data = {'Diet|salt':3}
+#    submit_new_data(data, person_id, host, user, password, database_name)
+    result = chartData(person_id, feature_name, host, user, password, database_name)
+    print(result)
